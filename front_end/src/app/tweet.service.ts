@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, of } from 'rxjs'
 import { PARAMETERS } from '@angular/core/src/util/decorators';
 
@@ -12,13 +12,13 @@ export class TweetService {
 
   constructor(private http: HttpClient) { }
 
-  getTweetWithAccount(account: string): Observable<any[]>{
+  getTweetWithAccount(account: string): Observable<any[]> {
     const options = account ? { params: new HttpParams().set('account', account) } : {}
-    return this.http.get<any[]>(this.tweetWithAcountUrl,options)
+    return this.http.get<any[]>(this.tweetWithAcountUrl, options)
   }
 
-  getTweetWithKeyword(keyword: string): Observable<any[]>{
+  getTweetWithKeyword(keyword: string): Observable<any[]> {
     const options = keyword ? { params: new HttpParams().set('keyword', keyword) } : {}
-    return this.http.get<any[]>(this.tweetWithKeywordUrl,options)
+    return this.http.get<any[]>(this.tweetWithKeywordUrl, options)
   }
 }

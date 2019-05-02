@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { COMMENTS } from '../mock-comments'
 import { NewsService } from '../news.service'
-import {TweetService} from '../tweet.service'
+import { TweetService } from '../tweet.service'
 import * as anime from 'animejs';
 
 @Component({
@@ -16,30 +16,30 @@ export class CommentComponent implements OnInit {
   news: any[]
   tweetAccount: any[]
   tweetKeyword: any[]
-  
+
   constructor(private newsService: NewsService, private tweetService: TweetService) { }
 
-  getComment(): void{
+  getComment(): void {
     this.comment = COMMENTS
   }
 
-  getNews(): void{
+  getNews(): void {
     this.newsService.getNews()
-    .subscribe(newsJson => this.news = newsJson['articles'])
+      .subscribe(newsJson => this.news = newsJson['articles'])
   }
 
-  getTweetWithAccount(account: string): void{
+  getTweetWithAccount(account: string): void {
     this.tweetService.getTweetWithAccount(account)
-    .subscribe(tweetJsonAccount => 
-      this.tweetAccount = tweetJsonAccount
-    )
+      .subscribe(tweetJsonAccount =>
+        this.tweetAccount = tweetJsonAccount
+      )
   }
 
-  getTweetWithKeyword(keyword: string): void{
+  getTweetWithKeyword(keyword: string): void {
     this.tweetService.getTweetWithKeyword(keyword)
-    .subscribe(tweetJsonKeyword =>
-       this.tweetKeyword = tweetJsonKeyword
-    )
+      .subscribe(tweetJsonKeyword =>
+        this.tweetKeyword = tweetJsonKeyword
+      )
   }
 
   ngOnInit() {
@@ -50,7 +50,7 @@ export class CommentComponent implements OnInit {
     this.initAnimation();
   }
 
-  initAnimation(){
+  initAnimation() {
     anime({
       targets: 'ul',
       translateY: -250,
