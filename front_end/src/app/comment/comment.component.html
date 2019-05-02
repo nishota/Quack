@@ -1,0 +1,50 @@
+<div class="container">
+<div class="row">
+  <div class="col-2 comment-list">
+    <h2>Comment(Mockup)</h2>
+    <h3></h3>
+    <ul>
+        <li *ngFor='let item of comment'>
+          {{item.article}}
+        </li>
+    </ul>
+  </div>
+  <div class="col-4 news-list">
+    <h2>News</h2>
+    <h3></h3>
+    <ul>
+      <li *ngFor='let item of news'>
+          {{item.article}}
+      </li>
+    </ul>
+  </div>
+  <div class="col-6 tweet-list">
+    <h2>Twitter</h2>
+    <h3>Account</h3>
+    <ul>
+        <li *ngFor='let item of tweetAccount'>
+          {{item.user.name}} {{item.text}} {{item.user.created_at}}
+        </li>
+    </ul>
+    <div class="account-field">
+      <form>
+      <input [(ngModel)]="account" name="account"/>
+      <button type="submit" (click)="getTweetWithAccount(account)">検索</button>
+      </form>
+    </div>
+    <h2>Twitter</h2>
+    <h3>Account</h3>
+    <ul>
+        <li *ngFor='let item of tweetKeyword'>
+          {{item.user.name}} {{item.text}} {{item.user.created_at}}
+        </li>
+    </ul>
+    <div class="keyword-field">
+      <form>
+      <input [(ngModel)]="keyword" name="keyword"/>
+      <button type="submit" (click)="getTweetWithKeyword(keyword)">検索</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
