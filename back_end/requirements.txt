@@ -1,0 +1,9 @@
+beautifulsoup4==4.7.1
+Flask==1.0.2
+Flask-Cors==3.0.7
+line-bot-sdk==1.8.0
+oauthlib==3.0.1
+requests==2.21.0
+requests-oauthlib==1.2.0
+soupsieve==1.8
+urllib3==1.24.2
