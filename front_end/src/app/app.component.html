@@ -1,10 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!-- <button (click)="onClick()" [disabled]="!completed">開始</button> -->
-<br>
 <div>
   <ng-container *ngFor="let title of titles">
     <p [class]="title.className" style="position: absolute">
-      {{ title.text }}!
+      {{ title.text }}
     </p>
   </ng-container>
 </div>

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as anime from 'animejs';
 import { Subject, Subscription } from 'rxjs';
-import { Title } from "./title.modle";
+import { Title } from "./title.model";
 import { NewsService } from './news.service';
-import { TitleCasePipe } from '@angular/common';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,42 +15,30 @@ export class AppComponent implements OnInit, OnDestroy {
   newsTitle: { article: string, id: number }[] = [];
 
   count = 0;
-  maxTitleNumber = 20;
-
   titleCN = 'title';
 
   private subject = new Subject<void>();
   public content$ = this.subject.asObservable();
   subscription: Subscription;
 
-  private subject2 = new Subject<Title>();
-  public content2$ = this.subject2.asObservable();
-  subscription2: Subscription;
-
   completed: boolean = true;
+
+  timeLeft: number = 120;
+  interval: any;
+
   constructor(private ns: NewsService) {
   }
 
   ngOnInit(): void {
-    //アニメ
     this.subscription = this.content$.subscribe(
       () => {
         console.log('flag is changed!');
         if (this.titles.length > this.count) {
-          //this.subject2.next(this.titlesSaved[this.count]);
           this.titles.push(this.titlesSaved[this.count])
           this.moveDom();
         }
       }
     );
-
-    this.subscription2 = this.content2$.subscribe(
-      title => {
-        this.titles.push(title)
-        this.moveDom();
-      }
-    );
-
     this.getNews();
     this.startTimer();
   }
@@ -58,6 +46,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  /**
+   * ニュース情報を取得する
+   */
   getNews(): void {
     this.ns.getNews()
       .subscribe(newsJson => {
@@ -83,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.completed) {
       this.completed = false;
       const title = this.titlesSaved[this.count];
-      if(title){
+      if (title) {
         this.titles.push(title);
         this.count++;
       }
@@ -96,12 +87,13 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * 名前を指定したDOMを指定された座標へ動かす。
    * 座標は、coordBefore,coordを参照する。
-   * @param title クラス
    */
   moveDom() {
     if (this.titles.length > 0) {
       this.titles.forEach(title => title.setCoordRandom());
+
       this.titles.forEach(t => {
+        //t => t.setCoordRandom()
         anime({
           targets: '.' + t.className,
           translateX: [t.coordBefore.x, t.coord.x],
@@ -116,24 +108,17 @@ export class AppComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  timeLeft: number = 120;
-  interval;
-
+  /**
+   * タイマー設定。
+   * interval秒onClickを繰り返す
+   */
   startTimer() {
-      this.interval = setInterval(() => {
-        if(this.timeLeft > 0) {
-          this.timeLeft--;
-          this.onClick();
-        } else {
-          this.timeLeft = 60;
-        }
-      },1000)
-    }
-
-    pauseTimer() {
-      clearInterval(this.interval);
-    }
-
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+        this.onClick();
+      }
+    }, 1500);
+  }
 }
 
