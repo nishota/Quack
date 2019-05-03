@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # TODO 機能毎のファイル分け
 # TODO 全般的なエラーハンドラの作成
-# TODO Twitter-バックエンド連携のスケジュール実行機能の作成
 # TODO フロントエンド-バックエンド連携機能の作成
 from flask import Flask, request, abort, jsonify, make_response, request as req
 from flask_cors import CORS
