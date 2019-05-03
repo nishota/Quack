@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   completed: boolean = true;
 
-  timeLeft: number = 120;
+  timeLeft: number = 1200;
   interval: any;
 
   constructor(private ns: NewsService, private ts:TweetService) {
@@ -109,10 +109,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
       this.titles.forEach(t => {
         //t => t.setCoordRandom()
+        let num = Math.random();
         anime({
           targets: '.' + t.className,
           translateX: [t.coordBefore.x, t.coord.x],
           translateY: [t.coordBefore.y, t.coord.y],
+          scale: num*2.5,
+          opacity: num,
           easing: 'easeOutCubic',
           complete: () => {
             console.log('animation is completed!', this.count);
@@ -133,7 +136,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.timeLeft--;
         this.onClick();
       }
-    }, 1500);
+    }, 3000);
   }
 }
 
