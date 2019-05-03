@@ -113,6 +113,7 @@ def save_twitter():
 
     # 検索キーワード決定 
     keywords = getTorendWordFromAbove(recs_twitter_trends,KEYWORDS_MAX)
+    print(keywords)
 
     # tweet取得
     tweetsList = []
@@ -123,8 +124,6 @@ def save_twitter():
     recs_twitter_api = []
     for tweets in tweetsList:
         recs_twitter_api.append(shapeTweetWithKeyword(tweets))
-    # --Debug--
-    print(recs_twitter_api)
 
     # DB保存(検索結果)
     # TODO 保存処理
@@ -151,10 +150,14 @@ def twitterAuth():
     '''
         開発
     '''
-    TWITTER_API_KEY = ''
-    TWITTER_API_SECRET_KEY = ''
-    TWITTER_ACCESS_TOKEN = ''
-    TWITTER_ACCESS_TOKEN_SECRET = ''
+    # TWITTER_API_KEY = ''
+    # TWITTER_API_SECRET_KEY = ''
+    # TWITTER_ACCESS_TOKEN = ''
+    # TWITTER_ACCESS_TOKEN_SECRET = ''
+    TWITTER_API_KEY = 'HtdhWF4ooilyWkYAgzJm3XNkf'
+    TWITTER_API_SECRET_KEY = 'D9dJqwgn2eMT8kjHLeBHrDHKVom3cCK4wW9xBKjHen9sOQDk80'
+    TWITTER_ACCESS_TOKEN = '1119978361273499648-dHn3bOHEZe7DLEIXUHx3s2SaA0f7MP'
+    TWITTER_ACCESS_TOKEN_SECRET = 'Cd9LOKrPiuHn0rHlXZkyXl2RzrGGHcgsy5xCdStIZ1Qf4'
     '''
         本番
     '''
@@ -395,7 +398,7 @@ def getTorendWordFromAbove(trends,keywords_max):
         トレンドワードリスト
     """
     keywords = []
-    loopCount =  len(trends) > keywords_max if keywords_max else len(trends) 
+    loopCount =  keywords_max if len(trends) > keywords_max else len(trends) 
     for i in range(loopCount):
         keywords.append(trends[i]['name'])
     return keywords
