@@ -19,6 +19,7 @@ import datetime
 app = Flask(__name__)
 CORS(app, resources=r'*')
 app.config['JSON_AS_ASCII'] = False
+KEYWORDS_MAX = 3 # キーワード数
 
 """
     app rooting
@@ -110,9 +111,8 @@ def save_twitter():
     # TODO 保存処理
     # TODO torendセットのID(シーケンス)取得
 
-    # 検索キーワード決定
-    # TODO torendの順序付け(tweet_volumeを指標または前回検索データ利用)による検索キーワードの決定 
-    keywords = ['令和','GACKT']
+    # 検索キーワード決定 
+    keywords = getTorendWordFromAbove(recs_twitter_trends,KEYWORDS_MAX)
 
     # tweet取得
     tweetsList = []
@@ -151,14 +151,10 @@ def twitterAuth():
     '''
         開発
     '''
-    # TWITTER_API_KEY = ''
-    # TWITTER_API_SECRET_KEY = ''
-    # TWITTER_ACCESS_TOKEN = ''
-    # TWITTER_ACCESS_TOKEN_SECRET = ''
-    TWITTER_API_KEY = 'HtdhWF4ooilyWkYAgzJm3XNkf'
-    TWITTER_API_SECRET_KEY = 'D9dJqwgn2eMT8kjHLeBHrDHKVom3cCK4wW9xBKjHen9sOQDk80'
-    TWITTER_ACCESS_TOKEN = '1119978361273499648-dHn3bOHEZe7DLEIXUHx3s2SaA0f7MP'
-    TWITTER_ACCESS_TOKEN_SECRET = 'Cd9LOKrPiuHn0rHlXZkyXl2RzrGGHcgsy5xCdStIZ1Qf4'
+    TWITTER_API_KEY = ''
+    TWITTER_API_SECRET_KEY = ''
+    TWITTER_ACCESS_TOKEN = ''
+    TWITTER_ACCESS_TOKEN_SECRET = ''
     '''
         本番
     '''
@@ -379,6 +375,30 @@ def shapeTweetWithKeyword(tweets):
     recs_twitter_api_sorted = sorted(recs_twitter_api, key=lambda x:x['id'])
 
     return recs_twitter_api_sorted        
+
+
+def getTorendWordFromAbove(trends,keywords_max):
+    """
+    トレンドのリストから、最大[keywords_max]アイテムのトレンドワードを取得
+    ※ホットトレンドワード取得に利用する場合は、[tweet_volume]で降順ソート済のリストを渡すこと
+    
+    Parameters
+    ----------
+    trends : 
+        トレンドリスト
+    keywords_max :
+        トレンドワード取得数
+
+    Returns
+    -------
+    keywords :
+        トレンドワードリスト
+    """
+    keywords = []
+    loopCount =  len(trends) > keywords_max if keywords_max else len(trends) 
+    for i in range(loopCount):
+        keywords.append(trends[i]['name'])
+    return keywords
 
 
 """
