@@ -42,6 +42,7 @@ Base.query = session.query_property()
 #   DateTime型がわからないため、とりあえずコメントアウトしてある。
 class TwitterApiTbl(Base):  
     __tablename__ = 'twitter_api_tbl'  
+    __table_args__ = {'extend_existing': True}
     
     id = Column('id', Integer, primary_key=True)  
     id_str = Column('id_str', String(100))  
@@ -66,6 +67,7 @@ class TwitterApiTbl(Base):
 
 class TwitterSysidTbl(Base):
     __tablename__ = 'twitter_api_tbl'
+    __table_args__ = {'extend_existing': True}
 
     sys_id = Column('sys_id', Integer, primary_key=True)  
     created_at = Column('created_at', String(100)) 
@@ -78,6 +80,7 @@ class TwitterSysidTbl(Base):
 
 class TwitterTrendsTbl(Base):
     __tablename__ = 'twitter_trends_tbl'
+    __table_args__ = {'extend_existing': True}
 
     sys_id = Column('sys_id', Integer, primary_key=True)  
     name = Column('name', String(100)) 
