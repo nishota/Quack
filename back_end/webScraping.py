@@ -11,6 +11,8 @@ import json
 import os
 from requests_oauthlib import OAuth1Session
 import datetime
+import time
+import schedule
 
 """
     app config
@@ -20,6 +22,7 @@ app = Flask(__name__)
 CORS(app, resources=r'*')
 app.config['JSON_AS_ASCII'] = False
 KEYWORDS_MAX = 3 # キーワード数
+g_keywords = [] # キーワードリスト
 
 """
     app rooting
@@ -84,28 +87,28 @@ def output_jsonTweetTrendPost():
     save db
 """
 
-def save_twitter():
+
+def save_twitter_trend():
     """
-    twitterのトレンドワード及び、トレンドワードでの検索結果をDB保存する
+    twitterのトレンドワードをDB保存する
     
     Parameters
     ----------
 
     Returns
     -------
+    keywords :
+        トレンド上位のキーワードリスト
 
     """
-    # DB保存前処理
-    # TODO 古いデータの削除
-
     # トレンド取得
     trends = fetchTwitterTrend()
 
     # トレンド取得結果整形
     rec_twitter_sysid, recs_twitter_trends = shapeTwitterTrend(trends)
     # --Debug--
-    print(rec_twitter_sysid)
-    print(recs_twitter_trends)
+    # print(rec_twitter_sysid)
+    # print(recs_twitter_trends)
 
     # DB保存(トレンド取得結果)
     # TODO 保存処理
@@ -113,8 +116,23 @@ def save_twitter():
 
     # 検索キーワード決定 
     keywords = getTorendWordFromAbove(recs_twitter_trends,KEYWORDS_MAX)
-    print(keywords)
 
+    return keywords
+
+
+def save_twitter_tweet(keywords):
+    """
+    twitterのキーワード検索結果ツイートをDB保存する
+    
+    Parameters
+    ----------
+    keywords :
+        検索ワードのリスト
+
+    Returns
+    -------
+
+    """
     # tweet取得
     tweetsList = []
     for keyword in keywords:
@@ -124,6 +142,11 @@ def save_twitter():
     recs_twitter_api = []
     for tweets in tweetsList:
         recs_twitter_api.append(shapeTweetWithKeyword(tweets))
+    # --Debug--
+    # print(recs_twitter_api)
+
+    # DB保存前処理
+    # TODO 古いデータの削除
 
     # DB保存(検索結果)
     # TODO 保存処理
@@ -442,6 +465,33 @@ def scraping_yomiuri():
 
     return returnList
 
+"""
+    schedule
+"""
+def job_save_trend():
+    print("job_save_trend is working...")
+    print(datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S_JST"))
+    g_keywords = save_twitter_trend()
+
+
+def job_save_tweet():
+    print("job_save_tweet is working...")
+    print(datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S_JST"))
+    save_twitter_tweet(g_keywords)
+
+def schedule_execute():
+    schedule.every(10).minutes.do(job_save_trend)
+    schedule.every(30).seconds.do(job_save_tweet)
+    # schedule.every().hour.do(job)
+    # schedule.every().day.at("10:30").do(job)
+    # schedule.every(5).to(10).minutes.do(job)
+    # schedule.every().monday.do(job)
+    # schedule.every().wednesday.at("13:15").do(job)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
 
 def shapeNews(articleList):
     """
@@ -481,8 +531,11 @@ if __name__ == "__main__":
         開発
     '''
     # --Debug--
-    save_twitter()
+    g_keywords = save_twitter_trend()
+    save_twitter_tweet(g_keywords)
+    schedule_execute()
     app.run(debug=True)
+    
     '''
         本番
     '''
