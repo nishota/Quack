@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, of } from 'rxjs'
 import { PARAMETERS } from '@angular/core/src/util/decorators';
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class TweetService {
   getTweetWithKeyword(keyword: string): Observable<any[]> {
     const options = keyword ? { params: new HttpParams().set('keyword', keyword) } : {}
     return this.http.get<any[]>(this.tweetWithKeywordUrl, options)
+  }
+
+  getAllTweet(): Observable<any[]> {
+    return this.http.get<any[]>(environment.url.tweettext);
   }
 }

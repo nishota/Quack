@@ -3,6 +3,7 @@ import * as anime from 'animejs';
 import { Subject, Subscription } from 'rxjs';
 import { Title } from "./title.model";
 import { NewsService } from './news.service';
+import { TweetService } from './tweet.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
   titlesSaved: Title[] = [];
   titles: Title[] = [];
   newsTitle: { article: string, id: number }[] = [];
+
+  tweet:string;
 
   count = 0;
   titleCN = 'title';
@@ -26,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   timeLeft: number = 120;
   interval: any;
 
-  constructor(private ns: NewsService) {
+  constructor(private ns: NewsService, private ts:TweetService) {
   }
 
   ngOnInit(): void {
@@ -40,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     );
     this.getNews();
+    this.getAllTweetText();
     this.startTimer();
   }
   ngOnDestroy(): void {
@@ -64,6 +68,17 @@ export class AppComponent implements OnInit, OnDestroy {
             domNumber++;
           }
         );
+      })
+  }
+
+  /**
+   * ニュース情報を取得する
+   */
+  getAllTweetText(): void {
+    this.ts.getAllTweet()
+      .subscribe(twJson => {
+        console.log(twJson);
+        this.tweet = twJson['articles'][0]['article'];
       })
   }
 
