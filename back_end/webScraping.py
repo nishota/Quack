@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # TODO 機能毎のファイル分け
-# TODO docstringの見直し
 # TODO 全般的なエラーハンドラの作成
 # TODO Twitter-バックエンド連携のスケジュール実行機能の作成
 # TODO フロントエンド-バックエンド連携機能の作成
@@ -85,6 +84,16 @@ def output_jsonTweetTrendPost():
 """
 
 def save_twitter():
+    """
+    twitterのトレンドワード及び、トレンドワードでの検索結果をDB保存する
+    
+    Parameters
+    ----------
+
+    Returns
+    -------
+
+    """
     # DB保存前処理
     # TODO 古いデータの削除
 
@@ -126,15 +135,30 @@ def save_twitter():
 """
 
 def twitterAuth():
+    """
+    twitter apiの認証を行う
+    
+    Parameters
+    ----------
+
+    Returns
+    ----------
+    twitter :
+        認証済みのtwitter apiオブジェクト
+    """
     # OAuth
     # TODO 認証キーの設定ファイル化の検討
     '''
         開発
     '''
-    TWITTER_API_KEY = ''
-    TWITTER_API_SECRET_KEY = ''
-    TWITTER_ACCESS_TOKEN = ''
-    TWITTER_ACCESS_TOKEN_SECRET = ''
+    # TWITTER_API_KEY = ''
+    # TWITTER_API_SECRET_KEY = ''
+    # TWITTER_ACCESS_TOKEN = ''
+    # TWITTER_ACCESS_TOKEN_SECRET = ''
+    TWITTER_API_KEY = 'HtdhWF4ooilyWkYAgzJm3XNkf'
+    TWITTER_API_SECRET_KEY = 'D9dJqwgn2eMT8kjHLeBHrDHKVom3cCK4wW9xBKjHen9sOQDk80'
+    TWITTER_ACCESS_TOKEN = '1119978361273499648-dHn3bOHEZe7DLEIXUHx3s2SaA0f7MP'
+    TWITTER_ACCESS_TOKEN_SECRET = 'Cd9LOKrPiuHn0rHlXZkyXl2RzrGGHcgsy5xCdStIZ1Qf4'
     '''
         本番
     '''
@@ -150,6 +174,17 @@ def twitterAuth():
 """
 
 def fetchTwitterTrend():
+    """
+    twitter api(trends/place)を用いてトレンドワードを取得する
+    
+    Parameters
+    ----------
+
+    Returns
+    -------
+    res :
+        twitter api(trends/place)からのレスポンスオブジェクト
+    """
     # OAuth
     twitter = twitterAuth()
 
@@ -158,16 +193,29 @@ def fetchTwitterTrend():
     params = {             
         'id' : 1118550    # WOEID (Yokohama)
     }
-    req = twitter.get(url,params = params)
-    if req.status_code == 200:
-        print("Suceed-fetchTwitterTrend: %d" % req.status_code)
+    res = twitter.get(url,params = params)
+    if res.status_code == 200:
+        print("Suceed-fetchTwitterTrend: %d" % res.status_code)
     else:
-        print("Failed-fetchTwitterTrend: %d" % req.status_code)
+        print("Failed-fetchTwitterTrend: %d" % res.status_code)
     
-    return req
+    return res
 
 
 def fetchTweetWithKeyword(keyword):
+    """
+    twitter api(search/tweets)を用いてツイートをキーワード検索する
+    
+    Parameters
+    ----------
+    keyword:
+        検索キーワード
+
+    Returns
+    -------
+    res :
+        twitter api(search/tweets)からのレスポンスオブジェクト
+    """
     # OAuth
     twitter = twitterAuth()
 
@@ -185,17 +233,30 @@ def fetchTweetWithKeyword(keyword):
         # TODO 重複なしで取得するためのリクエストパラメタ設定
         # 'since_id'    :                 # since_idから取得 
     }
-    req = twitter.get(url,params = params)
+    res = twitter.get(url,params = params)
 
-    if req.status_code == 200:
+    if res.status_code == 200:
         print("Succeed-fetchTweetWithKeyword")
     else:
-        print("Failed-fetchTweetWithKeyword: %d" % req.status_code)
+        print("Failed-fetchTweetWithKeyword: %d" % res.status_code)
 
-    return req
+    return res
 
 
 def fetchTweetWithAccount(accountName):
+    """
+    twitter apistatuses/user_timelineを用いて特定アカウントのツイートを取得する
+    
+    Parameters
+    ----------
+    accountName:
+        twitterアカウント名
+
+    Returns
+    -------
+    res :
+        twitter api(statuses/user_timeline)からのレスポンスオブジェクト
+    """
 
     # OAuth
     twitter = twitterAuth()
@@ -206,14 +267,14 @@ def fetchTweetWithAccount(accountName):
         'count'       : 5,             # 取得するtweet数
         'screen_name' : accountName    # twitterアカウント名
     }
-    req = twitter.get(url,params = params)
+    res = twitter.get(url,params = params)
 
-    if req.status_code == 200:
+    if res.status_code == 200:
         print("Succeed-fetchTweetWithAccount")
     else:
-        print("Failed-: %d" % req.status_code)
+        print("Failed-: %d" % res.status_code)
     
-    return req
+    return res
 
 
 """
@@ -221,6 +282,21 @@ def fetchTweetWithAccount(accountName):
 """
 
 def shapeTwitterTrend(trends):
+    """
+    twitter api(trends/place)のトレンド取得結果を、db保存用に整形する
+    
+    Parameters
+    ----------
+    trends :
+        twitter api(trends/place)からのレスポンスオブジェクト
+
+    Returns
+    -------
+    rec_twitter_sysid :
+        twitter_sysid_tblに保存する単一レコード(辞書型)
+    recs_twitter_trends_sorted :
+        twitter_trends_tblに保存する複数レコード(tweet_volumuで降順ソートされたリスト)
+    """
     # TODO DBの型とpythonの型との整合性見直し
     jTrends = json.loads(trends.text)
 
@@ -236,7 +312,8 @@ def shapeTwitterTrend(trends):
     '''
         twitter_trends_tbl
     '''
-    recs_twitter_trends = []
+    recs_twitter_trends_exist = []
+    recs_twitter_trends_none = []
     for trend in jTrends[0]['trends']:
         rec_twitter_trends = {}
         # rec_twitter_trends['sys_id'] = ''
@@ -244,13 +321,35 @@ def shapeTwitterTrend(trends):
         rec_twitter_trends['name'] = trend['name']
         rec_twitter_trends['query'] = trend['query']
         # rec_twitter_trends['delete_flag'] = ''
-        
-        recs_twitter_trends.append(rec_twitter_trends)
 
-    return rec_twitter_sysid, recs_twitter_trends
+        if rec_twitter_trends['tweet_volume'] is not None:
+            recs_twitter_trends_exist.append(rec_twitter_trends)
+        else:
+            recs_twitter_trends_none.append(rec_twitter_trends)
+
+    # ソート(tweet_volumeの降順　nullは末尾)
+    recs_twitter_trends_sorted = sorted(recs_twitter_trends_exist, key=lambda x:x['tweet_volume'], reverse = True)
+    recs_twitter_trends_sorted.append(recs_twitter_trends_none)
+
+    return rec_twitter_sysid, recs_twitter_trends_sorted
 
 
 def shapeTweetWithKeyword(tweets):
+    """
+    twitter api(search/tweets)の検索結果を、db保存用に整形する
+    
+    Parameters
+    ----------
+    tweets :
+        twitter api(search/tweets)からのレスポンスオブジェクト
+
+    Returns
+    -------
+    rec_twitter_sysid :
+        twitter_sysid_tblに保存する単一レコード(辞書型)
+    recs_twitter_api_sorted :
+        twitter_trends_tblに保存する複数レコード(idで昇順ソートされたリスト)
+    """
     # TODO DBの型とpythonの型との整合性見直し
     jTweets = json.loads(tweets.text)
 
@@ -275,8 +374,11 @@ def shapeTweetWithKeyword(tweets):
         # rec_twitter_api['delete_flag'] = ''
 
         recs_twitter_api.append(rec_twitter_api)
+    
+    # ソート(idの降順)
+    recs_twitter_api_sorted = sorted(recs_twitter_api, key=lambda x:x['id'])
 
-    return recs_twitter_api        
+    return recs_twitter_api_sorted        
 
 
 """
@@ -287,10 +389,15 @@ def shapeTweetWithKeyword(tweets):
 
 def scraping_yomiuri():
     """
+    http://www.yomiuri.co.jp/ からニュース見出しを取得する
+    
+    Parameters
+    ----------
 
-    http://www.yomiuri.co.jp/
-    :return:スクレイピング結果のリスト
-
+    Returns
+    -------
+    returnList:
+        ニュース見出しのリスト
     """
 
     # url
@@ -314,6 +421,18 @@ def scraping_yomiuri():
 
 
 def shapeNews(articleList):
+    """
+    http://www.yomiuri.co.jp/ から取得したニュース見出しを
+    json形式に整形する
+    
+    Parameters
+    ----------
+
+    Returns
+    -------
+    returnList:
+        ニュース見出しのリスト
+    """
     articleJsonItems = []
     for i,article in enumerate(articleList):
         articleJsonItem = {
