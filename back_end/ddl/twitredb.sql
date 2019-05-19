@@ -2,12 +2,14 @@
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Generation Time: 2019 年 5 月 02 日 18:17
--- サーバのバージョン： 5.7.25
--- PHP Version: 7.3.1
+-- Host: 127.0.0.1
+-- Generation Time: 
+-- サーバのバージョン： 10.1.38-MariaDB
+-- PHP Version: 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `twitredb`
 --
-CREATE DATABASE IF NOT EXISTS `twitredb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `twitredb`;
 
 -- --------------------------------------------------------
 
@@ -28,8 +28,9 @@ USE `twitredb`;
 -- テーブルの構造 `twitter_api_tbl`
 --
 
+DROP TABLE IF EXISTS `twitter_api_tbl`;
 CREATE TABLE `twitter_api_tbl` (
-  `id` int(100) NOT NULL,
+  `id` bigint(100) NOT NULL,
   `id_str` varchar(100) DEFAULT NULL,
   `screen_name` varchar(100) DEFAULT NULL,
   `created_at` varchar(200) DEFAULT NULL,
@@ -50,9 +51,10 @@ CREATE TABLE `twitter_api_tbl` (
 -- テーブルの構造 `twitter_sysid_tbl`
 --
 
+DROP TABLE IF EXISTS `twitter_sysid_tbl`;
 CREATE TABLE `twitter_sysid_tbl` (
   `sys_id` int(255) NOT NULL,
-  `create_at` varchar(100) NOT NULL,
+  `created_at` varchar(100) NOT NULL,
   `as_of` varchar(100) NOT NULL,
   `delete_flag` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -63,6 +65,7 @@ CREATE TABLE `twitter_sysid_tbl` (
 -- テーブルの構造 `twitter_trends_tbl`
 --
 
+DROP TABLE IF EXISTS `twitter_trends_tbl`;
 CREATE TABLE `twitter_trends_tbl` (
   `sys_id` int(255) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -112,6 +115,7 @@ ALTER TABLE `twitter_sysid_tbl`
 --
 ALTER TABLE `twitter_trends_tbl`
   ADD CONSTRAINT `twitter_trends_tbl_ibfk_1` FOREIGN KEY (`sys_id`) REFERENCES `twitter_sysid_tbl` (`sys_id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
