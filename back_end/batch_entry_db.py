@@ -25,8 +25,7 @@ g_since_id = 0
 """
 
 def save_twitter_trend():
-    """
-    twitterのトレンドワードをDB保存する
+    """twitterのトレンドワードをDB保存する
     
     Parameters
     ----------
@@ -58,8 +57,7 @@ def save_twitter_trend():
 
 
 def save_twitter_tweet(keywords):
-    """
-    twitterのキーワード検索結果ツイートをDB保存する
+    """twitterのキーワード検索結果ツイートをDB保存する
     
     Parameters
     ----------
@@ -90,8 +88,7 @@ def save_twitter_tweet(keywords):
 """
 
 def twitter_auth():
-    """
-    twitter apiの認証を行う
+    """twitter apiの認証を行う
     
     Parameters
     ----------
@@ -130,8 +127,7 @@ def twitter_auth():
 """
 
 def fetch_twitter_trend():
-    """
-    twitter api(trends/place)を用いてトレンドワードを取得する
+    """twitter api(trends/place)を用いてトレンドワードを取得する
     
     Parameters
     ----------
@@ -159,8 +155,7 @@ def fetch_twitter_trend():
 
 
 def fetch_tweet_with_keyword(keyword):
-    """
-    twitter api(search/tweets)を用いてツイートをキーワード検索する
+    """twitter api(search/tweets)を用いてツイートをキーワード検索する
     
     Parameters
     ----------
@@ -206,8 +201,7 @@ def fetch_tweet_with_keyword(keyword):
 """
 
 def shape_twitter_trend(trends):
-    """
-    twitter api(trends/place)のトレンド取得結果を、db保存用に整形する
+    """twitter api(trends/place)のトレンド取得結果を、db保存用に整形する
     
     Parameters
     ----------
@@ -269,8 +263,7 @@ def shape_twitter_trend(trends):
 
 
 def shape_tweet_with_keyword(tweets,keyword):
-    """
-    twitter api(search/tweets)の検索結果を、db保存用に整形する
+    """twitter api(search/tweets)の検索結果を、db保存用に整形する
     
     Parameters
     ----------
@@ -328,8 +321,7 @@ def shape_tweet_with_keyword(tweets,keyword):
 """
 
 def get_trend_word_from_above(trends,keywords_max):
-    """
-    トレンドのリストから、最大[keywords_max]アイテムのトレンドワードを取得
+    """トレンドのリストから、最大[keywords_max]アイテムのトレンドワードを取得
     ※ホットトレンドワード取得に利用する場合は、[tweet_volume]で降順ソート済のリストを渡すこと
     
     Parameters
@@ -356,8 +348,7 @@ def get_trend_word_from_above(trends,keywords_max):
 """
 
 def job_save_trend():
-    """
-    twitterのトレンドDB保存ジョブ
+    """twitterのトレンドDB保存ジョブ
     
     Parameters
     ----------
@@ -372,8 +363,7 @@ def job_save_trend():
 
 
 def job_save_tweet():
-    """
-    twitterのトレンドに基づくツイート検索結果DB保存ジョブ
+    """twitterのトレンドに基づくツイート検索結果DB保存ジョブ
     
     Parameters
     ----------
