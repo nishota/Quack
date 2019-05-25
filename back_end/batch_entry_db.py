@@ -189,7 +189,7 @@ def fetch_tweet_with_keyword(keyword):
     res = twitter.get(url,params = params)
 
     if res.status_code == 200:
-        print("Succeed-fetchTweetWithKeyword")
+        print("Succeed-fetchTweetWithKeyword: %d" % res.status_code)
     else:
         print("Failed-fetchTweetWithKeyword: %d" % res.status_code)
 
@@ -236,8 +236,10 @@ def shape_twitter_trend(trends):
     '''
         twitter_trends_tbl
     '''
-    recs_twitter_trends_exist = []
-    recs_twitter_trends_none = []
+    # 人気キーワード判定仕様検討
+    # recs_twitter_trends_exist = []
+    # recs_twitter_trends_none = []
+    recs_twitter_trends_sorted = []
     for json_trend in json_trends[0]['trends']:
         # twitterハッシュタグのみ取り扱う場合はコメントアウト解除
         # if not trend['name'].startswith('#'):
@@ -250,14 +252,17 @@ def shape_twitter_trend(trends):
         rec_twitter_trends['query'] = json_trend['query']
         # rec_twitter_trends['delete_flag'] = ''
 
-        if rec_twitter_trends['tweet_volume'] is not None:
-            recs_twitter_trends_exist.append(rec_twitter_trends)
-        else:
-            recs_twitter_trends_none.append(rec_twitter_trends)
+        # 人気キーワード判定仕様検討
+        recs_twitter_trends_sorted.append(rec_twitter_trends)
+        # if rec_twitter_trends['tweet_volume'] is not None:
+        #     recs_twitter_trends_exist.append(rec_twitter_trends)
+        # else:
+        #     recs_twitter_trends_none.append(rec_twitter_trends)
 
+    # 人気キーワード判定仕様検討
     # ソート(tweet_volumeの降順　nullは末尾)
-    recs_twitter_trends_sorted = sorted(recs_twitter_trends_exist, key=lambda x:x['tweet_volume'], reverse = True)
-    recs_twitter_trends_sorted.extend(recs_twitter_trends_none)
+    # recs_twitter_trends_sorted = sorted(recs_twitter_trends_exist, key=lambda x:x['tweet_volume'], reverse = True)
+    # recs_twitter_trends_sorted.extend(recs_twitter_trends_none)
 
     return rec_twitter_sysid, recs_twitter_trends_sorted
 
