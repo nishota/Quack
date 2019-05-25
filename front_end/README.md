@@ -1,11 +1,4 @@
-# Angular1
-コメントします。
-藤野です。
-夏目です。
-hujinodesu
-ブランチ作りました。
-
-コメントしましたよ
+# TwiTreDemo
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 

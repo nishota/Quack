@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  twitterURL: 'https://twitter.com/'
 };

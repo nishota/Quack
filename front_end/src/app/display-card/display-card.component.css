@@ -1,0 +1,19 @@
+.inner-footer ul{
+    padding: 0;
+    margin: 0;
+}
+
+.inner-footer ul li{
+    font-size: 10px;
+    margin-right: 3em;
+    display: inline;
+}
+
+li .user-name{
+    margin-right: 10px;
+    text-align: left;
+}
+
+li .date{
+    text-align: right;
+}

@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  url:{
-    tweettext:'http://127.0.0.1:5000/json/twitre/api'
-  }
+  twitterURL: 'https://twitter.com/',
+  tweetWithAcountUrl: 'https://payload-01.herokuapp.com/json/twitter/account',
+  tweetWithKeywordUrl: 'https://payload-01.herokuapp.com/json/twitter/keyword'
 };
 
 /*

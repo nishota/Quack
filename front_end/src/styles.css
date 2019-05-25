@@ -1,1 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+* {
+    margin: 0 auto;
+}
+html,body{
+    height: 100%;
+    overflow: hidden; 
+}
+
+#container{
+    width: 1000px;
+    height: 800px;
+}
+
+.center{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    margin: auto;
+}
+
+.display-card{
+    max-width: 400px !important;
+    height: auto;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    margin: auto;
+}
+
+.tweet-card {
+    max-width: 400px;
+    min-width: 400px;
+    background-color: white;
+  }
+
+  /* .tweet-card:hover {
+    color: red;
+    border-color: red;
+  } */

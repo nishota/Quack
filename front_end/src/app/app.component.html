@@ -1,10 +1,6 @@
-<div>
-  {{tweet}}
-  <ng-container *ngFor="let title of titles">
-    <p [class]="title.className" style="position: absolute">
-      {{ title.text }}
-    </p>
+<div class="basic-container" [ngStyle]="pageStyle">
+  <input class="textbox" type="text" [formControl]="keyWord">
+  <ng-container *ngFor="let card of cards">
+    <app-tweet-card [tweet]="card"></app-tweet-card>
   </ng-container>
 </div>
-
-<router-outlet></router-outlet>
