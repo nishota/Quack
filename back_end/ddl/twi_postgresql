@@ -1,0 +1,190 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.3
+-- Dumped by pg_dump version 11.2
+
+-- Started on 2019-05-25 16:16:36 JST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 3209 (class 1262 OID 16385)
+-- Name: twitredb; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE twitredb WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C' LC_CTYPE = 'C';
+
+
+ALTER DATABASE twitredb OWNER TO postgres;
+
+\connect twitredb
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 196 (class 1259 OID 16386)
+-- Name: twitter_api_tbl; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.twitter_api_tbl (
+    id bigint NOT NULL,
+    id_str character varying(100) DEFAULT NULL::character varying,
+    screen_name character varying(100) DEFAULT NULL::character varying,
+    created_at character varying(200) DEFAULT NULL::character varying,
+    create_time timestamp without time zone,
+    text character varying(1000) DEFAULT NULL::character varying,
+    trend character varying(100) NOT NULL,
+    user_id character varying(100) DEFAULT NULL::character varying,
+    user_id_str character varying(100) DEFAULT NULL::character varying,
+    use_name character varying(100) DEFAULT NULL::character varying,
+    sys_create_date timestamp without time zone,
+    hidden_flag smallint NOT NULL,
+    delete_flag smallint NOT NULL
+);
+
+
+ALTER TABLE public.twitter_api_tbl OWNER TO postgres;
+
+--
+-- TOC entry 199 (class 1259 OID 16414)
+-- Name: twitter_api_tbl_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.twitter_api_tbl_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.twitter_api_tbl_seq OWNER TO postgres;
+
+--
+-- TOC entry 197 (class 1259 OID 16399)
+-- Name: twitter_sysid_tbl; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.twitter_sysid_tbl (
+    sys_id bigint NOT NULL,
+    created_at character varying(100) NOT NULL,
+    as_of character varying(100) NOT NULL,
+    delete_flag smallint NOT NULL
+);
+
+
+ALTER TABLE public.twitter_sysid_tbl OWNER TO postgres;
+
+--
+-- TOC entry 198 (class 1259 OID 16402)
+-- Name: twitter_trends_tbl; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.twitter_trends_tbl (
+    sys_id bigint NOT NULL,
+    name character varying(100) NOT NULL,
+    tweet_volume bigint,
+    query character varying(1000) NOT NULL,
+    delete_flag smallint NOT NULL
+);
+
+
+ALTER TABLE public.twitter_trends_tbl OWNER TO postgres;
+
+--
+-- TOC entry 3200 (class 0 OID 16386)
+-- Dependencies: 196
+-- Data for Name: twitter_api_tbl; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3201 (class 0 OID 16399)
+-- Dependencies: 197
+-- Data for Name: twitter_sysid_tbl; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3202 (class 0 OID 16402)
+-- Dependencies: 198
+-- Data for Name: twitter_trends_tbl; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3210 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: twitter_api_tbl_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.twitter_api_tbl_seq', 1, false);
+
+
+--
+-- TOC entry 3073 (class 2606 OID 16409)
+-- Name: twitter_api_tbl twitter_api_tbl_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.twitter_api_tbl
+    ADD CONSTRAINT twitter_api_tbl_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3075 (class 2606 OID 16411)
+-- Name: twitter_sysid_tbl twitter_sysid_tbl_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.twitter_sysid_tbl
+    ADD CONSTRAINT twitter_sysid_tbl_pkey PRIMARY KEY (sys_id);
+
+
+--
+-- TOC entry 3077 (class 2606 OID 16413)
+-- Name: twitter_trends_tbl twitter_trends_tbl_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.twitter_trends_tbl
+    ADD CONSTRAINT twitter_trends_tbl_pkey PRIMARY KEY (sys_id, name);
+
+
+--
+-- TOC entry 3078 (class 2606 OID 16416)
+-- Name: twitter_trends_tbl twitter_trends_tbl_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.twitter_trends_tbl
+    ADD CONSTRAINT twitter_trends_tbl_ibfk_1 FOREIGN KEY (sys_id) REFERENCES public.twitter_sysid_tbl(sys_id);
+
+
+-- Completed on 2019-05-25 16:16:36 JST
+
+--
+-- PostgreSQL database dump complete
+--
+
