@@ -5,10 +5,20 @@
 -- --------------------------------------------------------
 
 --
+-- AUTO_INCREMENT for table twitter_sysid_tbl
+--
+DROP SEQUENCE IF EXISTS TWITTER_SYSID_TBL_SEQ CASCADE;
+CREATE SEQUENCE TWITTER_SYSID_TBL_SEQ
+    INCREMENT BY 1
+    START WITH 1
+    NO CYCLE
+;
+
+--
 -- テーブルの構造 twitter_api_tbl
 --
 
-DROP TABLE IF EXISTS twitter_api_tbl;
+DROP TABLE IF EXISTS twitter_api_tbl CASCADE;
 CREATE TABLE twitter_api_tbl (
   id bigint NOT NULL,
   id_str varchar(100) DEFAULT NULL,
@@ -31,9 +41,9 @@ CREATE TABLE twitter_api_tbl (
 -- テーブルの構造 twitter_sysid_tbl
 --
 
-DROP TABLE IF EXISTS twitter_sysid_tbl;
+DROP TABLE IF EXISTS twitter_sysid_tbl CASCADE;
 CREATE TABLE twitter_sysid_tbl (
-  sys_id bigint NOT NULL,
+  sys_id bigint DEFAULT nextval('TWITTER_SYSID_TBL_SEQ') NOT NULL,
   created_at varchar(100) NOT NULL,
   as_of varchar(100) NOT NULL,
   delete_flag SMALLINT NOT NULL
@@ -44,7 +54,7 @@ CREATE TABLE twitter_sysid_tbl (
 -- テーブルの構造 twitter_trends_tbl
 --
 
-DROP TABLE IF EXISTS twitter_trends_tbl;
+DROP TABLE IF EXISTS twitter_trends_tbl CASCADE;
 CREATE TABLE twitter_trends_tbl (
   sys_id bigint NOT NULL,
   name varchar(100) NOT NULL,
@@ -78,15 +88,6 @@ ALTER TABLE twitter_trends_tbl
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table twitter_sysid_tbl
---
-CREATE SEQUENCE TWITTER_API_TBL_SEQ
-    INCREMENT BY 1
-    START WITH 1
-    NO CYCLE
-;
 
 --
 -- ダンプしたテーブルの制約

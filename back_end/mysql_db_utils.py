@@ -1,7 +1,6 @@
 # coding=utf-8
 import sys   
-# import pymysql
-import psycopg2
+import pymysql
 from sqlalchemy import Column, Integer, String, DateTime,create_engine  
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -26,16 +25,9 @@ dbname   = 'twitredb'
 socket   = ''
 dbname   = dbname + socket
 
-# DATABASE = 'mysql+pymysql://%s:%s@%s/%s?charset=utf8' % (
-#     "root",
-#     "",
-#     "localhost",
-#     dbname,
-# )
-# DATABASE = 'postgresql+psycopg2://%s:%s@%s/%s?charset=utf8' % (
-DATABASE = 'postgresql+psycopg2://%s:%s@%s/%s' % (
-    "postgres",
-    "postgres",
+DATABASE = 'mysql+pymysql://%s:%s@%s/%s?charset=utf8' % (
+    "root",
+    "",
     "localhost",
     dbname,
 )
