@@ -1,5 +1,5 @@
 <div class="basic-container" [ngStyle]="pageStyle">
-  <input class="textbox" type="text" [formControl]="keyWord">
+  <h1>現在のトレンド: {{trend}}</h1>
   <ng-container *ngFor="let card of cards">
     <app-tweet-card [tweet]="card"></app-tweet-card>
   </ng-container>

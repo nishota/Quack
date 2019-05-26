@@ -9,36 +9,43 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  keyWord = new FormControl('');
   private MAX_CARD_NUMBER = 20;
   cards: TweetData[] = [];
+  savedCards: any[] = [];
+  trend: string;
 
   constructor(private ts: TwitterService) {
-    this.keyWord.setValue('草'); // ここをトレンドから持ってくる？
   }
 
   ngOnInit() {
     setInterval(() => {
-      this.ts.getTweetWithKeyword(this.keyWord.value).subscribe(
-        (data: any) => {
-          data.forEach(tweet => {
-            if (this.checkTweetId(tweet)) {
-              this.cards.push(
-                new TweetData(
-                  tweet.id_str,
-                  tweet.user.screen_name,
-                  tweet.created_at,
-                  tweet.text
-                )
-              );
-            }
-          });
-        },
-        () => console.log('error'),
-        () => {
-          // 表示カードが多くなったら、消す
-          for (; this.cards.length > this.MAX_CARD_NUMBER;) {
-            this.cards.shift();
+      this.ts.getTweetFomDevServer().subscribe(
+        (data: any[]) => data.forEach(item => {
+          if (this.checkTweetId(item)) {
+            this.savedCards.push(item);
+          }
+        }),
+        () => console.log('error')
+      );
+    }, 5000);
+
+    setInterval(() => {
+      for (; this.cards.length > this.MAX_CARD_NUMBER - 3;) {
+        this.cards.shift();
+        this.savedCards.shift();
+      }
+      this.savedCards.forEach(
+        tweet => {
+          this.trend = tweet.trend;
+          if (this.cards.length < this.MAX_CARD_NUMBER) {
+            this.cards.push(
+              new TweetData(
+                tweet.id_str,
+                tweet.screen_name,
+                tweet.created_at,
+                tweet.text
+              )
+            );
           }
         }
       );
@@ -51,9 +58,10 @@ export class AppComponent implements OnInit {
    */
   checkTweetId(tweet: any): boolean {
     const sameTweets =
-      this.cards.filter(
-        c => c.TweetId === tweet.id_str
+      this.savedCards.filter(
+        c => c.id_str === tweet.id_str
       );
+    console.log(sameTweets.length)
     return sameTweets.length === 0;
   }
 }

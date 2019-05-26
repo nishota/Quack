@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TweetData } from '../model/tweet.model';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from "src/environments/environment";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,10 @@ import { environment } from "src/environments/environment";
 export class TwitterService {
 
   constructor(private http: HttpClient) { }
+
+  getTweetFomDevServer(): Observable<any[]> {
+    return this.http.get<any[]>(environment.devUrl);
+  }
 
   getTweetWithAccount(account?: string): Observable<any[]> {
     const options = account ? { params: new HttpParams().set('account', account) } : {};
