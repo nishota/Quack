@@ -107,10 +107,14 @@ def twitter_auth():
     # TWITTER_API_SECRET_KEY = ''
     # TWITTER_ACCESS_TOKEN = ''
     # TWITTER_ACCESS_TOKEN_SECRET = ''
-    TWITTER_API_KEY = 'HtdhWF4ooilyWkYAgzJm3XNkf'
-    TWITTER_API_SECRET_KEY = 'D9dJqwgn2eMT8kjHLeBHrDHKVom3cCK4wW9xBKjHen9sOQDk80'
-    TWITTER_ACCESS_TOKEN = '1119978361273499648-dHn3bOHEZe7DLEIXUHx3s2SaA0f7MP'
-    TWITTER_ACCESS_TOKEN_SECRET = 'Cd9LOKrPiuHn0rHlXZkyXl2RzrGGHcgsy5xCdStIZ1Qf4'
+    KEY_PATH = os.path.dirname(os.path.abspath(__file__))+'/key.json'
+    with open(KEY_PATH) as f:
+        df = json.load(f)
+        TWITTER_API_KEY = df['twitrekey']['TWITTER_API_KEY']
+        TWITTER_API_SECRET_KEY = df['twitrekey']['TWITTER_API_SECRET_KEY']
+        TWITTER_ACCESS_TOKEN = df['twitrekey']['TWITTER_ACCESS_TOKEN']
+        TWITTER_ACCESS_TOKEN_SECRET = df['twitrekey']['TWITTER_ACCESS_TOKEN_SECRET']
+
     '''
         本番
     '''
@@ -118,6 +122,7 @@ def twitter_auth():
     # TWITTER_API_SECRET_KEY = os.environ["TWITTER_API_SECRET_KEY"]
     # TWITTER_ACCESS_TOKEN = os.environ["TWITTER_ACCESS_TOKEN"]
     # TWITTER_ACCESS_TOKEN_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
+    
     twitter = OAuth1Session(TWITTER_API_KEY, TWITTER_API_SECRET_KEY, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
     return twitter
 

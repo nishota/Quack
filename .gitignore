@@ -1,1 +1,7 @@
 .vscode/*
+
+#env file
+.python-version
+
+# key
+key.json
