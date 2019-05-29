@@ -17,3 +17,19 @@ li .user-name{
 li .date{
     text-align: right;
 }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-width: 400px;
+}
+.container .text {
+    flex: 1;
+}
+.text  p{
+    word-break: break-all;
+    width: 400px;   
+    width:100%;
+    float: left;
+}
