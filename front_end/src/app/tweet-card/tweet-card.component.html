@@ -1,10 +1,14 @@
-<div [class]="tweetCardCN" [id]="tweetCardId"
+<div [class]="animeSetting.className" [id]="animeSetting.id"
 [ngStyle]="{'display': display,'z-index':zIndex}">
   <mat-card class="tweet-card" (click)="onClick()">
     <mat-card-content>
-      <p>
-        {{tweet.Text}}
-      </p>
+      <div class="container">
+        <div class="text">
+          <p>
+            {{tweet.Text}}
+          </p>
+        </div>
+      </div>
       <div class="inner-footer">
         <ul>
           <li class="user-name">

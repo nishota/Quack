@@ -61,7 +61,6 @@ export class AppComponent implements OnInit {
       this.savedCards.filter(
         c => c.id_str === tweet.id_str
       );
-    console.log(sameTweets.length)
     return sameTweets.length === 0;
   }
 }
