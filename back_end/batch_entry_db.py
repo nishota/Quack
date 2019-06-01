@@ -6,14 +6,15 @@ import datetime
 import time,calendar
 import schedule
 import db_utils
+from payload_pack_01 import p_debug_01
 
 
 # twitter
 # TODO 複数キーワード指定の際は、異なるキーワード間でid(tweet)重複する場合はあるので考慮すること
 # 対応例　DBのid,trendを複合主キーとする等（insertのレスポンスは落ちてしまう)
 KEYWORDS_MAX = 1 # キーワード数
-SCHEDULE_TREND = 10 # トレンド保存実行間隔(min)
-SCHEDULE_TWEET = 30 # ツイート保存実行間隔(second)
+SCHEDULE_TREND = 5 # トレンド保存実行間隔(min)
+SCHEDULE_TWEET = 5 # ツイート保存実行間隔(second)
 
 # global variable
 g_keywords = [] # キーワードリスト
@@ -103,10 +104,6 @@ def twitter_auth():
     '''
         開発
     '''
-    # TWITTER_API_KEY = ''
-    # TWITTER_API_SECRET_KEY = ''
-    # TWITTER_ACCESS_TOKEN = ''
-    # TWITTER_ACCESS_TOKEN_SECRET = ''
     KEY_PATH = os.path.dirname(os.path.abspath(__file__))+'/key.json'
     with open(KEY_PATH) as f:
         df = json.load(f)
@@ -130,7 +127,7 @@ def twitter_auth():
 """
     fetch from twitter API
 """
-
+@p_debug_01.stop_watch
 def fetch_twitter_trend():
     """twitter api(trends/place)を用いてトレンドワードを取得する
     
@@ -158,7 +155,7 @@ def fetch_twitter_trend():
     
     return res
 
-
+@p_debug_01.stop_watch
 def fetch_tweet_with_keyword(keyword):
     """twitter api(search/tweets)を用いてツイートをキーワード検索する
     
@@ -183,13 +180,22 @@ def fetch_tweet_with_keyword(keyword):
 
     # 取得するツイートの最古時刻を計算
     now = datetime.datetime.now()
-    sinceTime = now - datetime.timedelta(seconds=300)    
+    sinceTime = now - datetime.timedelta(seconds=60)    
 
-    query = keyword + ' exclude:retweets' + ' lang:ja' + ' since:' + sinceTime.strftime("%Y-%m-%d_%H:%M:%S_JST")
+    # queryチューニング前
+    # query = keyword + ' exclude:retweets' + ' lang:ja' + ' since:' + sinceTime.strftime("%Y-%m-%d_%H:%M:%S_JST")
+    # params = {
+    #     'count'       : 100,              # 取得するtweet数
+    #     'q'           : query,             # 検索クエリ
+    #     'since_id'    : g_since_id        # since_idから取得 
+    # }
+    # queryチューニング後
+    query = keyword + ' exclude:retweets' + ' exclude:replies' + ' lang:ja' + ' since:' + sinceTime.strftime("%Y-%m-%d_%H:%M:%S_JST")
     params = {
         'count'       : 100,              # 取得するtweet数
         'q'           : query,             # 検索クエリ
-        'since_id'    : g_since_id        # since_idから取得 
+        'since_id'    : g_since_id,        # since_idから取得 
+        'result_type' : 'recent'
     }
     res = twitter.get(url,params = params)
 
@@ -386,6 +392,7 @@ def job_save_tweet():
     print(datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S_JST"))
     save_twitter_tweet(g_keywords)
 
+
 def schedule_execute():
     schedule.every(SCHEDULE_TREND).minutes.do(job_save_trend)
     schedule.every(SCHEDULE_TWEET).seconds.do(job_save_tweet)
@@ -407,3 +414,4 @@ def schedule_execute():
 if __name__ == "__main__":
     g_keywords = save_twitter_trend()
     save_twitter_tweet(g_keywords)
+    schedule_execute()

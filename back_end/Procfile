@@ -1,1 +1,2 @@
 web: python front_fetch_tweet.py
+worker: python batch_entry_db.py
