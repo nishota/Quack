@@ -7,18 +7,31 @@ import time,calendar
 import schedule
 import db_utils
 from payload_pack_01 import p_debug_01
+import config
 
 
-# twitter
+# 環境情報
+app_config = config.DevelopmentConfig
+# app_config = config.ProductionConfig
 # TODO 複数キーワード指定の際は、異なるキーワード間でid(tweet)重複する場合はあるので考慮すること
 # 対応例　DBのid,trendを複合主キーとする等（insertのレスポンスは落ちてしまう)
+
+# twitter取得オプション
 KEYWORDS_MAX = 1 # キーワード数
-SCHEDULE_TREND = 5 # トレンド保存実行間隔(min)
+SCHEDULE_TREND = 6 # トレンド保存実行間隔(min)
 SCHEDULE_TWEET = 5 # ツイート保存実行間隔(second)
 
-# global variable
+# グローバル変数
 g_keywords = [] # キーワードリスト
 g_since_id = 0
+
+# defaultトレンド
+# 当変数が値有の場合、twitter apiによるトレンド取得を行わず、当変数値にて
+# ツイート検索を行います。
+try:
+    g_default_trend = [os.environ["DEFAULT_TREND"]]
+except Exception as identifier:
+    g_default_trend = ''
 
 
 """
@@ -101,25 +114,26 @@ def twitter_auth():
     """
     # OAuth
     # TODO require to rewrite
-    '''
+    if not app_config.PRODUCTION:
+        '''
         開発
-    '''
-    KEY_PATH = os.path.dirname(os.path.abspath(__file__))+'/key.json'
-    with open(KEY_PATH) as f:
-        df = json.load(f)
-        TWITTER_API_KEY = df['twitrekey']['TWITTER_API_KEY']
-        TWITTER_API_SECRET_KEY = df['twitrekey']['TWITTER_API_SECRET_KEY']
-        TWITTER_ACCESS_TOKEN = df['twitrekey']['TWITTER_ACCESS_TOKEN']
-        TWITTER_ACCESS_TOKEN_SECRET = df['twitrekey']['TWITTER_ACCESS_TOKEN_SECRET']
-
-    '''
-        本番
-    '''
-    # TWITTER_API_KEY = os.environ["TWITTER_API_KEY"]
-    # TWITTER_API_SECRET_KEY = os.environ["TWITTER_API_SECRET_KEY"]
-    # TWITTER_ACCESS_TOKEN = os.environ["TWITTER_ACCESS_TOKEN"]
-    # TWITTER_ACCESS_TOKEN_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
-    
+        '''
+        KEY_PATH = os.path.dirname(os.path.abspath(__file__))+'/key.json'
+        with open(KEY_PATH) as f:
+            df = json.load(f)
+            TWITTER_API_KEY = df['twitrekey']['TWITTER_API_KEY']
+            TWITTER_API_SECRET_KEY = df['twitrekey']['TWITTER_API_SECRET_KEY']
+            TWITTER_ACCESS_TOKEN = df['twitrekey']['TWITTER_ACCESS_TOKEN']
+            TWITTER_ACCESS_TOKEN_SECRET = df['twitrekey']['TWITTER_ACCESS_TOKEN_SECRET']
+    else:
+        '''
+            本番
+        '''
+        TWITTER_API_KEY = os.environ["TWITTER_API_KEY"]
+        TWITTER_API_SECRET_KEY = os.environ["TWITTER_API_SECRET_KEY"]
+        TWITTER_ACCESS_TOKEN = os.environ["TWITTER_ACCESS_TOKEN"]
+        TWITTER_ACCESS_TOKEN_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
+        
     twitter = OAuth1Session(TWITTER_API_KEY, TWITTER_API_SECRET_KEY, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
     return twitter
 
@@ -239,8 +253,8 @@ def shape_twitter_trend(trends):
     unix_time = calendar.timegm(time_utc)
     time_local = time.localtime(unix_time)
     japan_time = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
-
     rec_twitter_sysid['created_at'] = japan_time
+
     rec_twitter_sysid['as_of'] = json_trends[0]['as_of']    
     # rec_twitter_sysid['delete_flag'] = ''
 
@@ -311,7 +325,7 @@ def shape_tweet_with_keyword(tweets,keyword):
         time_local = time.localtime(unix_time)
         japan_time = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
         rec_twitter_api['created_at'] = japan_time
-        
+
         # rec_twitter_api['create_time'] = ''
         rec_twitter_api['text'] = json_tweet['text']
         rec_twitter_api['trend'] = keyword # 検索キーワード
@@ -394,7 +408,8 @@ def job_save_tweet():
 
 
 def schedule_execute():
-    schedule.every(SCHEDULE_TREND).minutes.do(job_save_trend)
+    if not g_default_trend:
+        schedule.every(SCHEDULE_TREND).minutes.do(job_save_trend)
     schedule.every(SCHEDULE_TWEET).seconds.do(job_save_tweet)
     # schedule.every().hour.do(job)
     # schedule.every().day.at("10:30").do(job)
@@ -412,6 +427,12 @@ def schedule_execute():
 """
 
 if __name__ == "__main__":
-    g_keywords = save_twitter_trend()
-    save_twitter_tweet(g_keywords)
+    if not g_default_trend:
+        g_keywords = save_twitter_trend()
+        save_twitter_tweet(g_keywords)
+    else:
+        g_keywords = g_default_trend
+        save_twitter_tweet(g_keywords)
+
     schedule_execute()
+    

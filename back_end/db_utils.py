@@ -8,6 +8,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.sql import func
 import datetime
 import time
+import config
+import os
 
 """
     connection to DB
@@ -17,28 +19,33 @@ import time
 
     静的なDB情報(接続情報等)を記載してください
 """
-dbname   = 'twitredb'
-# TODO require to rewrite
-# それぞれの環境で異なる 
-# Mac OS 
-# socket   = '?unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock'
-# Windows OS
-socket   = ''
-dbname   = dbname + socket
+# 環境情報読み込み
+app_config = config.DevelopmentConfig
+# app_config = config.ProductionConfig
 
-# DATABASE = 'mysql+pymysql://%s:%s@%s/%s?charset=utf8' % (
-#     "root",
-#     "",
-#     "localhost",
-#     dbname,
-# )
-# DATABASE = 'postgresql+psycopg2://%s:%s@%s/%s?charset=utf8' % (
-DATABASE = 'postgresql+psycopg2://%s:%s@%s/%s' % (
-    "postgres",
-    "postgres",
-    "localhost",
-    dbname,
-)
+# Database定義
+if not app_config.PRODUCTION :
+    dbname   = 'twitredb'
+    # それぞれの環境で異なる 
+    # Mac OS 
+    # socket   = '?unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock'
+    # Windows OS
+    socket   = ''
+    dbname   = dbname + socket
+    DATABASE = 'postgresql+psycopg2://%s:%s@%s/%s' % (
+        "postgres",
+        "postgres",
+        "localhost",
+        dbname,
+    )
+else:
+    DATABASE = 'postgresql+psycopg2://%s:%s@%s/%s' % (
+        os.environ["DB_USER"],
+        os.environ["DB_PASSWORD"],
+        os.environ["DB_HOST"],
+        os.environ["DB_NAME"],
+    )
+
 ENGINE = create_engine(
     DATABASE,
     encoding="utf-8",
