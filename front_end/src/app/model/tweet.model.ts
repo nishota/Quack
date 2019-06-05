@@ -1,11 +1,13 @@
-export class TweetData {
+export class Tweet {
     private tweetId: string;
     private user: string;
     private date: Date; // string型でもいいかも?
     private text: string;
 
     // コンストラクタでのみ値を設定する
-    constructor(tweetId: string, user: string, date: Date, text: string) {
+    constructor(
+        tweetId: string, user: string,
+        date: Date, text: string) {
         this.tweetId = tweetId;
         this.user = user;
         this.date = date;

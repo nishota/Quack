@@ -1,4 +1,5 @@
-.vscode/*
+
+setting.json
 
 #env file
 .python-version

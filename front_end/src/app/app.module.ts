@@ -1,35 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { DisplayTweetCardComponent } from './display-tweet-card/display-tweet-card.component';
 import { TweetCardComponent } from './tweet-card/tweet-card.component';
-import { AngularMaterialModule } from './modules/angular-material.module';
-import { MatCardModule } from '@angular/material/card';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { DisplayCardComponent } from './display-card/display-card.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatToolbarModule, MatCardModule } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
+    DisplayTweetCardComponent,
     TweetCardComponent,
-    DisplayCardComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AngularMaterialModule,
-    MatCardModule,
     HttpClientModule,
-    NgbModule,
+    MatCardModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatToolbarModule,
   ],
   providers: [],
   entryComponents: [
-    DisplayCardComponent
   ],
   bootstrap: [AppComponent]
 })
