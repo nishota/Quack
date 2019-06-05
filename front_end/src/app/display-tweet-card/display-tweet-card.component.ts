@@ -19,7 +19,11 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
     // tweetを格納
     this.subscriptions.push(
       this.tg.content$.subscribe(
-        tweet => this.tweets.push(tweet)
+        tweet => {
+          if (this.tweets.length < 30) {
+            this.tweets.push(tweet);
+          }
+        }
       )
     );
 
@@ -44,7 +48,7 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
     setInterval(
       () => {
         this.tg.getTweetData();
-      }, 5000
+      }, 6000
     );
   }
 

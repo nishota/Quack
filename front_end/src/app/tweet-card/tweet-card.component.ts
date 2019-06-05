@@ -50,7 +50,10 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
       duration: this.time,
       delay: Math.random() * (this.time / 2),
       begin: () => this.display = 'block',
-      complete: () => this.display = 'none'
+      complete: () => {
+        this.display = 'none';
+        this.tg.dismissSource.next(this.text);
+      }
     };
     anime(this.setting);
   }
