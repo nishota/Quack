@@ -50,8 +50,6 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
       targets: '.' + this.id,
       translateX: [this.state.coordBefore.x, this.state.coord.x],
       translateY: [this.state.coordBefore.y, this.state.coord.y],
-      scale: this.state.scale,
-      opacity: 0.75,
       easing: 'linear',
       duration: this.time,
       delay: this.index * 800,
@@ -63,5 +61,4 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
     };
     anime(this.setting);
   }
-
 }

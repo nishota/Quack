@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { TweetGeneratorService } from '../tweet-generator.service';
-import { Subscription } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { Tweet } from '../model/tweet.model';
 
 @Component({
@@ -12,6 +12,11 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
   tweets: Tweet[] = [];
 
   subscriptions: Subscription[] = [];
+
+  interval;
+
+  windowForcus$ = fromEvent(window, 'focus');
+  windowBlur$ = fromEvent(window, 'blur');
 
   constructor(private tg: TweetGeneratorService) { }
 
@@ -31,7 +36,6 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
     this.subscriptions.push(
       this.tg.dismiss$.subscribe(
         value => {
-          console.log(value);
           const index = this.tweets.findIndex(
             tw => tw === value
           );
@@ -45,11 +49,24 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
 
   ngAfterViewInit(): void {
     this.tg.getTweetData();
-    setInterval(
+    this.subscriptions.push(
+      this.windowForcus$.subscribe(
       () => {
-        this.tg.getTweetData();
-      }, 6000
-    );
+        this.interval = setInterval(
+          () => {
+            this.tg.getTweetData();
+          }, 6000
+        );
+      }
+    ));
+
+    this.subscriptions.push(
+      this.windowBlur$.subscribe(
+      () => {
+        clearInterval(this.interval);
+        console.log('!!!stop!!!');
+      }
+    ));
   }
 
   ngOnDestroy(): void {
