@@ -8,6 +8,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class TweetGeneratorService {
+  count = 0;
+  seqCount = 0;
+
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
 
@@ -35,10 +38,13 @@ export class TweetGeneratorService {
                 tweet.id_str,
                 tweet.screen_name,
                 createdTime,
-                tweet.text
+                tweet.text,
+                this.count
               ));
+            this.count++;
           }
         );
+        this.seqCount++;
       }
     );
   }

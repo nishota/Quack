@@ -14,6 +14,7 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
   @Input() text: Tweet;
   display = 'none';
   zIndex: string;
+  seqCount: number;
 
   id: string;
   className: string;
@@ -23,10 +24,11 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
   time = 10000;
   setting;
 
+  index;
 
   constructor(
     private tg: TweetGeneratorService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -36,7 +38,11 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
     this.zIndex = tweetNum;
 
     this.userPage = environment.twitterUrl + this.text.User;
-    this.state.setCoordLikeNico();
+    // const height = window.innerHeight;
+    const indexHeight = Math.round(window.innerHeight / 100);
+    this.index = this.text.id % indexHeight;
+    const width = window.innerWidth + 400; // カードの大きさ
+    this.state.setCoordLikeNico(width, null, this.index);
   }
 
   ngAfterViewInit(): void {
@@ -48,7 +54,7 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
       opacity: 0.75,
       easing: 'linear',
       duration: this.time,
-      delay: Math.random() * (this.time / 2),
+      delay: this.index * 800,
       begin: () => this.display = 'block',
       complete: () => {
         this.display = 'none';
