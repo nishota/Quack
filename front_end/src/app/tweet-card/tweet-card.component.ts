@@ -42,7 +42,7 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
     const indexHeight = Math.round(window.innerHeight / 100);
     this.index = this.text.id % indexHeight;
     const width = window.innerWidth + 400; // カードの大きさ
-    this.state.setCoordLikeNico(width, null, this.index);
+    this.state.setCoordLikeNico(width, this.index);
   }
 
   ngAfterViewInit(): void {

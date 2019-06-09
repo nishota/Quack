@@ -55,7 +55,7 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
         this.interval = setInterval(
           () => {
             this.tg.getTweetData();
-          }, 6000
+          }, 5500
         );
       }
     ));
