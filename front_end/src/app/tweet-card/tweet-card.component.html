@@ -1,11 +1,11 @@
-<div [class]="animeSetting.className" [id]="animeSetting.id"
+<div [class]="className" [id]="id"
 [ngStyle]="{'display': display,'z-index':zIndex}">
-  <mat-card class="tweet-card" (click)="onClick()">
+  <mat-card class="tweet-card">
     <mat-card-content>
       <div class="container">
         <div class="text">
           <p>
-            {{tweet.Text}}
+            {{text.Text}}
           </p>
         </div>
       </div>
@@ -13,14 +13,12 @@
         <ul>
           <li class="user-name">
             <a [href]="userPage" target="_blank">
-              @{{tweet.User}}
+              @{{text.User}}
             </a>
           </li>
-          <li class="date">date: {{tweet.Date}}</li>
+          <li class="date">date: {{text.Date}}</li>
         </ul>
       </div>
     </mat-card-content>
   </mat-card>
 </div>
-
-

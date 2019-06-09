@@ -1,62 +1,61 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { TwitterService } from '../service/twitter.service';
-import { TweetData } from '../model/tweet.model';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Tweet } from '../model/tweet.model';
+import { environment } from '../../environments/environment';
+import { StateStraight } from '../model/state-straight.model';
 import * as anime from 'animejs';
-import { Card } from '../model/card.model';
-import { environment } from 'src/environments/environment';
-import { DisplayService } from '../service/display.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DisplayCardComponent } from '../display-card/display-card.component';
-import { AnimeMode, AnimeSetting } from '../model/anime-setting.model';
+import { TweetGeneratorService } from '../tweet-generator.service';
 
 @Component({
   selector: 'app-tweet-card',
   templateUrl: './tweet-card.component.html',
-  styleUrls: ['./tweet-card.component.css'],
+  styleUrls: ['./tweet-card.component.css']
 })
-export class TweetCardComponent implements OnInit {
-  @Input() tweet: TweetData;
-  card = new Card();
-  animeSetting: AnimeSetting;
+export class TweetCardComponent implements OnInit, AfterViewInit {
+  @Input() text: Tweet;
   display = 'none';
+  zIndex: string;
 
-  interval;
+  id: string;
+  className: string;
+  userPage: string;
 
-  private TIME = 10000;
+  state = new StateStraight();
+  time = 10000;
+  setting;
 
 
-  constructor(private ds: DisplayService, private modal: NgbModal) {
-    this.card.init();
+  constructor(
+    private tg: TweetGeneratorService
+    ) {
   }
 
   ngOnInit() {
-    if (this.tweet) {
-      this.animeSetting = new AnimeSetting(this.card, this.tweet, this.TIME);
-      this.start();
-    }
+    const tweetNum = this.text.TweetId.slice(-5);
+    this.id = 'target' + tweetNum;
+    this.className = 'center target' + tweetNum;
+    this.zIndex = tweetNum;
+
+    this.userPage = environment.twitterUrl + this.text.User;
+    this.state.setCoordLikeNico();
   }
 
-  start() {
-    this.interval = setInterval(() => {
-      const setting = this.animeSetting.set(AnimeMode.straight) as anime.AnimeAnimParams;
-      anime(setting);
-      this.display = 'block';
-    }, this.TIME * 3 / 2);
+  ngAfterViewInit(): void {
+    this.setting = {
+      targets: '.' + this.id,
+      translateX: [this.state.coordBefore.x, this.state.coord.x],
+      translateY: [this.state.coordBefore.y, this.state.coord.y],
+      scale: this.state.scale,
+      opacity: 0.75,
+      easing: 'linear',
+      duration: this.time,
+      delay: Math.random() * (this.time / 2),
+      begin: () => this.display = 'block',
+      complete: () => {
+        this.display = 'none';
+        this.tg.dismissSource.next(this.text);
+      }
+    };
+    anime(this.setting);
   }
 
-  stop() {
-    this.card.setCoord(0, 0);
-    this.card.setScale(0);
-    this.card.setOpacity(0);
-    clearInterval(this.interval);
-  }
-
-  onClick() {
-    this.ds.Tweet = this.tweet;
-    const modalRef = this.modal.open(
-      DisplayCardComponent,
-      { size: 'lg', backdrop: 'static', centered: true, windowClass: 'display-card' }
-    );
-    modalRef.componentInstance.tweet = this.tweet;
-  }
 }

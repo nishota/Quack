@@ -27,7 +27,7 @@ li .date{
 .container .text {
     flex: 1;
 }
-.text  p{
+.text p{
     word-break: break-all;
     width: 400px;   
     width:100%;

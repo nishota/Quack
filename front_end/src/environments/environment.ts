@@ -4,10 +4,8 @@
 
 export const environment = {
   production: false,
-  twitterURL: 'https://twitter.com/',
-  tweetWithAcountUrl: 'https://payload-01.herokuapp.com/json/twitter/account',
-  tweetWithKeywordUrl: 'https://payload-01.herokuapp.com/json/twitter/keyword',
-  devUrl: 'http://127.0.0.1:5000/json/twitredb/keyword'
+  devUrl: 'https://payload-01.herokuapp.com/json/twitredb/keyword',
+  twitterUrl: 'https://twitter.com/'
 };
 
 /*

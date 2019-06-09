@@ -1,11 +1,4 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-.basic-container {
-    width: 100%;
-    height: 100%;
-    padding: 30px;
-}
-
-.textbox{
-    margin: 100px
+.toolbar {
+    color: white;
+    /* text-align-last: left; */
 }
