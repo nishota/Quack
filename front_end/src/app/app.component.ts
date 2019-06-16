@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.tg.trend$.subscribe(
-      value => this.trend = 'Trend: '+ value
+      value => this.trend = 'Trend: ' + value
     );
   }
 }
