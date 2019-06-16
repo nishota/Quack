@@ -62,7 +62,7 @@ begin
 	if record_numbers > 1000 then 
 		with delete_target as(
 			select
-				create_at
+				created_at
 			from
 				twitter_api_tbl
    			order by 
@@ -75,7 +75,7 @@ begin
 		using
 			delete_target as d_t
 		where
-			 t_a_t.create_at=d_t.create_at
+			 t_a_t.created_at=d_t.created_at
 		;
 	end if;
 	return null;
@@ -173,7 +173,7 @@ CREATE TABLE public.twitter_api_tbl (
     id bigint NOT NULL,
     id_str character varying(100) DEFAULT NULL::character varying,
     screen_name character varying(100) DEFAULT NULL::character varying,
-    created_at character varying(200) DEFAULT NULL::character varying,
+    created_at  timestamp without time zone,
     create_time timestamp without time zone,
     text character varying(1000) DEFAULT NULL::character varying,
     trend character varying(100) NOT NULL,
@@ -284,9 +284,6 @@ ALTER TABLE ONLY public.twitter_trends_tbl
     ADD CONSTRAINT twitter_trends_tbl_ibfk_1 FOREIGN KEY (sys_id) REFERENCES public.twitter_sysid_tbl(sys_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
---
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
---
 --
 -- PostgreSQL database dump complete
 --
