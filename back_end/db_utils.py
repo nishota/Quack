@@ -81,7 +81,8 @@ class TwitterApiTbl(Base):
     id = Column('id', Integer, primary_key=True)  
     id_str = Column('id_str', String(100))  
     screen_name = Column('screen_name', String(100))  
-    created_at = Column('created_at', String(100)) 
+    # created_at = Column('created_at', String(100))
+    created_at = Column('created_at', DateTime) 
     create_time = Column('create_time', DateTime) 
     text = Column('text', String(1000)) 
     trend = Column('trend', String(100)) 
@@ -99,6 +100,19 @@ class TwitterApiTbl(Base):
         else:
             return session.query(TwitterApiTbl).filter_by(delete_flag = 0).all()
 
+    
+    @classmethod
+    def get_latest(self, since_id, trend):
+        if not since_id:
+            # 最大40件
+            return session.query(TwitterApiTbl).filter(TwitterApiTbl.delete_flag == 0
+            ,TwitterApiTbl.trend == trend).order_by(TwitterApiTbl.id.desc()).limit(40).all()
+        else:
+            # 最大40件
+            return session.query(TwitterApiTbl).filter(TwitterApiTbl.delete_flag == 0
+            ,TwitterApiTbl.id > since_id,TwitterApiTbl.trend == trend).order_by(TwitterApiTbl.id.desc()).limit(40).all()
+
+
 
     @classmethod
     def get_first(self):
@@ -114,7 +128,7 @@ class TwitterApiTbl(Base):
     @classmethod
     def populate_entity(self, recs):
         entities = []
-        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         for rec in recs:
             entity = TwitterApiTbl(
                 id = rec['id'],
@@ -143,14 +157,17 @@ class TwitterApiTbl(Base):
             rec['id'] = entity.id
             rec['id_str'] = entity.id_str  
             rec['screen_name'] = entity.screen_name  
-            rec['created_at'] = entity.created_at 
-            rec['create_time'] = entity.create_time.strftime("%Y-%m-%d_%H:%M:%S")
+            # rec['created_at'] = entity.created_at
+            rec['created_at'] = entity.created_at.strftime("%Y-%m-%dT%H:%M:%S+0000") 
+            # rec['create_time'] = entity.create_time.strftime("%Y-%m-%d_%H:%M:%S")
+            rec['create_time'] = entity.create_time.strftime("%Y-%m-%dT%H:%M:%S+0000")
             rec['text'] = entity.text
             rec['trend'] = entity.trend
             rec['user_id'] = entity.user_id
             rec['user_id_str'] = entity.user_id_str 
             rec['use_name'] = entity.use_name
-            rec['sys_create_date'] = entity.sys_create_date.strftime("%Y-%m-%d_%H:%M:%S") 
+            # rec['sys_create_date'] = entity.sys_create_date.strftime("%Y-%m-%d_%H:%M:%S")
+            rec['sys_create_date'] = entity.sys_create_date.strftime("%Y-%m-%dT%H:%M:%S+0000") 
             rec['hidden_flag'] = entity.hidden_flag
             rec['delete_flag'] = entity.delete_flag
             recs.append(rec)
@@ -215,7 +232,23 @@ class TwitterTrendsTbl(Base):
             return session.query(TwitterTrendsTbl).all()
         else:
             return session.query(TwitterTrendsTbl).filter_by(delete_flag = 0).all()
+
+    @classmethod
+    def get_first(self, include_deleted = False):
+        if include_deleted:
+            return session.query(TwitterTrendsTbl).first()
+        else:
+            return session.query(TwitterTrendsTbl).filter_by(delete_flag = 0).first()
     
+    
+    @classmethod
+    def delete_all_logical(self):
+        entities = session.query(TwitterTrendsTbl).filter_by(delete_flag = 0)
+        for entity in entities:
+            entity.delete_flag = 1
+        saveEntities(entities)
+
+
     @classmethod
     def populate_entity(self, recs, sysid):
         entities = []
@@ -229,10 +262,18 @@ class TwitterTrendsTbl(Base):
             )
             entities.append(entity)
         return entities
-    
+
+
     @classmethod
-    def delete_all_logical(self):
-        entities = session.query(TwitterApiTbl).filter_by(delete_flag = 0)
+    def populate_dict(self ,entities):
+        recs= []
         for entity in entities:
-            entity.delete_flag = 1
-        saveEntities(entities)
+            rec = {}
+            rec['sys_id'] = entity.sys_id
+            rec['name'] = entity.name  
+            rec['tweet_volume'] = entity.tweet_volume  
+            rec['query'] = entity.query  
+            rec['delete_flag'] = entity.delete_flag
+            recs.append(rec)
+        return recs
+
