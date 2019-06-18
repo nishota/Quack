@@ -14,6 +14,7 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
   subscriptions: Subscription[] = [];
 
   interval;
+  intervalFlag = true;
 
   windowForcus$ = fromEvent(window, 'focus');
   windowBlur$ = fromEvent(window, 'blur');
@@ -26,7 +27,10 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
       this.tg.content$.subscribe(
         tweet => {
           if (this.tweets.length < 30) {
-            this.tweets.push(tweet);
+            setTimeout(
+              () => this.tweets.push(tweet),
+              500
+            );
           }
         }
       )
@@ -49,24 +53,32 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
 
   ngAfterViewInit(): void {
     this.tg.getTweetData();
+    this.interval = setInterval(
+      () => {
+        this.tg.getTweetData();
+      }, 5500
+    );
+
     this.subscriptions.push(
       this.windowForcus$.subscribe(
-      () => {
-        this.interval = setInterval(
-          () => {
-            this.tg.getTweetData();
-          }, 5500
-        );
-      }
-    ));
+        () => {
+          if (this.intervalFlag) {
+            this.tg.trendSource.next('--start--');
+            this.interval = setInterval(
+              () => this.tg.getTweetData(), 5500);
+            this.intervalFlag = false;
+          }
+        }
+      ));
 
     this.subscriptions.push(
       this.windowBlur$.subscribe(
-      () => {
-        clearInterval(this.interval);
-        console.log('!!!stop!!!');
-      }
-    ));
+        () => {
+          clearInterval(this.interval);
+          this.tg.trendSource.next('--stop--');
+          this.intervalFlag = true;
+        }
+      ));
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Tweet } from './model/tweet.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import * as moment from 'moment';
 
@@ -11,6 +11,7 @@ import * as moment from 'moment';
 export class TweetGeneratorService {
   count = 0;
   seqCount = 0;
+  maxId = '';
 
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
@@ -25,13 +26,14 @@ export class TweetGeneratorService {
   }
 
   getTweetData(): void {
-    this.getTweetFromServer().subscribe(
-      (res: any[]) => {
-        res.forEach(
+    this.getTweetFromServer(this.maxId).subscribe(
+      (res: any) => {
+        this.trendSource.next(res.trend);
+        this.maxId = res.maxid;
+        res.tweets.forEach(
           tweet => {
             const day = moment(tweet.created_at);
             const createdTime = new Date(day.utc().format());
-            this.trendSource.next(tweet.trend);
             this.contentSource.next(
               new Tweet(
                 tweet.id_str,
@@ -48,7 +50,8 @@ export class TweetGeneratorService {
     );
   }
 
-  getTweetFromServer(): Observable<any[]> {
-    return this.http.get<any[]>(environment.devUrl);
+  getTweetFromServer(maxId: string): Observable<any> {
+    const options = maxId ? { params: new HttpParams().set('keyword', maxId) } : {};
+    return this.http.get<any[]>(environment.devUrl, options);
   }
 }
