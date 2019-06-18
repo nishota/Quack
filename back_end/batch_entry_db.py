@@ -18,7 +18,7 @@ app_config = config.DevelopmentConfig
 
 # twitter取得オプション
 KEYWORDS_MAX = 1 # キーワード数
-SCHEDULE_TREND = 6 # トレンド保存実行間隔(min)
+SCHEDULE_TREND = 7 # トレンド保存実行間隔(min)
 SCHEDULE_TWEET = 5 # ツイート保存実行間隔(second)
 
 # グローバル変数
@@ -26,7 +26,7 @@ g_keywords = [] # キーワードリスト
 g_since_id = 0
 
 # defaultトレンド
-# 当変数が値有の場合、twitter apiによるトレンド取得を行わず、当変数値にて
+# default値有の場合、twitter apiによるトレンド取得を行わず、defalut値にて
 # ツイート検索を行います。
 try:
     g_default_trend = [os.environ["DEFAULT_TREND"]]
@@ -50,18 +50,30 @@ def save_twitter_trend():
         トレンド上位のキーワードリスト
 
     """
-    # トレンド取得
-    trends = fetch_twitter_trend()
+    if not g_default_trend:
+        # トレンド自動取得モード
+        # トレンド取得
+        trends = fetch_twitter_trend()
+        # トレンド取得結果整形
+        rec_twitter_sysid, recs_twitter_trends = shape_twitter_trend(trends)
+    else:
+        # トレンド手動設定モード
+        rec_twitter_sysid, recs_twitter_trends = shape_default_trend([g_default_trend])
 
-    # トレンド取得結果整形
-    rec_twitter_sysid, recs_twitter_trends = shape_twitter_trend(trends)
 
     # DB保存(トレンド取得結果)
     # twitter_sysid_tbl
     entities_twitter_sysid_Tbl = db_utils.TwitterSysidTbl.populate_entity([rec_twitter_sysid])
     db_utils.saveEntities(entities_twitter_sysid_Tbl)
+
+    # 重複防止方式変更
+    # ツイート前回以前全論理削除方式から、since_id方式に変更
     # twitter_trends_tbl
-    entitiesTwitterTrendsTbl = db_utils.TwitterTrendsTbl.populate_entity(recs_twitter_trends, entities_twitter_sysid_Tbl[0].sys_id)
+    # entitiesTwitterTrendsTbl = db_utils.TwitterTrendsTbl.populate_entity(recs_twitter_trends, entities_twitter_sysid_Tbl[0].sys_id)
+    # DB保存前処理
+    db_utils.TwitterTrendsTbl.delete_all_logical()
+    # DB保存
+    entitiesTwitterTrendsTbl = db_utils.TwitterTrendsTbl.populate_entity([recs_twitter_trends[0]], entities_twitter_sysid_Tbl[0].sys_id)
     db_utils.saveEntities(entitiesTwitterTrendsTbl)
 
     # 検索キーワード決定 
@@ -90,8 +102,10 @@ def save_twitter_tweet(keywords):
     for tweets,keyword in tweets_keyword_list:
         recs_twitter_api.extend(shape_tweet_with_keyword(tweets, keyword))
 
+    # 重複防止方式変更
+    # ツイート前回以前全論理削除方式から、since_id方式に変更
     # DB保存前処理
-    db_utils.TwitterApiTbl.delete_all_logical()
+    # db_utils.TwitterApiTbl.delete_all_logical()
 
     # DB保存(検索結果)
     db_utils.saveEntities(db_utils.TwitterApiTbl.populate_entity(recs_twitter_api))
@@ -193,7 +207,7 @@ def fetch_tweet_with_keyword(keyword):
     g_since_id = db_utils.TwitterApiTbl.get_max_id()  
 
     # 取得するツイートの最古時刻を計算
-    now = datetime.datetime.now()
+    now = datetime.datetime.utcnow()
     sinceTime = now - datetime.timedelta(seconds=60)    
 
     # queryチューニング前
@@ -204,7 +218,7 @@ def fetch_tweet_with_keyword(keyword):
     #     'since_id'    : g_since_id        # since_idから取得 
     # }
     # queryチューニング後
-    query = keyword + ' exclude:retweets' + ' exclude:replies' + ' lang:ja' + ' since:' + sinceTime.strftime("%Y-%m-%d_%H:%M:%S_JST")
+    query = keyword + ' exclude:retweets' + ' exclude:replies' + ' lang:ja' + ' since:' + sinceTime.strftime("%Y-%m-%d_%H:%M:%S_UTC")
     params = {
         'count'       : 100,              # 取得するtweet数
         'q'           : query,             # 検索クエリ
@@ -238,7 +252,7 @@ def shape_twitter_trend(trends):
     rec_twitter_sysid :
         twitter_sysid_tblに保存する単一レコード(辞書型)
     recs_twitter_trends_sorted :
-        twitter_trends_tblに保存する複数レコード(tweet_volumuで降順ソートされたリスト)
+        twitter_trends_tblに保存する複数レコード(リスト)
     """
     json_trends = json.loads(trends.text)
 
@@ -248,12 +262,12 @@ def shape_twitter_trend(trends):
     rec_twitter_sysid = {}
     # rec_twitter_sysid['sys_id'] = ''
 
-    # 日本時間に修正
+    # サーバローカル時刻に修正
     time_utc = time.strptime(json_trends[0]['created_at'], '%Y-%m-%dT%H:%M:%SZ')
-    unix_time = calendar.timegm(time_utc)
-    time_local = time.localtime(unix_time)
-    japan_time = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
-    rec_twitter_sysid['created_at'] = japan_time
+    # unix_time = calendar.timegm(time_utc)
+    # time_local = time.localtime(unix_time)
+    time_utc_str = time.strftime("%Y-%m-%d %H:%M:%S", time_utc)
+    rec_twitter_sysid['created_at'] = time_utc_str
 
     rec_twitter_sysid['as_of'] = json_trends[0]['as_of']    
     # rec_twitter_sysid['delete_flag'] = ''
@@ -267,8 +281,8 @@ def shape_twitter_trend(trends):
     recs_twitter_trends_sorted = []
     for json_trend in json_trends[0]['trends']:
         # twitterハッシュタグのみ取り扱う場合はコメントアウト解除
-        # if not trend['name'].startswith('#'):
-        #     continue
+        if not json_trend['name'].startswith('#'):
+            continue
 
         rec_twitter_trends = {}
         # rec_twitter_trends['sys_id'] = ''
@@ -288,6 +302,53 @@ def shape_twitter_trend(trends):
     # ソート(tweet_volumeの降順　nullは末尾)
     # recs_twitter_trends_sorted = sorted(recs_twitter_trends_exist, key=lambda x:x['tweet_volume'], reverse = True)
     # recs_twitter_trends_sorted.extend(recs_twitter_trends_none)
+
+    return rec_twitter_sysid, recs_twitter_trends_sorted
+
+
+def shape_default_trend(trends):
+    """トレンドをdb保存用に整形する
+    
+    Parameters
+    ----------
+    trends :
+        トレンドワード群
+
+    Returns
+    -------
+    rec_twitter_sysid :
+        twitter_sysid_tblに保存する単一レコード(辞書型)
+    recs_twitter_trends_sorted :
+        twitter_trends_tblに保存する複数レコード(tweet_volumuで降順ソートされたリスト)
+    """
+
+    '''
+        twitter_sysid_tbl
+    '''
+    rec_twitter_sysid = {}
+
+    # 現在時刻設定(UTC)
+    now = datetime.datetime.utcnow()
+    time_local_str = now.strftime("%Y-%m-%d %H:%M:%S")
+    rec_twitter_sysid['created_at'] = time_local_str
+
+    rec_twitter_sysid['as_of'] = ''    
+    # rec_twitter_sysid['delete_flag'] = ''
+
+    '''
+        twitter_trends_tbl
+    '''
+    recs_twitter_trends_sorted = []
+    for trend in trends:
+        rec_twitter_trends = {}
+        # rec_twitter_trends['sys_id'] = ''
+        rec_twitter_trends['tweet_volume'] = None
+        rec_twitter_trends['name'] = trend
+        rec_twitter_trends['query'] = ''
+        # rec_twitter_trends['delete_flag'] = ''
+
+        # 人気キーワード判定仕様検討
+        recs_twitter_trends_sorted.append(rec_twitter_trends)
 
     return rec_twitter_sysid, recs_twitter_trends_sorted
 
@@ -319,15 +380,22 @@ def shape_tweet_with_keyword(tweets,keyword):
         rec_twitter_api['id_str'] = json_tweet['id_str']
         rec_twitter_api['screen_name'] = json_tweet['user']['screen_name']
 
-        # 日本時間に修正
+        # 現在時刻設定(UTC)
         time_utc = time.strptime(json_tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-        unix_time = calendar.timegm(time_utc)
-        time_local = time.localtime(unix_time)
-        japan_time = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
-        rec_twitter_api['created_at'] = japan_time
+        # unix_time = calendar.timegm(time_utc)
+        # time_local = time.localtime(unix_time)
+        time_utc_str = time.strftime("%Y-%m-%d %H:%M:%S", time_utc)
+        rec_twitter_api['created_at'] = time_utc_str
 
         # rec_twitter_api['create_time'] = ''
-        rec_twitter_api['text'] = json_tweet['text']
+
+        # 最大文字数60以上を切り捨て
+        text = json_tweet['text']
+        if len(text) <= 60:
+            rec_twitter_api['text'] = text
+        else: 
+            rec_twitter_api['text'] = text[:59] + '...'
+
         rec_twitter_api['trend'] = keyword # 検索キーワード
         rec_twitter_api['user_id'] = json_tweet['user']['id']
         rec_twitter_api['user_id_str'] = json_tweet['user']['id_str']
@@ -349,6 +417,7 @@ def shape_tweet_with_keyword(tweets,keyword):
     others
 
 """
+
 
 def get_trend_word_from_above(trends,keywords_max):
     """トレンドのリストから、最大[keywords_max]アイテムのトレンドワードを取得
@@ -388,7 +457,7 @@ def job_save_trend():
 
     """
     print("job_save_trend is working...")
-    print(datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S_JST"))
+    print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
     g_keywords = save_twitter_trend()
 
 
@@ -403,7 +472,7 @@ def job_save_tweet():
 
     """
     print("job_save_tweet is working...")
-    print(datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S_JST"))
+    print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
     save_twitter_tweet(g_keywords)
 
 
@@ -427,12 +496,9 @@ def schedule_execute():
 """
 
 if __name__ == "__main__":
-    if not g_default_trend:
-        g_keywords = save_twitter_trend()
-        save_twitter_tweet(g_keywords)
-    else:
-        g_keywords = g_default_trend
-        save_twitter_tweet(g_keywords)
+    g_keywords = save_twitter_trend()
+    save_twitter_tweet(g_keywords)
+    
 
     schedule_execute()
     

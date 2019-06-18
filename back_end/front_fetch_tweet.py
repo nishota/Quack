@@ -28,14 +28,41 @@ def output_test():
 
 @app.route('/json/twitredb/keyword', methods=['GET'])
 def output_twitredb_tweet_get():
-    recs = get_twitredb()
-    return make_response(jsonify(recs))
+    # リクエストパラメタ取得
+    max_id = req.args.get('maxid')
+
+    # ツイートDB取得
+    recs, latest_trend, latest_max_id = get_twitredb(max_id)
+
+    # json整形
+    json_res = {}
+    json_res['trend'] = latest_trend
+    json_res['maxid'] = latest_max_id
+    # 古い順に並び替え
+    recs_reversed = [rec for rec in reversed(recs)]
+    json_res['tweets'] = recs_reversed 
+    return make_response(jsonify(json_res))
 
 
-def get_twitredb():
+def get_twitredb(since_id):
+    # トレンド取得
+    trend_entity = db_utils.TwitterTrendsTbl.get_first()
+    trend_keyword = db_utils.TwitterTrendsTbl.populate_dict([trend_entity])[0]['name']
+
     # 非削除状態のデータを全件取得
-    entities = db_utils.TwitterApiTbl.get_all()
-    return(db_utils.TwitterApiTbl.populate_dict(entities))
+    # 重複防止方式変更
+    # ツイート前回以前全論理削除方式から、since_id方式に変更
+    # entities = db_utils.TwitterApiTbl.get_all()
+    entities = db_utils.TwitterApiTbl.get_latest(since_id, trend_keyword)
+    tweets = db_utils.TwitterApiTbl.populate_dict(entities)
+    # maxidの設定
+    if not entities:
+        max_id = since_id
+    else:
+        # DB取得時にorder by id descを指定しているため、0番目要素のidが最大となる
+        max_id = tweets[0]['id']
+    
+    return(db_utils.TwitterApiTbl.populate_dict(entities) , trend_keyword, max_id)
 
 
 """
