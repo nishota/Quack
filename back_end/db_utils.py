@@ -102,15 +102,15 @@ class TwitterApiTbl(Base):
 
     
     @classmethod
-    def get_latest(self, since_id, trend):
+    def get_latest(self, since_id, trend, fetch_count):
+        if not fetch_count:
+            fetch_count = 20
         if not since_id:
-            # 最大40件
             return session.query(TwitterApiTbl).filter(TwitterApiTbl.delete_flag == 0
-            ,TwitterApiTbl.trend == trend).order_by(TwitterApiTbl.id.desc()).limit(40).all()
+            ,TwitterApiTbl.trend == trend).order_by(TwitterApiTbl.id.desc()).limit(fetch_count).all()
         else:
-            # 最大40件
             return session.query(TwitterApiTbl).filter(TwitterApiTbl.delete_flag == 0
-            ,TwitterApiTbl.id > since_id,TwitterApiTbl.trend == trend).order_by(TwitterApiTbl.id.desc()).limit(40).all()
+            ,TwitterApiTbl.id > since_id,TwitterApiTbl.trend == trend).order_by(TwitterApiTbl.id.desc()).limit(fetch_count).all()
 
 
 
