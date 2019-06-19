@@ -37,7 +37,7 @@ def output_twitredb_tweet_get():
     # json整形
     json_res = {}
     json_res['trend'] = latest_trend
-    json_res['maxid'] = latest_max_id
+    json_res['maxid'] = str(latest_max_id)
     # 古い順に並び替え
     recs_reversed = [rec for rec in reversed(recs)]
     json_res['tweets'] = recs_reversed 
