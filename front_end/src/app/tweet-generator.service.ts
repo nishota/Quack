@@ -30,28 +30,33 @@ export class TweetGeneratorService {
       (res: any) => {
         this.trendSource.next(res.trend);
         this.maxId = res.maxid;
-        res.tweets.forEach(
-          tweet => {
-            const day = moment(tweet.created_at);
-            const createdTime = new Date(day.utc().format());
-            this.contentSource.next(
-              new Tweet(
-                tweet.id_str,
-                tweet.screen_name,
-                createdTime,
-                tweet.text,
-                this.count
-              ));
-            this.count++;
-          }
-        );
+        console.log(this.maxId);
+        if (res.tweets && res.tweets.length > 0) {
+          res.tweets.forEach(
+            tweet => {
+              const day = moment(tweet.created_at);
+              const createdTime = new Date(day.utc().format());
+              this.contentSource.next(
+                new Tweet(
+                  tweet.id_str,
+                  tweet.screen_name,
+                  createdTime,
+                  tweet.text,
+                  this.count
+                ));
+              this.count++;
+            }
+          );
+        }
+
+
         this.seqCount++;
       }
     );
   }
 
   getTweetFromServer(maxId: string): Observable<any> {
-    const options = maxId ? { params: new HttpParams().set('keyword', maxId) } : {};
+    const options = maxId ? { params: new HttpParams().set('maxid', maxId) } : {};
     return this.http.get<any[]>(environment.devUrl, options);
   }
 }

@@ -27,10 +27,8 @@ export class DisplayTweetCardComponent implements OnInit, AfterViewInit, OnDestr
       this.tg.content$.subscribe(
         tweet => {
           if (this.tweets.length < 30) {
-            setTimeout(
-              () => this.tweets.push(tweet),
-              500
-            );
+            this.tweets.push(tweet);
+            console.log(tweet);
           }
         }
       )
