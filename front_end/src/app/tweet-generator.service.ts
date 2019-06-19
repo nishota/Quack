@@ -12,6 +12,7 @@ export class TweetGeneratorService {
   count = 0;
   seqCount = 0;
   maxId = '';
+  indexHeight = 10;
 
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
@@ -26,10 +27,11 @@ export class TweetGeneratorService {
   }
 
   getTweetData(): void {
-    this.getTweetFromServer(this.maxId).subscribe(
-      (res: any) => {
+    this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
+      (res: TweetRes) => {
         this.trendSource.next(res.trend);
         this.maxId = res.maxid;
+        console.log(res.maxid);
         console.log(this.maxId);
         if (res.tweets && res.tweets.length > 0) {
           res.tweets.forEach(
@@ -48,15 +50,22 @@ export class TweetGeneratorService {
             }
           );
         }
-
-
         this.seqCount++;
       }
     );
   }
 
-  getTweetFromServer(maxId: string): Observable<any> {
-    const options = maxId ? { params: new HttpParams().set('maxid', maxId) } : {};
+  getTweetFromServer(maxId: string, indexHeight: number): Observable<any> {
+    const options = maxId ?
+      {
+        params: new HttpParams().set('maxid', maxId).set('height', String(indexHeight))
+      } : {};
     return this.http.get<any[]>(environment.devUrl, options);
   }
+}
+
+export interface TweetRes {
+  trend: string;
+  maxid: string;
+  tweets: any[];
 }

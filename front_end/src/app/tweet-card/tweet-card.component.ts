@@ -39,9 +39,9 @@ export class TweetCardComponent implements OnInit, AfterViewInit {
 
     this.userPage = environment.twitterUrl + this.text.User;
     // const height = window.innerHeight;
-    const indexHeight = Math.round(window.innerHeight / 100);
-    this.index = this.text.id % (indexHeight - 1); // 下端カードの位置調整
-    const width = window.innerWidth + 400; // カードの大きさ
+    this.tg.indexHeight = Math.round(window.innerHeight / 100);
+    this.index = this.text.id % (this.tg.indexHeight - 1); // 下端カードの位置調整
+    const width = window.innerWidth + 410; // カードの大きさ
     this.state.setCoordLikeNico(width, this.index);
   }
 
