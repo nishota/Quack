@@ -56,10 +56,8 @@ export class TweetGeneratorService {
   }
 
   getTweetFromServer(maxId: string, indexHeight: number): Observable<any> {
-    const options = maxId ?
-      {
-        params: new HttpParams().set('maxid', maxId).set('height', String(indexHeight))
-      } : {};
+    const reqMaxId = maxId ? maxId : '';
+    const options = { params: new HttpParams().set('maxid', reqMaxId).set('count', String(indexHeight))};
     return this.http.get<any[]>(environment.devUrl, options);
   }
 }

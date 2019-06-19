@@ -1,7 +1,7 @@
 export class Tweet {
     private tweetId: string;
     private user: string;
-    private date: Date; // string型でもいいかも?
+    private date: Date;
     private text: string;
     id: number;
 
