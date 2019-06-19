@@ -30,9 +30,10 @@ def output_test():
 def output_twitredb_tweet_get():
     # リクエストパラメタ取得
     max_id = req.args.get('maxid')
+    fetch_count = req.args.get('count')    
 
     # ツイートDB取得
-    recs, latest_trend, latest_max_id = get_twitredb(max_id)
+    recs, latest_trend, latest_max_id = get_twitredb(max_id, fetch_count)
 
     # json整形
     json_res = {}
@@ -44,7 +45,7 @@ def output_twitredb_tweet_get():
     return make_response(jsonify(json_res))
 
 
-def get_twitredb(since_id):
+def get_twitredb(since_id, fetch_count):
     # トレンド取得
     trend_entity = db_utils.TwitterTrendsTbl.get_first()
     trend_keyword = db_utils.TwitterTrendsTbl.populate_dict([trend_entity])[0]['name']
@@ -53,7 +54,7 @@ def get_twitredb(since_id):
     # 重複防止方式変更
     # ツイート前回以前全論理削除方式から、since_id方式に変更
     # entities = db_utils.TwitterApiTbl.get_all()
-    entities = db_utils.TwitterApiTbl.get_latest(since_id, trend_keyword)
+    entities = db_utils.TwitterApiTbl.get_latest(since_id, trend_keyword, fetch_count)
     tweets = db_utils.TwitterApiTbl.populate_dict(entities)
     # maxidの設定
     if not entities:
