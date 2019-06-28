@@ -1,19 +1,17 @@
 export class Tweet {
     private tweetId: string;
     private user: string;
-    private date: Date;
+    private date: string;
     private text: string;
-    id: number;
 
     // コンストラクタでのみ値を設定する
     constructor(
         tweetId: string, user: string,
-        date: Date, text: string, id: number) {
+        date: string, text: string) {
         this.tweetId = tweetId;
         this.user = user;
         this.date = date;
         this.text = text;
-        this.id = id;
     }
 
     get TweetId(): string {
@@ -25,10 +23,15 @@ export class Tweet {
     }
 
     get Date(): string {
-        return this.date.toLocaleString('ja-JP');
+        return this.date;
     }
-
     get Text(): string {
         return this.text;
     }
+}
+
+export interface TweetRes {
+    trend: string;
+    maxid: string;
+    tweets: any[];
 }

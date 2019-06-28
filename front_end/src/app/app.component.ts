@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { TweetGeneratorService } from './tweet-generator.service';
+import { TweetGetterService } from './tweet-getter.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  trend = 'Loading now';
+export class AppComponent implements OnInit{
 
-  constructor(private tg: TweetGeneratorService) {
-
+  trend: string;
+  constructor(private tg:TweetGetterService){
   }
-
   ngOnInit(): void {
     this.tg.trend$.subscribe(
       value => this.trend = value
