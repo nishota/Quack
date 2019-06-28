@@ -44,18 +44,12 @@ export class DisplayComponent implements OnInit, AfterViewInit {
 
     this.subscriptions.push(
       this.windowForcus$.subscribe(
-        () => {
-          this.interval = setInterval(() => this.tg.getTweetData(), 5500);
-          console.log('start');
-        }
+        () => this.interval = setInterval(() => this.tg.getTweetData(), 5500)
       ));
 
     this.subscriptions.push(
       this.windowBlur$.subscribe(
-        () => {
-          clearInterval(this.interval);
-          console.log('stop');
-        }
+        () => clearInterval(this.interval)
       ));
   }
 
@@ -64,7 +58,7 @@ export class DisplayComponent implements OnInit, AfterViewInit {
     this.interval = setInterval(
       () => {
         this.tg.getTweetData();
-      }, 5500
+      }, 3000
     );
   }
 
