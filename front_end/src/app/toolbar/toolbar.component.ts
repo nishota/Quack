@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TweetGetterService } from '../tweet-getter.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  trend: string;
+  constructor(private tg:TweetGetterService){
   }
-
+  ngOnInit(): void {
+    this.tg.trend$.subscribe(
+      value => this.trend = value
+    );
+  }
 }
