@@ -29,10 +29,9 @@ g_since_id = 0
 # default値有の場合、twitter apiによるトレンド取得を行わず、defalut値にて
 # ツイート検索を行います。
 try:
-    g_default_trend = [os.environ["DEFAULT_TREND"]]
+    g_default_trend = os.environ["DEFAULT_TREND"]
 except Exception as identifier:
     g_default_trend = ''
-
 
 """
     save db
