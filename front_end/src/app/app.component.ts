@@ -6,10 +6,11 @@ import { TweetGetterService } from './tweet-getter.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   trend: string;
-  constructor(private tg:TweetGetterService){
+
+  constructor(private tg: TweetGetterService) {
   }
   ngOnInit(): void {
     this.tg.trend$.subscribe(

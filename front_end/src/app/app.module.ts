@@ -6,12 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TweetCardComponent } from './tweet-card/tweet-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule, MatToolbarModule } from '@angular/material';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DisplayComponent,
-    TweetCardComponent
+    TweetCardComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

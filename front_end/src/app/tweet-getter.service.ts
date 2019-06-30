@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, fromEvent, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Tweet, TweetRes } from './model/tweet.model';
+
 import * as moment from 'moment';
 
-import { Tweet, TweetRes } from './model/tweet.model';
-import { StateStraight } from './model/card-state.model';
-import * as anime from 'animejs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +16,22 @@ export class TweetGetterService {
    * ツイートIDの最大値
    */
   maxId = '';
+  maxIdNum: number;
   /**
    * 縦に何枚表示するか
    */
   indexHeight = 5;
 
   count = 0;
-  CARD_NUM = 50;
-
-  animeSetting;
-  state = new StateStraight();
+  CARD_NUM = 30;
 
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
+
+  isLoading = true;
+  Loaded = false;
+  isLoadingSource = new Subject<boolean>();
+  isLoading$ = this.isLoadingSource.asObservable();
 
   contentSource = new Subject<{ id: number, tweet: Tweet }>();
   content$ = this.contentSource.asObservable();
@@ -37,11 +39,16 @@ export class TweetGetterService {
   dismissSource = new Subject<{ id: number, tweet: Tweet }>();
   dismiss$ = this.dismissSource.asObservable();
 
+  windowForcus$ = fromEvent(window, 'focus');
+  windowBlur$ = fromEvent(window, 'blur');
+
+  getTweetSubscription: Subscription;
+
   constructor(private http: HttpClient) {
   }
 
   getTweetData(): void {
-    this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
+    this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
       (res: TweetRes) => {
         this.trendSource.next(res.trend);
         this.maxId = res.maxid;
@@ -60,10 +67,10 @@ export class TweetGetterService {
                 )
               });
               this.count++;
-            }
-          );
+            });
         }
-      }
+      },
+      () => this.isLoadingSource.next(false)
     );
   }
 
@@ -76,26 +83,6 @@ export class TweetGetterService {
     const reqMaxId = maxId ? maxId : '';
     const options = { params: new HttpParams().set('maxid', reqMaxId).set('count', String(indexHeight)) };
     return this.http.get<any[]>(environment.devUrl, options);
-  }
-
-  startAnime(data: { id: number, tweet: Tweet, display: string }) {
-    const width = window.innerWidth + 1500;
-    this.indexHeight = Math.round(window.innerHeight / 100);
-    this.state.setCoordLikeNico(width, data.id % this.indexHeight);
-    this.animeSetting = {
-      targets: '#target' + String(data.id),
-      translateX: [this.state.coordBefore.x, this.state.coord.x],
-      translateY: [this.state.coordBefore.y, this.state.coord.y],
-      easing: 'linear',
-      duration: 25000,
-      delay: (data.id % this.indexHeight) * 800,
-      begin: () => data.display = 'block',
-      complete: () => {
-        data.display = 'none';
-        this.dismissSource.next(data);
-      }
-    };
-    anime(this.animeSetting);
   }
 
   setDateString(date: Date): string {
