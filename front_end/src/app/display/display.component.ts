@@ -12,10 +12,12 @@ import { StateStraight } from '../model/card-state.model';
 })
 export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  interval: Subscription;
+  intervalTweet: Subscription;
+  intervalAnime: Subscription;
   intervalTime = 2500; // ms
 
   tweetDatas: { id: number, tweet: Tweet, display: 'none' }[] = [];
+  adData = { id: 20, ad: null, display: 'none' };
   subscriptions: Subscription[] = [];
   initTweet = new Tweet('', '', '', '');
   isLoading = true;
@@ -51,8 +53,10 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
         () => {
           this.tweetDatas.forEach(td => td.display = 'none');
           this.tg.isLoadingSource.next(false);
-          this.interval = interval(this.intervalTime).subscribe(
-            () => this.tg.getTweetData()
+          this.intervalTweet = interval(this.intervalTime).subscribe(
+            () => {
+              this.tg.getTweetData();
+            }
           );
         }
       ));
@@ -60,7 +64,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.push(
       this.tg.windowBlur$.subscribe(
         () => {
-          this.interval.unsubscribe();
+          this.intervalTweet.unsubscribe();
           this.tg.getTweetSubscription.unsubscribe();
           this.tg.isLoadingSource.next(true);
         }
@@ -76,7 +80,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.interval = interval(this.intervalTime).subscribe(
+    this.intervalTweet = interval(this.intervalTime).subscribe(
       () => {
         this.tg.getTweetData();
         this.tg.isLoadingSource.next(false);
@@ -89,10 +93,42 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.forEach(
       subscription => subscription.unsubscribe()
     );
-    this.interval.unsubscribe();
+    this.intervalTweet.unsubscribe();
   }
 
   startAnime(data: { id: number, tweet: Tweet, display: string }) {
+    if (!this.tg.isLoading) {
+      data.display = 'block';
+    } else {
+      data.display = 'none';
+    }
+
+    // TODO あとで整理する
+    if (data.id === 20) {
+      data.display = 'none';
+      this.startAdAnime(this.adData);
+    } else {
+      const width = window.innerWidth * 2;
+      this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
+      this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
+      this.count++;
+      const animeSetting = {
+        targets: '#target' + String(data.id),
+        translateX: [this.state.coordBefore.x, this.state.coord.x],
+        translateY: [this.state.coordBefore.y, this.state.coord.y],
+        easing: 'linear',
+        duration: 20000,
+        delay: (data.id % this.tg.indexHeight) * 800,
+        complete: () => {
+          data.display = 'none';
+          this.tg.dismissSource.next(data);
+        }
+      };
+      anime(animeSetting);
+    }
+  }
+
+  startAdAnime(data: { id: number, ad: any, display: string }) {
     if (!this.tg.isLoading) {
       data.display = 'block';
     } else {
@@ -103,16 +139,11 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
     this.count++;
     const animeSetting = {
-      targets: '#target' + String(data.id),
+      targets: '#target10',
       translateX: [this.state.coordBefore.x, this.state.coord.x],
       translateY: [this.state.coordBefore.y, this.state.coord.y],
       easing: 'linear',
-      duration: 15000,
-      delay: (data.id % this.tg.indexHeight) * 800,
-      complete: () => {
-        data.display = 'none';
-        this.tg.dismissSource.next(data);
-      }
+      duration: 20000
     };
     anime(animeSetting);
   }

@@ -1,7 +1,13 @@
 <app-loading *ngIf="isLoading"></app-loading>
 <!-- <img src="https://pbs.twimg.com/media/CcZEb3zUUAIQc5R.jpg"> -->
+
 <div *ngIf="!isLoading" class="basic-container mat-app-background">
-    <ng-container  *ngFor="let tweetData of tweetDatas">
-      <app-tweet-card [data]="tweetData"></app-tweet-card>
-    </ng-container>
+  <ng-container  *ngFor="let tweetData of tweetDatas">
+    <app-tweet-card [data]="tweetData"></app-tweet-card>
+  </ng-container>
 </div>
+
+<div>
+    <app-ad-card [data]="adData"></app-ad-card>
+</div>
+
