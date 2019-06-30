@@ -17,7 +17,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   intervalTime = 2500; // ms
 
   tweetDatas: { id: number, tweet: Tweet, display: 'none' }[] = [];
-  adData = { id: 20, ad: null, display: 'none' };
+  // adData = { id: 20, ad: null, display: 'none' };
   subscriptions: Subscription[] = [];
   initTweet = new Tweet('', '', '', '');
   isLoading = true;
@@ -104,48 +104,48 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // TODO あとで整理する
-    if (data.id === 20) {
-      data.display = 'none';
-      this.startAdAnime(this.adData);
-    } else {
-      const width = window.innerWidth * 2;
-      this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
-      this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
-      this.count++;
-      const animeSetting = {
-        targets: '#target' + String(data.id),
-        translateX: [this.state.coordBefore.x, this.state.coord.x],
-        translateY: [this.state.coordBefore.y, this.state.coord.y],
-        easing: 'linear',
-        duration: 20000,
-        delay: (data.id % this.tg.indexHeight) * 800,
-        complete: () => {
-          data.display = 'none';
-          this.tg.dismissSource.next(data);
-        }
-      };
-      anime(animeSetting);
-    }
-  }
-
-  startAdAnime(data: { id: number, ad: any, display: string }) {
-    if (!this.tg.isLoading) {
-      data.display = 'block';
-    } else {
-      data.display = 'none';
-    }
+    // if (data.id === 20) {
+    //   data.display = 'none';
+    //   this.startAdAnime(this.adData);
+    // } else {
     const width = window.innerWidth * 2;
     this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
     this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
     this.count++;
     const animeSetting = {
-      targets: '#target10',
+      targets: '#target' + String(data.id),
       translateX: [this.state.coordBefore.x, this.state.coord.x],
       translateY: [this.state.coordBefore.y, this.state.coord.y],
       easing: 'linear',
-      duration: 20000
+      duration: 20000,
+      delay: (data.id % this.tg.indexHeight) * 800,
+      complete: () => {
+        data.display = 'none';
+        this.tg.dismissSource.next(data);
+      }
     };
     anime(animeSetting);
+    // }
   }
+
+  // startAdAnime(data: { id: number, ad: any, display: string }) {
+  //   if (!this.tg.isLoading) {
+  //     data.display = 'block';
+  //   } else {
+  //     data.display = 'none';
+  //   }
+  //   const width = window.innerWidth * 2;
+  //   this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
+  //   this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
+  //   this.count++;
+  //   const animeSetting = {
+  //     targets: '#target10',
+  //     translateX: [this.state.coordBefore.x, this.state.coord.x],
+  //     translateY: [this.state.coordBefore.y, this.state.coord.y],
+  //     easing: 'linear',
+  //     duration: 20000
+  //   };
+  //   anime(animeSetting);
+  // }
 
 }
