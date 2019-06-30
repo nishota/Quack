@@ -4,7 +4,6 @@ import { TweetGetterService } from '../tweet-getter.service';
 import { Subscription, interval } from 'rxjs';
 import * as anime from 'animejs';
 import { StateStraight } from '../model/card-state.model';
-import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-display',
@@ -21,6 +20,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   initTweet = new Tweet('', '', '', '');
   isLoading = true;
   state = new StateStraight();
+  count = 0;
 
   constructor(private tg: TweetGetterService) {
     for (let i = 0; i < this.tg.CARD_NUM; i++) {
@@ -99,8 +99,9 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       data.display = 'none';
     }
     const width = window.innerWidth * 2;
-    this.tg.indexHeight = Math.round(window.innerHeight / 100);
-    this.state.setCoordLikeNico(width, data.id % this.tg.indexHeight);
+    this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
+    this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
+    this.count++;
     const animeSetting = {
       targets: '#target' + String(data.id),
       translateX: [this.state.coordBefore.x, this.state.coord.x],

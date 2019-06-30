@@ -7,13 +7,17 @@ import { TweetCardComponent } from './tweet-card/tweet-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule, MatToolbarModule } from '@angular/material';
 import { LoadingComponent } from './loading/loading.component';
+import { ImgCardComponent } from './img-card/img-card.component';
+import { AdCardComponent } from './ad-card/ad-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DisplayComponent,
     TweetCardComponent,
-    LoadingComponent
+    LoadingComponent,
+    ImgCardComponent,
+    AdCardComponent
   ],
   imports: [
     BrowserModule,
