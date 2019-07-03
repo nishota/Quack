@@ -98,7 +98,7 @@ begin
 	from
 		twitter_sysid_tbl;
  
-	if record_numbers > 100 then 
+	if record_numbers > 1000 then 
 		with delete_target as(
 			select
 				sys_id
@@ -173,7 +173,7 @@ CREATE TABLE public.twitter_api_tbl (
     id bigint NOT NULL,
     id_str character varying(100) DEFAULT NULL::character varying,
     screen_name character varying(100) DEFAULT NULL::character varying,
-    created_at character varying(200) DEFAULT NULL::character varying,
+    created_at timestamp without time zone,
     create_time timestamp without time zone,
     text character varying(1000) DEFAULT NULL::character varying,
     trend character varying(100) NOT NULL,
