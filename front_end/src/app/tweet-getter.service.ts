@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import * as moment from 'moment';
@@ -79,7 +79,7 @@ export class TweetGetterService {
   }
 
   startAnime(data: { id: number, tweet: Tweet, display: string }) {
-    const width = window.innerWidth + 900;
+    const width = window.innerWidth + 1500;
     this.indexHeight = Math.round(window.innerHeight / 100);
     this.state.setCoordLikeNico(width, data.id % this.indexHeight);
     this.animeSetting = {
