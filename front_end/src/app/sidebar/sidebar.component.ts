@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
-  constructor() { }
+  sidenav_height:String;
+  constructor() { 
+    this.sidenav_height=window.innerHeight - 64 +'px';
+  }
 
   ngOnInit() {
+
   }
 
 }
