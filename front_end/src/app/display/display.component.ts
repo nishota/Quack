@@ -102,12 +102,6 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       data.display = 'none';
     }
-
-    // TODO あとで整理する
-    // if (data.id === 20) {
-    //   data.display = 'none';
-    //   this.startAdAnime(this.adData);
-    // } else {
     const width = window.innerWidth * 2;
     this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
     this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
@@ -125,27 +119,5 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     };
     anime(animeSetting);
-    // }
   }
-
-  // startAdAnime(data: { id: number, ad: any, display: string }) {
-  //   if (!this.tg.isLoading) {
-  //     data.display = 'block';
-  //   } else {
-  //     data.display = 'none';
-  //   }
-  //   const width = window.innerWidth * 2;
-  //   this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
-  //   this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
-  //   this.count++;
-  //   const animeSetting = {
-  //     targets: '#target10',
-  //     translateX: [this.state.coordBefore.x, this.state.coord.x],
-  //     translateY: [this.state.coordBefore.y, this.state.coord.y],
-  //     easing: 'linear',
-  //     duration: 20000
-  //   };
-  //   anime(animeSetting);
-  // }
-
 }
