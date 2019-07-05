@@ -5,7 +5,7 @@ import { DisplayComponent } from './display/display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TweetCardComponent } from './tweet-card/tweet-card.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatToolbarModule, MatCardModule, MatSidenavModule} from '@angular/material';
+import { MatToolbarModule, MatCardModule, MatSidenavModule, MatButtonModule, MatIconModule} from '@angular/material';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
@@ -25,6 +25,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatCardModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
