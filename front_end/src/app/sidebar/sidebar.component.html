@@ -1,7 +1,7 @@
 <mat-sidenav-container [ngStyle]="{'height': sidenav_height}">
     <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened>
         <div>Sidenav content</div>
-        <button mat-button (click)="sampleFunc()">
+        <button mat-button (click)="sidenav.toggle()">
                 example
         </button>
     </mat-sidenav>
