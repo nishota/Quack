@@ -1,11 +1,12 @@
 <mat-sidenav-container [ngStyle]="{'height': sidenav_height}">
-    <mat-sidenav position="start" class="sidebar" mode="side" opened>
+    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened>
         <div>Sidenav content</div>
-        <button mat-button>
+        <button mat-button (click)="sampleFunc()">
                 example
         </button>
     </mat-sidenav>
     <mat-sidenav-content class="main_container">
+         <span>{{trend}}</span>
         <div>Main content</div>
     </mat-sidenav-content>
 </mat-sidenav-container>

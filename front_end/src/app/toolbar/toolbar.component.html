@@ -1,6 +1,7 @@
 <mat-toolbar>
   <mat-toolbar-row class="toolbar">
-    <mat-icon aria-hidden="false" aria-label="Example home icon">dehaze</mat-icon>
-    <span>{{trend}}</span>
+    <button mat-button (click)="sidenav.toggle()">
+      <mat-icon aria-hidden="false">dehaze</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
