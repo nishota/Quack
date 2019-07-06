@@ -1,8 +1,9 @@
 <mat-sidenav-container [ngStyle]="{'height': sidenav_height}">
-    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened>
+    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{open_close}}">
         <div>Sidenav content</div>
         <button mat-button (click)="sidenav.toggle()">
                 example
+                {{open_close}}
         </button>
     </mat-sidenav>
     <mat-sidenav-content class="main_container">

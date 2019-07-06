@@ -1,4 +1,4 @@
-import { Component, OnInit,ElementRef } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,11 +7,9 @@ import { Component, OnInit,ElementRef } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
   sidenav_height:String;
-  sampleElement: HTMLElement;
-
-  constructor(el: ElementRef) { 
+  open_close:String='true';
+  constructor() { 
     this.sidenav_height=window.innerHeight - 64 +'px';
-    this.sampleElement = el.nativeElement;
   }
 
   ngOnInit() {
@@ -20,7 +18,8 @@ export class SidebarComponent implements OnInit {
 
   sampleFunc(){
     console.log('testttttt');
-    this.sampleElement.querySelector('.sidebar').remove;
+    this.open_close='false';
+    console.log(this.open_close);
   }
 
 }
