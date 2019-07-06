@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule, MatCardModule, MatSidenavModule, MatButtonModule, MatIconModule} from '@angular/material';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { SpButtonComponent } from './sp-button/sp-button.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     SidebarComponent,
     ToolbarComponent,
     DisplayComponent,
-    TweetCardComponent
+    TweetCardComponent,
+    SpButtonComponent
   ],
   imports: [
     BrowserModule,
