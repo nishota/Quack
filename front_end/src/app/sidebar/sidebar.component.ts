@@ -9,11 +9,11 @@ import { TweetGetterService } from '../tweet-getter.service';
 export class SidebarComponent implements OnInit {
   sidenav_height:String;
   open_close:String='true';
-
+  trend: string;
   constructor(private tg:TweetGetterService) { 
     this.sidenav_height=window.innerHeight - 64 +'px';
   }
-  trend: string;
+ 
   ngOnInit() :void {
     this.tg.trend$.subscribe(
       value => this.trend = value

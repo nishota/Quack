@@ -8,7 +8,9 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 export class SpButtonComponent implements OnInit {
 
   @Output() spSidebarSwitch = new EventEmitter();
+ 
   constructor(){
+  
   }
   ngOnInit() {
 
