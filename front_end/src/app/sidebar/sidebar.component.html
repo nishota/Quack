@@ -1,9 +1,15 @@
 <mat-sidenav-container [ngStyle]="{'height': sidenav_height}">
-    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{open_close}}">
-        <div>Sidenav content</div>
+    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}">
+        <ul>
+            <li>
+                Sidenav content 
+            </li>
+            <li>
+                {{trend}}
+            </li>
+        </ul>
     </mat-sidenav>
     <mat-sidenav-content class="main_container">
-         <span>{{trend}}</span>
         <div>Main content</div>
     </mat-sidenav-content>
 </mat-sidenav-container>

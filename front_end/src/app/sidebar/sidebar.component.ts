@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
 
 @Component({
@@ -7,26 +7,21 @@ import { TweetGetterService } from '../tweet-getter.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  sidenav_height:String;
-  open_close:String='true';
+  sidenav_height: string;
+  isOpened = true;
   trend: string;
-  constructor(private tg:TweetGetterService) { 
-    this.sidenav_height=window.innerHeight - 64 +'px';
+  constructor(private tg: TweetGetterService) {
+    this.sidenav_height = window.innerHeight - 64 + 'px';
   }
- 
-  ngOnInit() :void {
+
+  ngOnInit(): void {
     this.tg.trend$.subscribe(
       value => this.trend = value
     );
   }
 
-  sidebar_switch(){
-    if (this.open_close=='true') {
-    this.open_close='false';
-    }
-    else {
-      this.open_close='true';
-      }
+  sidebar_switch() {
+    this.isOpened = !this.isOpened;
   }
 
 }

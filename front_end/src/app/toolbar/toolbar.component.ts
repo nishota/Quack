@@ -8,13 +8,13 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class ToolbarComponent implements OnInit {
 
   @Output() sidebarSwitch = new EventEmitter();
-  constructor(){
+  constructor() {
   }
   ngOnInit() {
 
   }
 
-  call_sidebar_switch(){
+  call_sidebar_switch() {
     this.sidebarSwitch.emit(null);
   }
 }
