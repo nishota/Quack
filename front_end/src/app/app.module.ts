@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TweetCardComponent } from './tweet-card/tweet-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule, MatCardModule, MatSidenavModule, MatButtonModule, MatIconModule} from '@angular/material';
+import { LoadingComponent } from './loading/loading.component';
+import { ImgCardComponent } from './img-card/img-card.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SpButtonComponent } from './sp-button/sp-button.component';
@@ -19,6 +21,8 @@ import { SpButtonComponent } from './sp-button/sp-button.component';
     DisplayComponent,
     TweetCardComponent,
     SpButtonComponent
+    LoadingComponent,
+    ImgCardComponent
   ],
   imports: [
     BrowserModule,

@@ -1,22 +1,28 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Tweet } from '../model/tweet.model';
 import { TweetGetterService } from '../tweet-getter.service';
-import { Subscription, fromEvent } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
+import * as anime from 'animejs';
+import { StateStraight } from '../model/card-state.model';
 
 @Component({
   selector: 'app-display',
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.css']
 })
-export class DisplayComponent implements OnInit, AfterViewInit {
+export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  interval;
+  intervalTweet: Subscription;
+  intervalAnime: Subscription;
+  intervalTime = 2500; // ms
+
   tweetDatas: { id: number, tweet: Tweet, display: 'none' }[] = [];
+  // adData = { id: 20, ad: null, display: 'none' };
   subscriptions: Subscription[] = [];
   initTweet = new Tweet('', '', '', '');
-
-  windowForcus$ = fromEvent(window, 'focus');
-  windowBlur$ = fromEvent(window, 'blur');
+  isLoading = true;
+  state = new StateStraight();
+  count = 0;
 
   constructor(private tg: TweetGetterService) {
     for (let i = 0; i < this.tg.CARD_NUM; i++) {
@@ -29,43 +35,89 @@ export class DisplayComponent implements OnInit, AfterViewInit {
     this.subscriptions.push(
       this.tg.content$.subscribe(
         tweetData => {
-          this.tweetDatas[tweetData.id].tweet = tweetData.tweet;
-          this.tg.startAnime(this.tweetDatas[tweetData.id]);
+          if (!this.tg.isLoading) {
+            this.tweetDatas[tweetData.id].tweet = tweetData.tweet;
+            this.startAnime(this.tweetDatas[tweetData.id]);
+          }
         }
-      )
-    );
+      ));
 
     // tweetを削除
     this.subscriptions.push(
       this.tg.dismiss$.subscribe(
         tweetData => this.tweetDatas[tweetData.id].tweet = this.initTweet
-      )
-    );
+      ));
 
     this.subscriptions.push(
-      this.windowForcus$.subscribe(
+      this.tg.windowForcus$.subscribe(
         () => {
-          this.interval = setInterval(() => this.tg.getTweetData(), 5500);
-          console.log('start');
+          this.tweetDatas.forEach(td => td.display = 'none');
+          this.tg.isLoadingSource.next(false);
+          this.intervalTweet = interval(this.intervalTime).subscribe(
+            () => {
+              this.tg.getTweetData();
+            }
+          );
         }
       ));
 
     this.subscriptions.push(
-      this.windowBlur$.subscribe(
+      this.tg.windowBlur$.subscribe(
         () => {
-          clearInterval(this.interval);
-          console.log('stop');
+          this.intervalTweet.unsubscribe();
+          this.tg.getTweetSubscription.unsubscribe();
+          this.tg.isLoadingSource.next(true);
+        }
+      ));
+
+    this.subscriptions.push(
+      this.tg.isLoading$.subscribe(
+        value => {
+          this.isLoading = value;
+          this.tg.isLoading = value;
         }
       ));
   }
 
   ngAfterViewInit(): void {
-    this.tg.getTweetData();
-    this.interval = setInterval(
+    this.intervalTweet = interval(this.intervalTime).subscribe(
       () => {
         this.tg.getTweetData();
-      }, 5500
+        this.tg.isLoadingSource.next(false);
+      }
     );
+    this.tg.Loaded = true;
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(
+      subscription => subscription.unsubscribe()
+    );
+    this.intervalTweet.unsubscribe();
+  }
+
+  startAnime(data: { id: number, tweet: Tweet, display: string }) {
+    if (!this.tg.isLoading) {
+      data.display = 'block';
+    } else {
+      data.display = 'none';
+    }
+    const width = window.innerWidth * 2;
+    this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
+    this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
+    this.count++;
+    const animeSetting = {
+      targets: '#target' + String(data.id),
+      translateX: [this.state.coordBefore.x, this.state.coord.x],
+      translateY: [this.state.coordBefore.y, this.state.coord.y],
+      easing: 'linear',
+      duration: 20000,
+      delay: (data.id % this.tg.indexHeight) * 800,
+      complete: () => {
+        data.display = 'none';
+        this.tg.dismissSource.next(data);
+      }
+    };
+    anime(animeSetting);
+  }
 }
