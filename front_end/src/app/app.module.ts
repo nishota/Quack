@@ -20,7 +20,7 @@ import { SpButtonComponent } from './sp-button/sp-button.component';
     ToolbarComponent,
     DisplayComponent,
     TweetCardComponent,
-    SpButtonComponent
+    SpButtonComponent,
     LoadingComponent,
     ImgCardComponent
   ],
