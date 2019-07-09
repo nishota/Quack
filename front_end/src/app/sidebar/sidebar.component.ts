@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,6 +11,9 @@ export class SidebarComponent implements OnInit {
   sidenav_height: string;
   isOpened = true;
   trend: string;
+  //pcとspの判別
+  @Input()　 Screen_Type: String;  
+
   constructor(private tg: TweetGetterService) {
     this.sidenav_height = window.innerHeight - 64 + 'px';
   }
