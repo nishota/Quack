@@ -15,10 +15,14 @@ export class SidebarComponent implements OnInit {
   @Input()　 Screen_Type: String;  
 
   constructor(private tg: TweetGetterService) {
-    this.sidenav_height = window.innerHeight - 64 + 'px';
   }
 
   ngOnInit(): void {
+    if(this.Screen_Type=='PC'){
+      this.sidenav_height = window.innerHeight - 64 + 'px'; 
+    }else if(this.Screen_Type=='SP'){
+      this.sidenav_height = window.innerHeight + 'px';
+    }
     this.tg.trend$.subscribe(
       value => this.trend = value
     );
