@@ -41,6 +41,7 @@ export class TweetGetterService {
 
   windowForcus$ = fromEvent(window, 'focus');
   windowBlur$ = fromEvent(window, 'blur');
+  windowResize$ = fromEvent(window, 'resize');
 
   getTweetSubscription: Subscription;
 
