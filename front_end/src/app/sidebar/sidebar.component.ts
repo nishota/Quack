@@ -12,26 +12,32 @@ export class SidebarComponent implements OnInit {
   isOpened = true;
   trend: string;
   //pcとspの判別
-  @Input()　 Screen_Type: String;  
+  @Input() Screen_Type: String;
 
   constructor(private tg: TweetGetterService) {
   }
 
   ngOnInit(): void {
-    // サイドバーの高さ
-    if(this.Screen_Type=='PC'){
-      this.sidenav_height = window.innerHeight - 64 + 'px'; 
-    }else if(this.Screen_Type=='SP'){
-      this.sidenav_height = window.innerHeight + 'px';
-    }
-
     this.tg.trend$.subscribe(
       value => this.trend = value
     );
+    this.tg.windowResize$.subscribe(
+      () => this.setSidebarHeight()
+    )
   }
 
   sidebar_switch() {
     this.isOpened = !this.isOpened;
+  }
+
+  setSidebarHeight() {
+    // サイドバーの高さ
+    if (this.Screen_Type === 'PC') {
+      this.sidenav_height = window.innerHeight - 64 + 'px';
+    }
+    if (this.Screen_Type === 'SP') {
+      this.sidenav_height = window.innerHeight + 'px';
+    }
   }
 
 }
