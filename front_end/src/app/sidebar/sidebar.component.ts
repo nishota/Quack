@@ -18,11 +18,13 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // サイドバーの高さ
     if(this.Screen_Type=='PC'){
       this.sidenav_height = window.innerHeight - 64 + 'px'; 
     }else if(this.Screen_Type=='SP'){
       this.sidenav_height = window.innerHeight + 'px';
     }
+
     this.tg.trend$.subscribe(
       value => this.trend = value
     );
