@@ -14,10 +14,9 @@ export class AppComponent implements OnInit {
   constructor(private tg: TweetGetterService) {
 
   }
-
+  
   ngOnInit(): void {
     this.setScreenType();
-
     this.tg.windowResize$.subscribe(
       () => this.setScreenType()
     );

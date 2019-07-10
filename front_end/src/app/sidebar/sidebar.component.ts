@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
     );
     this.tg.windowResize$.subscribe(
       () => this.setSidebarHeight()
-    )
+    );
   }
 
   sidebar_switch() {
@@ -32,11 +32,15 @@ export class SidebarComponent implements OnInit {
 
   setSidebarHeight() {
     // サイドバーの高さ
-    if (this.Screen_Type === 'PC') {
-      this.sidenav_height = window.innerHeight - 64 + 'px';
-    }
-    if (this.Screen_Type === 'SP') {
-      this.sidenav_height = window.innerHeight + 'px';
+    switch (this.Screen_Type) {
+      case 'PC':
+        this.sidenav_height = window.innerHeight - 64 + 'px';
+        break;
+      case 'SP':
+        this.sidenav_height = window.innerHeight + 'px';
+        break;
+      default:
+        break;
     }
   }
 
