@@ -1,5 +1,8 @@
 .icon{
     color: white;
     background-color: #57c4b9;
-    transform:scale(2,2);
+    /* transform:scale(2,2); */
+    position:  absolute;
+    right:  50px;
+    bottom: 50px; 
 }

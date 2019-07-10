@@ -1,4 +1,3 @@
 <app-sp-button *ngIf="screen_type =='SP'" (spSidebarSwitch)="side.sidebar_switch()"></app-sp-button>
 <app-toolbar *ngIf="screen_type =='PC'" (sidebarSwitch)="side.sidebar_switch()"></app-toolbar>
-<app-sidebar #side [Screen_Type]='screen_type'>
-</app-sidebar>
+<app-sidebar #side [Screen_Type]='screen_type'></app-sidebar>
