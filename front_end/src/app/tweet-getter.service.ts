@@ -56,14 +56,12 @@ export class TweetGetterService {
         if (res.tweets && res.tweets.length > 0) {
           res.tweets.forEach(
             tweet => {
-              const day = moment(tweet.created_at);
-              const createdTime = new Date(day.utc().format());
               this.contentSource.next({
                 id: this.count % this.CARD_NUM,
                 tweet: new Tweet(
                   tweet.id_str,
                   tweet.screen_name,
-                  this.setDateString(createdTime),
+                  this.setDateString(tweet.created_at),
                   tweet.text
                 )
               });
@@ -86,13 +84,15 @@ export class TweetGetterService {
     return this.http.get<any[]>(environment.devUrl, options);
   }
 
-  setDateString(date: Date): string {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hours = date.getHours();
-    const min = date.getMinutes();
-    const sec = date.getSeconds();
+  setDateString(createdAt: string): string {
+    const date= moment(createdAt);
+    const createdTime = new Date(date.utc().format());
+    const year = createdTime.getFullYear();
+    const month = createdTime.getMonth() + 1;
+    const day = createdTime.getDate();
+    const hours = createdTime.getHours();
+    const min = createdTime.getMinutes();
+    const sec = createdTime.getSeconds();
 
     let stMonth = String(month);
     let stDay = String(day);

@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setSidebarHeight();
     this.tg.trend$.subscribe(
       value => this.trend = value
     );
