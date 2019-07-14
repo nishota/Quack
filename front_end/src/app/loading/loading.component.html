@@ -1,12 +1,16 @@
-<div style="text-align:center">
-    <img id="logo" width="300" alt="Logo" src="../../assets/kamo_colorful.png">
-    <h1>
-        Twitter Trend(仮)
-    </h1>
-    <p *ngIf="!initalized">
+<div style="text-align:center; margin-top: 100px;">
+    <!-- <img id="logo" width="300" alt="Logo" src="../../assets/kamo_colorful.png"> -->
+    <div class="semipolar-spinner" :style="spinnerStyle">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+    <h1 *ngIf="!initalized">
         Loading Now!
-    </p>
-    <p *ngIf="initalized">
+    </h1>
+    <h1 *ngIf="initalized">
         Click Window To Start!
-    </p>
+    </h1>
 </div>
