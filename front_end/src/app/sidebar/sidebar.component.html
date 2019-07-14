@@ -1,4 +1,4 @@
-<mat-sidenav-container [ngStyle]="{'height': sidenav_height}">
+<mat-sidenav-container>
     <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}">
         <ul>
             <li>
@@ -10,9 +10,17 @@
             <li>
                 {{trend}}
             </li>
-        </ul>
+        </ul>  
+        <div class="sidebar_button">
+        <li>
+         <button mat-raised-button >youtube</button>
+        </li>
+        <li>
+         <button mat-raised-button >Twitter</button>
+        </li>
+        </div>
     </mat-sidenav>
-    <mat-sidenav-content class="main_container">
+    <mat-sidenav-content class="main_container" [ngStyle]="{'height': sidenav_height}">
         <app-display></app-display>
     </mat-sidenav-content>
 </mat-sidenav-container>

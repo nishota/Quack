@@ -9,7 +9,11 @@
     color: black;
     background-color: #f5f5f5;
     text-align: center;
+}
 
+.sidebar_button{
+    text-align: center;
+    width: 280px; 
 }
 
 /* .mat-drawer{
