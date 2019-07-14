@@ -5,10 +5,11 @@
 
 .logo{
     margin-left: 5px;
+    margin-right: 5px;
     height: 50px;
 }
 
 .icon{
-    margin-right: 0;
+    margin-left: 0;
     height: 25px;
 }
