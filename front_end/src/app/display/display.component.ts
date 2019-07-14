@@ -52,7 +52,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       this.tg.windowForcus$.subscribe(
         () => {
           this.tweetDatas.forEach(td => td.display = 'none');
-          this.tg.isLoadingSource.next(false);
+          this.tg.isLoadingSource.next({ state: false, loaded: true });
           this.intervalTweet = interval(this.intervalTime).subscribe(
             () => {
               this.tg.getTweetData();
@@ -66,27 +66,30 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
         () => {
           this.intervalTweet.unsubscribe();
           this.tg.getTweetSubscription.unsubscribe();
-          this.tg.isLoadingSource.next(true);
+          this.tg.isLoadingSource.next({ state: true, loaded: false });
         }
       ));
 
     this.subscriptions.push(
       this.tg.isLoading$.subscribe(
         value => {
-          this.isLoading = value;
-          this.tg.isLoading = value;
+          this.isLoading = value.state;
+          this.tg.isLoading = value.loaded;
+          if(!value.loaded){
+            this.tg.Loaded = false;
+          }
         }
       ));
   }
 
   ngAfterViewInit(): void {
-    // this.intervalTweet = interval(this.intervalTime).subscribe(
-    //   () => {
-    //     this.tg.getTweetData();
-    //     this.tg.isLoadingSource.next(false);
-    //   }
-    // );
-    // this.tg.Loaded = true;
+    this.intervalTweet = interval(this.intervalTime).subscribe(
+      () => {
+        this.tg.getTweetData();
+        this.tg.isLoadingSource.next({ state: false, loaded: true });
+      }
+    );
+    this.tg.Loaded = true;
   }
 
   ngOnDestroy(): void {

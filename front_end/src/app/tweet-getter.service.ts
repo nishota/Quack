@@ -30,7 +30,7 @@ export class TweetGetterService {
 
   isLoading = true;
   Loaded = false;
-  isLoadingSource = new Subject<boolean>();
+  isLoadingSource = new Subject<{ state: boolean, loaded: boolean }>();
   isLoading$ = this.isLoadingSource.asObservable();
 
   contentSource = new Subject<{ id: number, tweet: Tweet }>();
@@ -69,7 +69,7 @@ export class TweetGetterService {
             });
         }
       },
-      () => this.isLoadingSource.next(false)
+      () => this.isLoadingSource.next({ state: true, loaded: false })
     );
   }
 
@@ -85,7 +85,7 @@ export class TweetGetterService {
   }
 
   setDateString(createdAt: string): string {
-    const date= moment(createdAt);
+    const date = moment(createdAt);
     const createdTime = new Date(date.utc().format());
     const year = createdTime.getFullYear();
     const month = createdTime.getMonth() + 1;

@@ -12,7 +12,7 @@ export class SidebarComponent implements OnInit {
   isOpened = true;
   trend: string;
   //pcとspの判別
-  @Input() Screen_Type: String;
+  @Input() Screen_Type: string;
 
   constructor(private tg: TweetGetterService) {
   }
