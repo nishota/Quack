@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  devUrl: 'http://127.0.0.1:5000/json/twitredb/keyword',
+  devUrl: 'https://payload-01.herokuapp.com/json/twitredb/keyword',
   twitterUrl: 'https://twitter.com/'
 };
 

@@ -10,7 +10,6 @@ import { Input } from '@angular/core';
 export class SidebarComponent implements OnInit {
   sidenav_height: string;
   isOpened = true;
-  trend: string;
   //pcとspの判別
   @Input() Screen_Type: string;
 
@@ -19,9 +18,6 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.setSidebarHeight();
-    this.tg.trend$.subscribe(
-      value => this.trend = value
-    );
     this.tg.windowResize$.subscribe(
       () => this.setSidebarHeight()
     );

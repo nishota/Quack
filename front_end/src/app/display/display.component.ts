@@ -16,6 +16,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   intervalAnime: Subscription;
   intervalTime = 2500; // ms
 
+  trend: string;
   tweetDatas: { id: number, tweet: Tweet, display: 'none' }[] = [];
   // adData = { id: 20, ad: null, display: 'none' };
   subscriptions: Subscription[] = [];
@@ -60,25 +61,30 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
           );
         }
       ));
-
     this.subscriptions.push(
       this.tg.windowBlur$.subscribe(
         () => {
           this.intervalTweet.unsubscribe();
-          this.tg.getTweetSubscription.unsubscribe();
-          this.tg.isLoadingSource.next({ state: true, loaded: false });
+          if (this.tg.getTweetSubscription) {
+            this.tg.getTweetSubscription.unsubscribe();
+          }
+          this.tweetDatas.forEach(td => td.display = 'none');
+          this.tg.isLoadingSource.next({ state: true, loaded: true });
         }
       ));
-
     this.subscriptions.push(
       this.tg.isLoading$.subscribe(
         value => {
-          this.isLoading = value.state;
-          this.tg.isLoading = value.loaded;
-          if(!value.loaded){
-            this.tg.Loaded = false;
+          if (this.isLoading !== value.state) {
+            this.isLoading = value.state;
           }
+          this.tg.isLoading = value.state;
+          this.tg.Loaded = value.loaded;
         }
+      ));
+    this.subscriptions.push(
+      this.tg.trend$.subscribe(
+        value => this.trend = value
       ));
   }
 
