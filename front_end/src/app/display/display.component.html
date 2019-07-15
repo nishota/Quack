@@ -1,9 +1,9 @@
 <app-loading *ngIf="isLoading"></app-loading>
 
 <div *ngIf="!isLoading" class="basic-container mat-app-background">
-  <h1>
+  <div class="trend">
         {{trend}}
-  </h1>
+  </div>
   <ng-container  *ngFor="let tweetData of tweetDatas">
     <app-tweet-card [data]="tweetData"></app-tweet-card>
   </ng-container>
