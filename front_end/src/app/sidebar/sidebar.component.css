@@ -15,44 +15,39 @@
     display: inline-block;
     height: 50px;
     width: 190px;
+    margin-bottom: 20PX;
     text-align: center;
     font-size: 25px;
-    line-height: 50px;
     background: #1da1f3;
   }
 
-  .btn-youtube {
+.tw_logo{
+    height: 40px;
+}
+
+.btn-youtube {
     display: inline-block;
     height: 50px;
     width: 190px;
+    margin-top: 20PX;
+    margin-bottom: 20PX;
     background: black;
-  }
+}
 
-  .yt_logo{
+.yt_logo{
     height: 25px;
-  }
+}
 
-  .tw_logo{
-    height: 40px;
-  }
-
-  .bmc-button img{
-      width: 27px;
-      margin-bottom: 1px;
-      box-shadow: none;
-      border: none;
-      vertical-align: middle;
-    }
-
-    .bmc-button{
-        line-height: 36px;
-        height: 50px;
-        width: 190px;
-        color:#FFFFFF;
-        background-color:#FF813F;
-        padding: 1px 9px;
-        font-size: 22px;
-        font-family:'Cookie', cursive;
-    }
+ .bmc-button{
+    line-height: 36px;
+    height: 50px;
+    width: 190px;
+    margin-bottom: 20PX;
+    color:#FFFFFF;
+    background-color:#FF813F;
+    padding: 1px 9px;
+    font-size: 22px;
+    font-family:'Cookie', cursive;
+}
    
                                 

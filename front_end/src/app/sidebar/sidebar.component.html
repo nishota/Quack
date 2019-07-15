@@ -1,15 +1,10 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}">
-        <ul>
-            <li>
-                Sidenav content 
-            </li>
-            <li>
-                {{Screen_Type}}
-            </li>
-        </ul>
         <div>
             <ul style="list-style: none;">
+                <li *ngIf="Screen_Type =='SP'">
+                     <img class="tw_logo" src="../../assets/Quack.png"/>
+                </li> 
                 <li><a><button mat-raised-button class="btn-youtube">
                     <img class="yt_logo" src="../../assets/yt_logo_rgb_dark.png"/>
                 </button></a></li>
