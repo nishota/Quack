@@ -10,7 +10,28 @@
     background-color: #f5f5f5;
 }
 
-.sidebar_button{
+.btn-twitter {
+    color: white;
+    display: inline-block;
+    height: 50px;
+    width: 190px;
     text-align: center;
-    width: 280px; 
-}
+    font-size: 25px;
+    line-height: 50px;
+    background: #1da1f3;
+  }
+
+  .btn-youtube {
+    display: inline-block;
+    height: 50px;
+    width: 190px;
+    background: black;
+  }
+
+  .yt_logo{
+    height: 25px;
+  }
+
+  .tw_logo{
+    height: 40px;
+  }
