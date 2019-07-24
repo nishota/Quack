@@ -128,7 +128,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       translateX: [this.state.coordBefore.x, this.state.coord.x],
       translateY: [this.state.coordBefore.y, this.state.coord.y],
       easing: 'linear',
-      duration: 20000,
+      duration: 15000,
       delay: this.arr[data.id % this.tg.indexHeight] * 800,
       complete: () => {
         data.display = 'none';

@@ -40,5 +40,4 @@ export class SidebarComponent implements OnInit {
         break;
     }
   }
-
 }

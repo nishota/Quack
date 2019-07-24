@@ -64,6 +64,7 @@ li .date{
     justify-content: flex-start;
     max-width: 400px;
 }
+
 .container .text {
     flex: 1;
 }
@@ -74,9 +75,3 @@ li .date{
     float: left;
 }
 
-.ad-card{
-    background-color: lightcyan;
-    max-width: 300px;
-    min-width: 300px;
-    margin: 0;
-}
