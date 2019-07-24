@@ -25,6 +25,8 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   state = new StateStraight();
   count = 0;
 
+  arr = [];
+
   constructor(private tg: TweetGetterService) {
     for (let i = 0; i < this.tg.CARD_NUM; i++) {
       this.tweetDatas.push({ id: i, tweet: this.initTweet, display: 'none' });
@@ -113,6 +115,12 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const width = window.innerWidth * 2;
     this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
+    if (this.tg.indexHeight !== this.arr.length) {
+      this.arr = [];
+      for (let index = 0; index < this.tg.indexHeight; index++) {
+        this.arr.push(Math.round(Math.random() * this.tg.indexHeight));
+      }
+    }
     this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
     this.count++;
     const animeSetting = {
@@ -121,7 +129,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       translateY: [this.state.coordBefore.y, this.state.coord.y],
       easing: 'linear',
       duration: 20000,
-      delay: (data.id % this.tg.indexHeight) * 800,
+      delay: this.arr[data.id % this.tg.indexHeight] * 800,
       complete: () => {
         data.display = 'none';
         this.tg.dismissSource.next(data);
