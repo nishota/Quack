@@ -18,12 +18,12 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trend: string;
   tweetDatas: { id: number, tweet: Tweet, display: 'none' }[] = [];
-  // adData = { id: 20, ad: null, display: 'none' };
   subscriptions: Subscription[] = [];
   initTweet = new Tweet('', '', '', '');
   isLoading = true;
   state = new StateStraight();
   count = 0;
+  displayWidth: string;
 
   arr = [];
 
@@ -114,13 +114,8 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       data.display = 'none';
     }
     const width = window.innerWidth * 2;
-    this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
-    if (this.tg.indexHeight !== this.arr.length) {
-      this.arr = [];
-      for (let index = 0; index < this.tg.indexHeight; index++) {
-        this.arr.push(Math.round(Math.random() * this.tg.indexHeight));
-      }
-    }
+    this.tg.indexHeight = Math.round(window.innerHeight / 100);
+    this.displayWidth = String(window.innerWidth) + 'px';
     this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
     this.count++;
     const animeSetting = {
@@ -129,7 +124,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       translateY: [this.state.coordBefore.y, this.state.coord.y],
       easing: 'linear',
       duration: 15000,
-      delay: this.arr[data.id % this.tg.indexHeight] * 800,
+      delay: Math.round(Math.random() * this.tg.indexHeight) * 800,
       complete: () => {
         data.display = 'none';
         this.tg.dismissSource.next(data);

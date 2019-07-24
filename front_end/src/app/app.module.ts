@@ -5,12 +5,13 @@ import { DisplayComponent } from './display/display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TweetCardComponent } from './tweet-card/tweet-card.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatToolbarModule, MatCardModule, MatSidenavModule, MatButtonModule, MatIconModule} from '@angular/material';
+import { MatToolbarModule, MatCardModule, MatSidenavModule, MatButtonModule, MatIconModule, MatListModule} from '@angular/material';
 import { LoadingComponent } from './loading/loading.component';
 import { ImgCardComponent } from './img-card/img-card.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SpButtonComponent } from './sp-button/sp-button.component';
+import { InfomationComponent } from './infomation/infomation.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SpButtonComponent } from './sp-button/sp-button.component';
     TweetCardComponent,
     SpButtonComponent,
     LoadingComponent,
-    ImgCardComponent
+    ImgCardComponent,
+    InfomationComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { SpButtonComponent } from './sp-button/sp-button.component';
     MatToolbarModule,
     MatSidenavModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

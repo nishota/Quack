@@ -26,8 +26,16 @@ ul{
     background: #1da1f3;
   }
 
-.tw_logo{
+.logo{
     height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.icon{
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .btn-youtube {
@@ -40,6 +48,10 @@ ul{
 
 .yt_logo{
     height: 25px;
+}
+
+.tw_logo{
+    height: 40px;
 }
 
  .bmc-button{

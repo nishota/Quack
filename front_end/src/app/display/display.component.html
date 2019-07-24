@@ -1,11 +1,8 @@
-<app-loading *ngIf="isLoading"></app-loading>
-
-<div *ngIf="!isLoading">
-  <div class="trend">
-        {{trend}}
+<div id="display" [ngStyle]="{'width': displayWidth}">
+  <app-loading *ngIf="isLoading"></app-loading>
+  <div *ngIf="!isLoading">
+    <ng-container  *ngFor="let tweetData of tweetDatas">
+      <app-tweet-card [data]="tweetData"></app-tweet-card>
+    </ng-container>
   </div>
-  <ng-container  *ngFor="let tweetData of tweetDatas">
-    <app-tweet-card [data]="tweetData"></app-tweet-card>
-  </ng-container>
 </div>
-

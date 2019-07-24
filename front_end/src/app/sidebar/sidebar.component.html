@@ -1,10 +1,23 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}">
+    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}" [ngStyle]="{'width': sideNavWidth}">
         <div>
             <ul>
                 <li *ngIf="Screen_Type =='SP'">
-                     <img class="tw_logo" src="../../assets/Quack.png"/>
-                </li> 
+                     <img class="logo" src="../../assets/Quack.png"/>
+                     <img class="icon" alt="Logo" src="../../assets/kamo_colorful.png">
+                </li>
+                <li *ngIf="Screen_Type =='SP'">
+                    <div style="height: 40px;">
+                        <h3 class="trend">
+                            {{trend}}
+                        </h3>
+                    </div>
+                </li>
+                <li>
+                    <app-infomation></app-infomation>
+                </li>
+            </ul>
+            <ul style="margin-bottom: 20px;">
                 <li><a href="https://www.buymeacoffee.com/Quack"  target="_blank">
                     <button mat-raised-button class="bmc-button">
                          <img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/BMC-btn-logo.svg" alt="Buy me a coffee">
