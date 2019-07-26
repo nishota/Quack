@@ -1,4 +1,4 @@
-<div id="display" [ngStyle]="{'width': displayWidth}">
+<div id="display" >
   <app-loading *ngIf="isLoading"></app-loading>
   <div *ngIf="!isLoading">
     <ng-container  *ngFor="let tweetData of tweetDatas">

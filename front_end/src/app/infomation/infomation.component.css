@@ -1,11 +1,27 @@
 .info_card{
     margin-top: 20px;
     width: 210px;
+    opacity: 0.9;
 }
 
-.head{
-    text-align: left;
-}
 .body{
     text-align: left;
+}
+
+.date{
+    margin:0;
+    
+    text-align: left;
+    font-size: 10px;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+.item{
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 5px;
 }

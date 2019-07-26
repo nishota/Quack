@@ -8,9 +8,9 @@
                 </li>
                 <li *ngIf="Screen_Type =='SP'">
                     <div style="height: 40px;">
-                        <h3 class="trend">
+                        <h1 class="trend">
                             {{trend}}
-                        </h3>
+                        </h1>
                     </div>
                 </li>
                 <li>
@@ -32,10 +32,13 @@
                          Twitter
                      </button>
                 </a></li>
+                <li class="version">
+                    ver.0.1.0  © ︎2019 Quack
+                </li>
             </ul>
         </div>
     </mat-sidenav>
-    <mat-sidenav-content class="main_container" [ngStyle]="{'height': sidenav_height}">
+    <mat-sidenav-content class="main_container"  [ngStyle]="{'height': sidenav_height}">
         <app-display></app-display>
     </mat-sidenav-content>
 </mat-sidenav-container>

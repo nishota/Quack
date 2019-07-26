@@ -84,6 +84,10 @@ export class TweetGetterService {
     return this.http.get<any[]>(environment.devUrl, options);
   }
 
+  getInfoFromAsset(): Observable<any> {
+    return this.http.get<any[]>(environment.infoUrl);
+  }
+
   setDateString(createdAt: string): string {
     const date = moment(createdAt);
     const createdTime = new Date(date.utc().format());

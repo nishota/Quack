@@ -1,8 +1,9 @@
 .sidebar {
     color: white;
-    background-color: #57c4b9;
+    /* background-color: #57c4b9; */
     text-align: center;
     width: 300px;
+    background: no-repeat center/120% url("../../assets/81878430.png");
 }
 
 .main_container{
@@ -66,5 +67,7 @@ ul{
     font-size: 22px;
     font-family:'Cookie', cursive;
 }
-   
-                                
+
+li.version{
+    color:black;
+}
