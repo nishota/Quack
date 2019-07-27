@@ -1,28 +1,22 @@
-{
-    "contents":[
-        {
-            "id":1,
-            "date":"2019/08/01",
-            "content": "ベータ版リリースしました",
-            "url":""
-        },
-        {
-            "id":2,
-            "date":"2019/08/01",
-            "content": "test",
-            "url":""
-        },
-        {
-            "id":3,
-            "date":"2019/08/01",
-            "content": "test",
-            "url":""
-        },
-        {
-            "id":4,
-            "date":"2019/08/01",
-            "content": "test",
-            "url":""
-        }
-    ]
-}
+[
+    {
+        "date":"2019/08/01",
+        "content": "バグ修正しました",
+        "url":""
+    },
+    {
+        "date":"2019/08/01",
+        "content": "test",
+        "url":"https://twitter.com/"
+    },
+    {
+        "date":"2019/08/01",
+        "content": "Quack β版リリース",
+        "url":""
+    },
+    {
+        "date":"2019/08/01",
+        "content": "test",
+        "url":""
+    }
+]

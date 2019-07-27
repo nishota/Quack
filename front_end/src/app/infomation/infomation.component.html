@@ -4,17 +4,18 @@
     </mat-card-header>
     <mat-card-content>
         <ul>
-            <li class="item">
-                <p class="date">2019/7/29</p>
-                <p class="body">バグ修正しました。</p>
-            </li>
-            <li class="item">
-                <p class="date">2019/7/28</p>
-                <p class="body">Youtubeで配信してます。</p>
-            </li>
-            <li class="item">
-                <p class="date">2019/7/28</p>
-                <p class="body">ベータ版リリースしました!!</p>
+            <li class="item" *ngFor="let info of infos">
+                <p class="date">{{info.date}}</p>
+                <p class="body">
+                    <ng-container *ngIf="info.url.length !== 0">
+                        <a [href]="info.url" target="_blank">
+                            {{info.content}}
+                        </a>
+                    </ng-container>
+                    <ng-container *ngIf="info.url.length === 0">
+                        {{info.content}}
+                    </ng-container>
+                </p>
             </li>
         </ul>
     </mat-card-content>
