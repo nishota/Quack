@@ -24,6 +24,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   state = new StateStraight();
   count = 0;
   displayWidth: string;
+  num = -1;
 
   arr = [];
 
@@ -113,7 +114,13 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       data.display = 'none';
     }
+
     const width = window.innerWidth * 2;
+    let newNum = Math.round(Math.random() * this.tg.indexHeight);
+    if (this.num === newNum) {
+      newNum++;
+    }
+    this.num = newNum;
     this.tg.indexHeight = Math.round(window.innerHeight / 100);
     this.displayWidth = String(window.innerWidth) + 'px';
     this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
@@ -124,7 +131,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       translateY: [this.state.coordBefore.y, this.state.coord.y],
       easing: 'linear',
       duration: 15000,
-      delay: Math.round(Math.random() * this.tg.indexHeight) * 800,
+      delay: newNum * 800,
       complete: () => {
         data.display = 'none';
         this.tg.dismissSource.next(data);
