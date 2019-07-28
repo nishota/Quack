@@ -1,5 +1,15 @@
 .toolbar {
     color: white;
-    background-color: #008081;
-    /* text-align-last: left; */
+    background-color: #1e569e;
+}
+
+.logo{
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 50px;
+}
+
+.icon{
+    margin-left: 0;
+    height: 25px;
 }

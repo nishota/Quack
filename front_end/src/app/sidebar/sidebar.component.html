@@ -1,4 +1,44 @@
 <mat-sidenav-container>
-    <mat-sidenav position="end" class="sidebar" mode="side" opened>Sidenav content</mat-sidenav>
-    <mat-sidenav-content>Main content</mat-sidenav-content>
+    <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}" [ngStyle]="{'width': sideNavWidth}">
+        <div>
+            <ul>
+                <li *ngIf="Screen_Type =='SP'">
+                     <img class="logo" src="../../assets/Quack.png"/>
+                     <img class="icon" alt="Logo" src="../../assets/kamo_colorful.png">
+                </li>
+                <li *ngIf="Screen_Type =='SP'">
+                    <div style="height: 40px;">
+                        <h1 class="trend">
+                            {{trend}}
+                        </h1>
+                    </div>
+                </li>
+                <li>
+                    <app-infomation></app-infomation>
+                </li>
+            </ul>
+            <ul style="margin-bottom: 20px;">
+                <li><a href="https://www.buymeacoffee.com/Quack"  target="_blank">
+                    <button mat-raised-button class="bmc-button">
+                         <img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/BMC-btn-logo.svg" alt="Buy me a coffee">
+                        <span style="margin-left:5px">Buy me a coffee</span>
+                    </button></a></li>  
+                <li><a href="https://www.youtube.com/channel/UCliAeo_Farl--keuN2I3oow/" target="_blank"><button mat-raised-button class="btn-youtube">
+                    <img class="yt_logo" src="../../assets/yt_logo_rgb_dark.png"/>
+                </button></a></li>
+                <li><a href="https://twitter.com/twitterjp?ref_src=twsrc%5Etfw" target="_blank">
+                    <button mat-raised-button class="btn-twitter">
+                         <img class="tw_logo" src="../../assets/Twitter_Logo_WhiteOnBlue.png"/>
+                         Twitter
+                     </button>
+                </a></li>
+                <li class="version">
+                    ver.0.1.0  © ︎2019 Quack
+                </li>
+            </ul>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content class="main_container"  [ngStyle]="{'height': sidenav_height}">
+        <app-display></app-display>
+    </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,0 +1,15 @@
+<div style="text-align:center; margin-top: 100px;">
+<div class="semipolar-spinner" :style="spinnerStyle">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+    <h1 *ngIf="!initalized">
+        Loading Now!
+    </h1>
+    <h1 *ngIf="initalized">
+        Click Window To Start!
+    </h1>
+</div>

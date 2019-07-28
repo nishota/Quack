@@ -1,27 +1,24 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { Tweet } from '../model/tweet.model';
-
-import { TweetGetterService } from '../tweet-getter.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tweet-card',
   templateUrl: './tweet-card.component.html',
   styleUrls: ['./tweet-card.component.css']
 })
-export class TweetCardComponent implements OnInit, AfterViewInit {
+export class TweetCardComponent implements OnInit {
   @Input() data: { id: number, tweet: Tweet, display: string };
   id: string;
   class: string;
- 
-  constructor(private tg: TweetGetterService) {
+  userPage: string;
+
+  constructor() {
   }
 
   ngOnInit() {
     this.id = 'target' + String(this.data.id);
     this.class = 'center target' + String(this.data.id);
-  }
-
-  ngAfterViewInit(): void {
-
+    this.userPage = environment.twitterUrl + this.data.tweet.User;
   }
 }

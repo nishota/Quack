@@ -1,0 +1,23 @@
+<mat-card class="info_card">
+    <mat-card-header>
+        <mat-card-title>Infomations</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <ul>
+            <li class="item" *ngFor="let info of infos">
+                <p class="date">{{info.date}}</p>
+                <p class="body">
+                    <ng-container *ngIf="info.url.length !== 0">
+                        <a [href]="info.url" target="_blank">
+                            {{info.content}}
+                        </a>
+                    </ng-container>
+                    <ng-container *ngIf="info.url.length === 0">
+                        {{info.content}}
+                    </ng-container>
+                </p>
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>
+      

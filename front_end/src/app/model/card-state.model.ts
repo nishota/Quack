@@ -62,7 +62,7 @@ export class StateStraight extends CardState {
      */
     setCoordLikeNico(x: number, index: number) {
         const px = x / 2;
-        const minY = 70;
+        const minY = 10;
         const py = 100 * index + minY;
         const start = { x: px, y: py };
         const end = { x: -px, y: py };

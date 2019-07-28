@@ -1,5 +1,73 @@
 .sidebar {
     color: white;
-    background-color: #008081;
-    /* text-align-last: left; */
+    /* background-color: #57c4b9; */
+    text-align: center;
+    width: 300px;
+    background: no-repeat center/120% url("../../assets/81878430.png");
+}
+
+.main_container{
+    color: black;
+    background-color: #f5f5f5;
+}
+ul{
+    list-style: none;
+    padding-left:0;
+}
+
+.btn-twitter {
+    color: white;
+    display: inline-block;
+    height: 50px;
+    width: 190px;
+    margin-bottom: 20PX;
+    text-align: center;
+    font-family: Helvetica Neue Bold;
+    font-size: 25px;
+    background: #1da1f3;
+  }
+
+.logo{
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.icon{
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-youtube {
+    display: inline-block;
+    height: 50px;
+    width: 190px;
+    margin-bottom: 20PX;
+    background: black;
+}
+
+.yt_logo{
+    height: 25px;
+}
+
+.tw_logo{
+    height: 40px;
+}
+
+ .bmc-button{
+    line-height: 36px;
+    height: 50px;
+    width: 190px;
+    margin-top: 20PX;
+    margin-bottom: 20PX;
+    color:#FFFFFF;
+    background-color:#FF813F;
+    padding: 1px 9px;
+    font-size: 22px;
+    font-family:'Cookie', cursive;
+}
+
+li.version{
+    color:black;
 }

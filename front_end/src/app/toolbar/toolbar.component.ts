@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
 
 @Component({
@@ -8,12 +8,18 @@ import { TweetGetterService } from '../tweet-getter.service';
 })
 export class ToolbarComponent implements OnInit {
 
+  @Output() sidebarSwitch = new EventEmitter();
   trend: string;
-  constructor(private tg:TweetGetterService){
+
+  constructor(private tg: TweetGetterService) {
   }
-  ngOnInit(): void {
+  ngOnInit() {
     this.tg.trend$.subscribe(
       value => this.trend = value
     );
+  }
+
+  call_sidebar_switch() {
+    this.sidebarSwitch.emit(null);
   }
 }

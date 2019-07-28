@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, fromEvent, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Tweet, TweetRes } from './model/tweet.model';
+
 import * as moment from 'moment';
 
-import { Tweet, TweetRes } from './model/tweet.model';
-import { StateStraight } from './model/card-state.model';
-import * as anime from 'animejs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +16,22 @@ export class TweetGetterService {
    * ツイートIDの最大値
    */
   maxId = '';
+  maxIdNum: number;
   /**
    * 縦に何枚表示するか
    */
   indexHeight = 5;
 
   count = 0;
-  CARD_NUM = 50;
-
-  animeSetting;
-  state = new StateStraight();
+  CARD_NUM = 100;
 
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
+
+  isLoading = true;
+  Loaded = false;
+  isLoadingSource = new Subject<{ state: boolean, loaded: boolean }>();
+  isLoading$ = this.isLoadingSource.asObservable();
 
   contentSource = new Subject<{ id: number, tweet: Tweet }>();
   content$ = this.contentSource.asObservable();
@@ -37,33 +39,37 @@ export class TweetGetterService {
   dismissSource = new Subject<{ id: number, tweet: Tweet }>();
   dismiss$ = this.dismissSource.asObservable();
 
+  windowForcus$ = fromEvent(window, 'focus');
+  windowBlur$ = fromEvent(window, 'blur');
+  windowResize$ = fromEvent(window, 'resize');
+
+  getTweetSubscription: Subscription;
+
   constructor(private http: HttpClient) {
   }
 
   getTweetData(): void {
-    this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
+    this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
       (res: TweetRes) => {
         this.trendSource.next(res.trend);
         this.maxId = res.maxid;
         if (res.tweets && res.tweets.length > 0) {
           res.tweets.forEach(
             tweet => {
-              const day = moment(tweet.created_at);
-              const createdTime = new Date(day.utc().format());
               this.contentSource.next({
                 id: this.count % this.CARD_NUM,
                 tweet: new Tweet(
                   tweet.id_str,
                   tweet.screen_name,
-                  this.setDateString(createdTime),
+                  this.setDateString(tweet.created_at),
                   tweet.text
                 )
               });
               this.count++;
-            }
-          );
+            });
         }
-      }
+      },
+      () => this.isLoadingSource.next({ state: true, loaded: false })
     );
   }
 
@@ -78,33 +84,19 @@ export class TweetGetterService {
     return this.http.get<any[]>(environment.devUrl, options);
   }
 
-  startAnime(data: { id: number, tweet: Tweet, display: string }) {
-    const width = window.innerWidth + 1500;
-    this.indexHeight = Math.round(window.innerHeight / 100);
-    this.state.setCoordLikeNico(width, data.id % this.indexHeight);
-    this.animeSetting = {
-      targets: '#target' + String(data.id),
-      translateX: [this.state.coordBefore.x, this.state.coord.x],
-      translateY: [this.state.coordBefore.y, this.state.coord.y],
-      easing: 'linear',
-      duration: 25000,
-      delay: (data.id % this.indexHeight) * 800,
-      begin: () => data.display = 'block',
-      complete: () => {
-        data.display = 'none';
-        this.dismissSource.next(data);
-      }
-    };
-    anime(this.animeSetting);
+  getInfoFromAsset(): Observable<any> {
+    return this.http.get<any[]>(environment.infoUrl);
   }
 
-  setDateString(date: Date): string {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hours = date.getHours();
-    const min = date.getMinutes();
-    const sec = date.getSeconds();
+  setDateString(createdAt: string): string {
+    const date = moment(createdAt);
+    const createdTime = new Date(date.utc().format());
+    const year = createdTime.getFullYear();
+    const month = createdTime.getMonth() + 1;
+    const day = createdTime.getDate();
+    const hours = createdTime.getHours();
+    const min = createdTime.getMinutes();
+    const sec = createdTime.getSeconds();
 
     let stMonth = String(month);
     let stDay = String(day);
