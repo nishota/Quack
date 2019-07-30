@@ -2,8 +2,8 @@
     color: white;
     /* background-color: #57c4b9; */
     text-align: center;
-    width: 300px;
-    background: no-repeat center/120% url("../../assets/81878430.png");
+    height: 100%;
+    background: no-repeat center/150% url("../../assets/81878430.png");
 }
 
 .main_container{
@@ -44,15 +44,14 @@ ul{
     height: 50px;
     width: 190px;
     margin-bottom: 20PX;
-    background: black;
-}
-
-.yt_logo{
-    height: 25px;
+    background: black no-repeat center/55% url("../../assets/yt_logo_rgb_dark.png");
 }
 
 .tw_logo{
     height: 40px;
+    width: 40px;
+    margin-left:0;
+    margin-right:0;
 }
 
  .bmc-button{
@@ -70,4 +69,5 @@ ul{
 
 li.version{
     color:black;
+    font-size: 10px;
 }
