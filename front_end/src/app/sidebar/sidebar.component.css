@@ -22,7 +22,8 @@ ul{
     width: 190px;
     margin-bottom: 20PX;
     text-align: center;
-    font-family: Helvetica Neue Bold;
+    font-family: Helvetica Neue;
+    font-weight: bold;
     font-size: 25px;
     background: #1da1f3;
   }
