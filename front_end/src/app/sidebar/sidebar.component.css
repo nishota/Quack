@@ -62,13 +62,14 @@ ul{
     margin-top: 20PX;
     margin-bottom: 20PX;
     color:#FFFFFF;
-    background-color:#FF813F;
     padding: 1px 9px;
     font-size: 22px;
     font-family:'Cookie', cursive;
+    background: #FF813F no-repeat 7px/15% url("../../assets/BMC-btn-logo.svg");
+    padding-left: 20px;
 }
 
 li.version{
     color:black;
-    font-size: 10px;
+    font-size: 15px;
 }
