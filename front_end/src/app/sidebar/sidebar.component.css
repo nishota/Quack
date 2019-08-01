@@ -1,3 +1,17 @@
+.all-container {
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f5f5f5
+  }
+
+  .center{
+    padding: 20%;
+    text-align: center;
+  }
+
 .sidebar {
     color: white;
     /* background-color: #57c4b9; */
@@ -6,10 +20,6 @@
     background: no-repeat center/150% url("../../assets/81878430.png");
 }
 
-.main_container{
-    color: black;
-    background-color: #f5f5f5;
-}
 ul{
     list-style: none;
     padding-left:0;

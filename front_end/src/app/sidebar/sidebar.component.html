@@ -1,4 +1,4 @@
-<mat-sidenav-container>
+<mat-sidenav-container class="all-container">
     <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}" [ngStyle]="{'width': sideNavWidth}">
         <div>
             <ul>
@@ -21,7 +21,6 @@
                 <li>
                     <a href="https://www.buymeacoffee.com/Quack"  target="_blank">
                         <button mat-raised-button class="bmc-button">
-                            <!-- <img src="../../assets/BMC-btn-logo.svg" alt="Buy me a coffee"> -->
                             <span style="margin-left:5px">Buy me a coffee</span>
                         </button>
                     </a>
@@ -36,7 +35,6 @@
                     <a href="https://twitter.com/Quack19955838" target="_blank">
                         <button mat-raised-button class="btn-twitter">
                             <img class="tw_logo" src="../../assets/Twitter_Logo_WhiteOnBlue.png"/>
-                            <!-- <div class="tw_logo"></div> -->
                             <span style="margin-left:5px">Twitter</span>
                         </button>
                     </a>
@@ -47,7 +45,7 @@
             </ul>
         </div>
     </mat-sidenav>
-    <mat-sidenav-content class="main_container"  [ngStyle]="{'height': sidenav_height}">
+    <mat-sidenav-content class="main_container">
         <app-display></app-display>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -9,22 +9,22 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit, OnDestroy{
-  sidenav_height: string;
   sideNavWidth: string;
   isOpened = true;
   // pcとspの判別
   @Input() Screen_Type: string;
   trend: string;
   subscriptions: Subscription[] = [];
+  toolbarHeight: string;
 
   constructor(private tg: TweetGetterService) {
   }
 
   ngOnInit(): void {
-    this.setSidebarHeight();
+    this.setToolBarHeight();
     this.subscriptions.push(
       this.tg.windowResize$.subscribe(
-        () => this.setSidebarHeight()
+        () => this.setToolBarHeight()
       ));
     this.subscriptions.push(
       this.tg.trend$.subscribe(
@@ -41,18 +41,16 @@ export class SidebarComponent implements OnInit, OnDestroy{
     this.isOpened = !this.isOpened;
   }
 
-  setSidebarHeight() {
-    // サイドバーの高さ
+  setToolBarHeight() {
     switch (this.Screen_Type) {
-      case 'PC':
-        this.sidenav_height = window.innerHeight - 64 + 'px';
-        this.sideNavWidth = '300px';
-        break;
       case 'SP':
-        this.sidenav_height = window.innerHeight + 'px';
+        this.toolbarHeight = '0';
         this.sideNavWidth = window.innerWidth + 'px';
         break;
+      case 'PC':
       default:
+        this.toolbarHeight = '64px';
+        this.sideNavWidth = '300px';
         break;
     }
   }
