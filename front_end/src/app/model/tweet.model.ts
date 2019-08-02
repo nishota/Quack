@@ -1,3 +1,4 @@
+import { environment } from "../../environments/environment";
 export class Tweet {
     private tweetId: string;
     private user: string;
@@ -27,6 +28,9 @@ export class Tweet {
     }
     get Text(): string {
         return this.text;
+    }
+    get Url(): string {
+        return environment.twitterUrl + this.User;
     }
 }
 
