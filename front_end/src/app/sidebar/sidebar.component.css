@@ -14,10 +14,9 @@
 
 .sidebar {
     color: white;
-    /* background-color: #57c4b9; */
     text-align: center;
     height: 100%;
-    background: no-repeat center/150% url("../../assets/81878430.png");
+    background: repeat top/150% url("../../assets/81878430.png");
 }
 
 ul{

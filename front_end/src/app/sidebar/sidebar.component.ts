@@ -1,30 +1,36 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
-import { Input } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ScreenType } from '../model/screen-type.enum';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit, OnDestroy{
-  sideNavWidth: string;
-  isOpened = true;
-  // pcとspの判別
-  @Input() Screen_Type: string;
+export class SidebarComponent implements OnInit, OnDestroy {
   trend: string;
+  isOpened = true;
+  threshold = 767; // iPad: 768px
+  screenType: ScreenType;
+  screenWidth: number;
+  sideNavWidth: string;
+  topPosition: string;
+
   subscriptions: Subscription[] = [];
-  toolbarHeight: string;
 
   constructor(private tg: TweetGetterService) {
   }
 
   ngOnInit(): void {
+    this.setScreenType();
     this.setToolBarHeight();
     this.subscriptions.push(
       this.tg.windowResize$.subscribe(
-        () => this.setToolBarHeight()
+        () => {
+          this.setScreenType();
+          this.setToolBarHeight();
+        }
       ));
     this.subscriptions.push(
       this.tg.trend$.subscribe(
@@ -37,20 +43,29 @@ export class SidebarComponent implements OnInit, OnDestroy{
       sub => sub.unsubscribe()
     );
   }
-  sidebar_switch() {
+  toggleSidebar() {
     this.isOpened = !this.isOpened;
   }
 
+  setScreenType() {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth > this.threshold) {
+      this.screenType = ScreenType.PC;
+    } else {
+      this.screenType = ScreenType.SP;
+    }
+  }
+
   setToolBarHeight() {
-    switch (this.Screen_Type) {
-      case 'SP':
-        this.toolbarHeight = '0';
+    switch (this.screenType) {
+      case 1: // SP
         this.sideNavWidth = window.innerWidth + 'px';
+        this.topPosition = '56px';
         break;
-      case 'PC':
+      case 0: // PC
       default:
-        this.toolbarHeight = '64px';
         this.sideNavWidth = '300px';
+        this.topPosition = '64px';
         break;
     }
   }

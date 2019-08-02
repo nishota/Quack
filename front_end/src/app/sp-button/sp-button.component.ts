@@ -1,22 +1,14 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-sp-button',
   templateUrl: './sp-button.component.html',
   styleUrls: ['./sp-button.component.css']
 })
-export class SpButtonComponent implements OnInit {
+export class SpButtonComponent {
+  @Output() spToggleSidebar = new EventEmitter();
 
-  @Output() spSidebarSwitch = new EventEmitter();
-
-  constructor() {
-
-  }
-  ngOnInit() {
-
-  }
-
-  call_sp_sidebar_switch() {
-    this.spSidebarSwitch.emit(null);
+  toggleSidebar() {
+    this.spToggleSidebar.emit(null);
   }
 }

@@ -1,12 +1,9 @@
-<mat-sidenav-container class="all-container">
+<app-toolbar [screenType]="screenType" [trend]="trend" (tbToggleSidebar)="toggleSidebar()"></app-toolbar>
+<mat-sidenav-container class="all-container" [ngStyle]="{'top': topPosition}">
     <mat-sidenav #sidenav position="start" class="sidebar" mode="side" opened="{{isOpened}}" [ngStyle]="{'width': sideNavWidth}">
         <div>
             <ul>
-                <li *ngIf="Screen_Type =='SP'">
-                     <img class="logo" src="../../assets/Quack.png"/>
-                     <img class="icon" alt="Logo" src="../../assets/kamo_colorful.png">
-                </li>
-                <li *ngIf="Screen_Type =='SP'">
+                <li *ngIf="screenType === 1">
                     <div style="height: 40px;">
                         <h1 class="trend">
                             {{trend}}

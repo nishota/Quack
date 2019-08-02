@@ -1,12 +1,20 @@
 <mat-toolbar>
   <mat-toolbar-row class="toolbar">
-    <button mat-button (click)="call_sidebar_switch()">
-      <mat-icon aria-hidden="false">dehaze</mat-icon>
-    </button>
-    <img class="logo" src="../../assets/Quack.png"/>
-    <img class="icon" alt="Logo" src="../../assets/kamo_colorful.png">
-    <h3 class="trend">
-        {{trend}}
-    </h3>
+    <ng-container *ngIf="screenType === 0">
+        <button mat-button (click)="toggleSidebar()">
+            <mat-icon aria-hidden="false">dehaze</mat-icon>
+        </button>
+        <img class="logo" src="../../assets/Quack.png"/>
+        <img class="icon" alt="Logo" src="../../assets/kamo_colorful.png">
+        <h3 class="trend">
+            {{trend}}
+        </h3>
+    </ng-container>
+    <ng-container *ngIf="screenType === 1">
+        <img class="sp-logo" src="../../assets/Quack.png"/>
+        <img class="sp-icon" alt="Logo" src="../../assets/kamo_colorful.png">
+    </ng-container>
+
   </mat-toolbar-row>
 </mat-toolbar>
+<app-sp-button *ngIf="screenType === 1" (spToggleSidebar)="toggleSidebar()"></app-sp-button>

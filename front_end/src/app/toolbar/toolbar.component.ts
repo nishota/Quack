@@ -1,25 +1,21 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
+import { ScreenType } from '../model/screen-type.enum';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit {
-
-  @Output() sidebarSwitch = new EventEmitter();
-  trend: string;
+export class ToolbarComponent {
+  @Input() screenType: ScreenType;
+  @Input() trend: string;
+  @Output() tbToggleSidebar = new EventEmitter();
 
   constructor(private tg: TweetGetterService) {
   }
-  ngOnInit() {
-    this.tg.trend$.subscribe(
-      value => this.trend = value
-    );
-  }
 
-  call_sidebar_switch() {
-    this.sidebarSwitch.emit(null);
+  toggleSidebar() {
+    this.tbToggleSidebar.emit(null);
   }
 }

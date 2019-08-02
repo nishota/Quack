@@ -7,26 +7,10 @@ import { TweetGetterService } from './tweet-getter.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  // スマホとPCの判別 (800px)
-  screen_width: number;
-  screen_type: string;
 
-  constructor(private tg: TweetGetterService) {
-    this.setScreenType();
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.tg.windowResize$.subscribe(
-      () => this.setScreenType()
-    );
-  }
-
-  setScreenType() {
-    this.screen_width = window.innerWidth;
-    if (this.screen_width > 800) {
-      this.screen_type = 'PC';
-    } else {
-      this.screen_type = 'SP';
-    }
   }
 }

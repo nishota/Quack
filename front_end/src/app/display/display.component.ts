@@ -14,7 +14,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   intervalTweet: Subscription;
   intervalAnime: Subscription;
-  intervalTime = 2500; // ms
+  intervalTime = 3000; // ms
 
   trend: string;
   tweetDatas: { id: number, tweet: Tweet, display: 'none' }[] = [];
