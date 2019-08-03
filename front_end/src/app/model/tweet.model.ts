@@ -1,4 +1,4 @@
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 export class Tweet {
     private tweetId: string;
     private user: string;

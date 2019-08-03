@@ -53,7 +53,7 @@ ul{
     display: inline-block;
     height: 50px;
     width: 190px;
-    margin-bottom: 20PX;
+    margin-bottom: 20px;
     background: black no-repeat center/55% url("../../assets/yt_logo_rgb_dark.png");
 }
 
@@ -68,8 +68,8 @@ ul{
     line-height: 36px;
     height: 50px;
     width: 190px;
-    margin-top: 20PX;
-    margin-bottom: 20PX;
+    margin-top: 20px;
+    margin-bottom: 20px;
     color:#FFFFFF;
     padding: 1px 9px;
     font-size: 22px;
@@ -81,4 +81,14 @@ ul{
 li.version{
     color:black;
     font-size: 15px;
+}
+
+h3.trend{
+    color:#18447e;
+    margin-top: 10px;
+    margin-bottom:10px;
+    height:45px;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.9);
 }
