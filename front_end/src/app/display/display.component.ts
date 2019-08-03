@@ -54,23 +54,13 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscriptions.push(
       this.tg.windowForcus$.subscribe(
-        () => {
-          this.tweetDatas.forEach(td => td.display = 'none');
-          this.tg.isLoadingSource.next({ state: false, loaded: true });
-          this.intervalTweet = interval(this.intervalTime).subscribe(
-            () => {
-              this.tg.getTweetData();
-            }
-          );
-        }
+        () => location.reload()
       ));
     this.subscriptions.push(
       this.tg.windowBlur$.subscribe(
         () => {
           this.intervalTweet.unsubscribe();
-          if (this.tg.getTweetSubscription) {
-            this.tg.getTweetSubscription.unsubscribe();
-          }
+          this.tg.getTweetSubscription.unsubscribe();
           this.tweetDatas.forEach(td => td.display = 'none');
           this.tg.isLoadingSource.next({ state: true, loaded: true });
         }

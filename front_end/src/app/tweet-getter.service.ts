@@ -23,7 +23,7 @@ export class TweetGetterService {
   indexHeight = 5;
 
   count = 0;
-  CARD_NUM = 100;
+  CARD_NUM = 60;
 
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
