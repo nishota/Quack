@@ -6,11 +6,11 @@ body { margin: 0; font-family: "M PLUS Rounded 1c"; }
 * {
     margin: 0 auto;
 }
-/* html,body{
+html,body{
     height: 100%;
     position: relative;
     overflow: hidden;
-}  */
+} 
 
 .center{
     position: absolute;
