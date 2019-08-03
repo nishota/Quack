@@ -10,7 +10,9 @@ import os
     app config
 """
 app = Flask(__name__)
-CORS(app, resources=r'*')
+# CORS(app, resources=r'*')
+# CORSのOrigin(リクエスト元)を限定
+CORS(app, resources=r'*', origins=['http://localhost:4200','https://twitre.tomato-note.com'])
 app.config['JSON_AS_ASCII'] = False
 
 # 環境情報読み込み
@@ -29,8 +31,11 @@ def output_test():
 @app.route('/json/twitredb/keyword', methods=['GET'])
 def output_twitredb_tweet_get():
     # リクエストパラメタ取得
-    max_id = req.args.get('maxid')
-    fetch_count = req.args.get('count')    
+    # max_id = req.args.get('maxid')
+    # fetch_count = req.args.get('count')
+    # リクエストパラメタの制限を追加
+    max_id = req.args.get('maxid') if (req.args.get('maxid') is not None) and req.args.get('maxid').isdecimal() else '' 
+    fetch_count = req.args.get('count') if (req.args.get('count') is not None) and req.args.get('count').isdecimal() else ''
 
     # ツイートDB取得
     recs, latest_trend, latest_max_id = get_twitredb(max_id, fetch_count)

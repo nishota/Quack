@@ -176,9 +176,9 @@ def fetch_twitter_trend():
     }
     res = twitter.get(url,params = params)
     if res.status_code == 200:
-        print("Suceed-fetchTwitterTrend: %d" % res.status_code)
+        print("Suceed-fetch_twitter_trend: %d" % res.status_code)
     else:
-        print("Failed-fetchTwitterTrend: %d" % res.status_code)
+        print("Failed-fetch_twitter_trend: %d" % res.status_code)
     
     return res
 
@@ -227,9 +227,9 @@ def fetch_tweet_with_keyword(keyword):
     res = twitter.get(url,params = params)
 
     if res.status_code == 200:
-        print("Succeed-fetchTweetWithKeyword: %d" % res.status_code)
+        print("Succeed-fetch_tweet_with_keyword: %d" % res.status_code)
     else:
-        print("Failed-fetchTweetWithKeyword: %d" % res.status_code)
+        print("Failed-fetch_tweet+_with_keyword: %d" % res.status_code)
 
     return res
 
@@ -251,7 +251,7 @@ def shape_twitter_trend(trends):
     rec_twitter_sysid :
         twitter_sysid_tblに保存する単一レコード(辞書型)
     recs_twitter_trends_sorted :
-        twitter_trends_tblに保存する複数レコード(リスト)
+        twitter_trends_tblに保存する複数レコード(辞書型のリスト)
     """
     json_trends = json.loads(trends.text)
 
@@ -261,10 +261,8 @@ def shape_twitter_trend(trends):
     rec_twitter_sysid = {}
     # rec_twitter_sysid['sys_id'] = ''
 
-    # サーバローカル時刻に修正
+    # 時刻整形(utc)
     time_utc = time.strptime(json_trends[0]['created_at'], '%Y-%m-%dT%H:%M:%SZ')
-    # unix_time = calendar.timegm(time_utc)
-    # time_local = time.localtime(unix_time)
     time_utc_str = time.strftime("%Y-%m-%d %H:%M:%S", time_utc)
     rec_twitter_sysid['created_at'] = time_utc_str
 
@@ -379,10 +377,8 @@ def shape_tweet_with_keyword(tweets,keyword):
         rec_twitter_api['id_str'] = json_tweet['id_str']
         rec_twitter_api['screen_name'] = json_tweet['user']['screen_name']
 
-        # 現在時刻設定(UTC)
+        # 現在時刻設定(utc)
         time_utc = time.strptime(json_tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-        # unix_time = calendar.timegm(time_utc)
-        # time_local = time.localtime(unix_time)
         time_utc_str = time.strftime("%Y-%m-%d %H:%M:%S", time_utc)
         rec_twitter_api['created_at'] = time_utc_str
 
