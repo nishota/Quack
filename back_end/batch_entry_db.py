@@ -453,6 +453,7 @@ def job_save_trend():
     """
     print("job_save_trend is working...")
     print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
+    global g_keywords
     g_keywords = save_twitter_trend()
 
 
