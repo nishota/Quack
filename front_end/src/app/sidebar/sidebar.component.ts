@@ -58,11 +58,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   setToolBarHeight() {
     switch (this.screenType) {
-      case 1: // SP
+      case ScreenType.SP: // SP
         this.sideNavWidth = window.innerWidth + 'px';
         this.topPosition = '56px';
         break;
-      case 0: // PC
+      case ScreenType.PC: // PC
       default:
         this.sideNavWidth = '300px';
         this.topPosition = '64px';
