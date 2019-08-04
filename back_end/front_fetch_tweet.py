@@ -12,7 +12,7 @@ import os
 app = Flask(__name__)
 # CORS(app, resources=r'*')
 # CORSのOrigin(リクエスト元)を限定
-CORS(app, resources=r'*', origins=['http://localhost:4200','https://twitre.tomato-note.com','https://quack-teal.com'])
+CORS(app, resources=r'*', origins=['http://localhost:4200','https://quack-teal.com'])
 app.config['JSON_AS_ASCII'] = False
 
 # 環境情報読み込み
