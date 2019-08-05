@@ -15,8 +15,9 @@
 .sidebar {
     color: white;
     text-align: center;
-    width: 100%;
-    background: repeat top/150% url("../../assets/81878430.jpeg");
+    max-width: 100%;
+    height: auto;
+    background: repeat top/105% url("../../assets/81878430.jpeg");
 }
 
 ul{
