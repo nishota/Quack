@@ -387,9 +387,9 @@ def shape_tweet_with_keyword(tweets,keyword):
         # 最大文字数60以上を切り捨て
         text = json_tweet['text']
         if len(text) <= 60:
-            rec_twitter_api['text'] = text
+            rec_twitter_api['text'] = text.replace('&gt;', '>').replace('&lt;', '<')
         else: 
-            rec_twitter_api['text'] = text[:59] + '...'
+            rec_twitter_api['text'] = (text[:59] + '...').replace('&gt;', '>').replace('&lt;', '<')
 
         rec_twitter_api['trend'] = keyword # 検索キーワード
         rec_twitter_api['user_id'] = json_tweet['user']['id']
