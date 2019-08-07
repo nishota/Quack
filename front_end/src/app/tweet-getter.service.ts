@@ -30,7 +30,7 @@ export class TweetGetterService {
 
   isLoading = true;
   Loaded = false;
-  isLoadingSource = new Subject<{ state: boolean, loaded: boolean }>();
+  isLoadingSource = new Subject<boolean>();
   isLoading$ = this.isLoadingSource.asObservable();
 
   contentSource = new Subject<{ id: number, tweet: Tweet }>();
@@ -69,7 +69,7 @@ export class TweetGetterService {
             });
         }
       },
-      () => this.isLoadingSource.next({ state: true, loaded: false })
+      () => this.isLoadingSource.next(true)
     );
   }
 

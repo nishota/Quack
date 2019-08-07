@@ -1,69 +1,155 @@
-.semipolar-spinner, .semipolar-spinner * {
-    box-sizing: border-box;
-  }
+#load {
+  position:absolute;
+  width:600px;
+  height:36px;
+  right:50%;
+  top:40%;
+  margin-right:-300px;
+  overflow:visible;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  cursor:default;
+}
 
-  .semipolar-spinner {
-    height: 100px;
-    width: 100px;
-    position: relative;
-  }
+#load div {
+  position:absolute;
+  width:20px;
+  height:36px;
+  opacity:0;
+  font-family:Helvetica, Arial, sans-serif;
+  animation:move 2s linear infinite;
+  -o-animation:move 2s linear infinite;
+  -moz-animation:move 2s linear infinite;
+  -webkit-animation:move 2s linear infinite;
+}
 
-  .semipolar-spinner .ring {
-    border-radius: 50%;
-    position: absolute;
-    border: calc(100px * 0.05) solid transparent;
-    border-top-color: #ff1d5e;
-    border-left-color: #ff1d5e;
-    animation: semipolar-spinner-animation 1.75s infinite;
-  }
+#load div:nth-child(2) {
+  top:70%;
+  animation-delay:0.2s;
+  -o-animation-delay:0.2s;
+  -moz-animation-delay:0.2s;
+  -webkit-animation-delay:0.2s;
+}
+#load div:nth-child(3) {
+  top:0%;
+  animation-delay:0.4s;
+  -o-animation-delay:0.4s;
+  -webkit-animation-delay:0.4s;
+  -webkit-animation-delay:0.4s;
+}
+#load div:nth-child(4) {
+  top:70%;
+  animation-delay:0.8s;
+  -o-animation-delay:0.8s;
+  -moz-animation-delay:0.8s;
+  -webkit-animation-delay:0.8s;
+}
 
-  .semipolar-spinner .ring:nth-child(1) {
-    height: calc(100px - 100px * 0.2 * 0);
-    width: calc(100px - 100px * 0.2 * 0);
-    top: calc(100px * 0.1 * 0);
-    left: calc(100px * 0.1 * 0);
-    animation-delay: calc(2000ms* 0.1 * 4);
-    z-index: 5;
+@keyframes move {
+  0% {
+	right:0;
+    opacity:0;
   }
+	35% {
+		right: 41%; 
+		-moz-transform:rotate(0deg);
+		-webkit-transform:rotate(0deg);
+		-o-transform:rotate(0deg);
+		transform:rotate(0deg);
+		opacity:1;
+	}
+	65% {
+		right:59%; 
+		-moz-transform:rotate(0deg); 
+		-webkit-transform:rotate(0deg); 
+		-o-transform:rotate(0deg);
+		transform:rotate(0deg); 
+		opacity:1;
+	}
+	100% {
+		right:100%; 
+		-moz-transform:rotate(0deg); 
+		-webkit-transform:rotate(0deg); 
+		-o-transform:rotate(0deg); 
+		transform:rotate(0deg);
+		opacity:0;
+	}
+}
 
-  .semipolar-spinner .ring:nth-child(2) {
-    height: calc(100px - 100px * 0.2 * 1);
-    width: calc(100px - 100px * 0.2 * 1);
-    top: calc(100px * 0.1 * 1);
-    left: calc(100px * 0.1 * 1);
-    animation-delay: calc(2000ms* 0.1 * 3);
-    z-index: 4;
-  }
+@-moz-keyframes move {
+	0% {
+		right:0; 
+		opacity:0;
+	}
+	35% {
+		right:41%; 
+		-moz-transform:rotate(0deg); 
+		transform:rotate(0deg);
+		opacity:1;
+	}
+	65% {
+		right:59%; 
+		-moz-transform:rotate(0deg); 
+		transform:rotate(0deg);
+		opacity:1;
+	}
+	100% {
+		right:100%; 
+		-moz-transform:rotate(0deg); 
+		transform:rotate(0deg);
+		opacity:0;
+	}
+}
 
-  .semipolar-spinner .ring:nth-child(3) {
-    height: calc(100px - 100px * 0.2 * 2);
-    width: calc(100px - 100px * 0.2 * 2);
-    top: calc(100px * 0.1 * 2);
-    left: calc(100px * 0.1 * 2);
-    animation-delay: calc(2000ms* 0.1 * 2);
-    z-index: 3;
-  }
+@-webkit-keyframes move {
+	0% {
+		right:0; 
+		top: 0%;
+		opacity:0;
+	}
+	35% {
+		right:41%; 
+		-webkit-transform:rotate(0deg); 
+		transform:rotate(0deg); 
+		opacity:1;
+	}
+	65% {
+		right:59%; 
+		-webkit-transform:rotate(0deg); 
+		transform:rotate(0deg); 
+		opacity:1;
+	}
+	100% {
+		right:100%;
+		-webkit-transform:rotate(0deg); 
+		transform:rotate(0deg); 
+		opacity:0;
+	}
+}
 
-  .semipolar-spinner .ring:nth-child(4) {
-    height: calc(100px - 100px * 0.2 * 3);
-    width: calc(100px - 100px * 0.2 * 3);
-    top: calc(100px * 0.1 * 3);
-    left: calc(100px * 0.1 * 3);
-    animation-delay: calc(2000ms* 0.1 * 1);
-    z-index: 2;
-  }
-
-  .semipolar-spinner .ring:nth-child(5) {
-    height: calc(100px - 100px * 0.2 * 4);
-    width: calc(100px - 100px * 0.2 * 4);
-    top: calc(100px * 0.1 * 4);
-    left: calc(100px * 0.1 * 4);
-    animation-delay: calc(2000ms* 0.1 * 0);
-    z-index: 1;
-  }
-
-  @keyframes semipolar-spinner-animation {
-    50% {
-      transform: rotate(360deg) scale(0.7);
-    }
-  }
+@-o-keyframes move {
+	0% {
+		right:0;
+		opacity:0;
+	}
+	35% {
+		right:41%; 
+		-o-transform:rotate(0deg); 
+		transform:rotate(0deg); 
+		opacity:1;
+	}
+	65% {
+		right:59%;
+		-o-transform:rotate(0deg); 
+		transform:rotate(0deg); 
+		opacity:1;
+	}
+	100% {
+		right:100%;
+		-o-transform:rotate(0deg); 
+		transform:rotate(0deg); 
+		opacity:0;
+	}
+}

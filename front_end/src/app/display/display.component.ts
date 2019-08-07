@@ -64,17 +64,16 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.intervalTweet.unsubscribe();
           this.tweetDatas.forEach(td => td.display = 'none');
-          this.tg.isLoadingSource.next({ state: true, loaded: true });
+          this.tg.isLoadingSource.next(true);
         }
       ));
     this.subscriptions.push(
       this.tg.isLoading$.subscribe(
         value => {
-          if (this.isLoading !== value.state) {
-            this.isLoading = value.state;
+          if (this.isLoading !== value) {
+            this.isLoading = value;
           }
-          this.tg.isLoading = value.state;
-          this.tg.Loaded = value.loaded;
+          this.tg.isLoading = value;
         }
       ));
     this.subscriptions.push(
@@ -87,7 +86,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.intervalTweet = interval(this.intervalTime).subscribe(
       () => {
         this.tg.getTweetData();
-        this.tg.isLoadingSource.next({ state: false, loaded: true });
+        this.tg.isLoadingSource.next(false);
       }
     );
     this.tg.Loaded = true;

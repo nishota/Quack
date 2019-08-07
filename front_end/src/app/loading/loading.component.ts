@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { TweetGetterService } from '../tweet-getter.service';
   styleUrls: ['./loading.component.css']
 })
 export class LoadingComponent implements OnInit {
-  initalized: boolean;
-
+  loaded: boolean;
   constructor(private tg: TweetGetterService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loaded = this.tg.Loaded;
     this.tg.isLoading$.subscribe(
-      res => this.initalized = res.state
+      () => this.loaded = true
     );
   }
 }
