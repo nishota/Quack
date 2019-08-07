@@ -1,3 +1,21 @@
 a:visited {
     color: blue;
 }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-width: 400px;
+}
+
+.container .text {
+    flex: 1;
+}
+
+.text p{
+    word-break: break-word;
+    width: 400px;   
+    width:100%;
+    float: left;
+}
