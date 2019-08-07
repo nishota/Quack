@@ -26,7 +26,6 @@ TWITTER = tu.TwitterUtil(app_config)
 
 # グローバル変数
 g_keywords = [] # キーワードリスト
-g_since_id = 0
 
 # defaultトレンド
 # default値有の場合、twitter apiによるトレンド取得を行わず、defalut値にて
@@ -52,7 +51,6 @@ def save_twitter_trend():
         トレンド上位のキーワードリスト
 
     """
-    g_default_trend = ""
     if not g_default_trend:
         # トレンド自動取得モード
         # トレンド取得
@@ -99,8 +97,8 @@ def save_twitter_tweet(keywords):
     """
     # tweet取得
     # 取得するツイートのsince_idを取得
-    g_since_id = db_utils.TwitterApiTbl.get_max_id()  
-    tweets_keyword_list = [(TWITTER.fetch_tweet_with_keyword(keyword,g_since_id), keyword) for keyword in keywords]
+    since_id = db_utils.TwitterApiTbl.get_max_id()  
+    tweets_keyword_list = [(TWITTER.fetch_tweet_with_keyword(keyword,since_id), keyword) for keyword in keywords]
 
     # tweet取得結果整形
     recs_twitter_api = []
@@ -352,7 +350,6 @@ def job_save_tweet():
     print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
     save_twitter_tweet(g_keywords)
 
-
 def schedule_execute():
     if not g_default_trend:
         schedule.every(SCHEDULE_TREND).minutes.do(job_save_trend)
@@ -374,9 +371,7 @@ def schedule_execute():
 if __name__ == "__main__":
     if not TWITTER:
         TWITTER = tu.TwitterUtil(app_config)
-
     g_keywords = save_twitter_trend()
     save_twitter_tweet(g_keywords)
-    
     schedule_execute()
     
