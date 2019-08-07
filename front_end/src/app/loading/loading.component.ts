@@ -13,6 +13,8 @@ export class LoadingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initalized = this.tg.Loaded;
+    this.tg.isLoading$.subscribe(
+      res => this.initalized = res.state
+    );
   }
 }
