@@ -96,7 +96,6 @@ def save_twitter_tweet(keywords):
 
     """
     # tweet取得
-    # 取得するツイートのsince_idを取得
     since_id = db_utils.TwitterApiTbl.get_max_id()  
     tweets_keyword_list = [(TWITTER.fetch_tweet_with_keyword(keyword,since_id), keyword) for keyword in keywords]
 

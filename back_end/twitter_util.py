@@ -98,7 +98,8 @@ class TwitterUtil:
             'count'       : 100,              # 取得するtweet数
             'q'           : query,             # 検索クエリ
             'since_id'    : since_id,        # since_idから取得 
-            'result_type' : 'recent'
+            'result_type' : 'recent',
+            #'tweet_mode'  : 'extended'
         }
         return self.get_res(url,params)
 
