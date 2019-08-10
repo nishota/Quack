@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-from requests_oauthlib import OAuth1Session
 import datetime
 import time,calendar
 import schedule
 import db_utils
+import twitter_util as tu
 from payload_pack_01 import p_debug_01
 import config
 
@@ -21,9 +21,11 @@ KEYWORDS_MAX = 1 # キーワード数
 SCHEDULE_TREND = 7 # トレンド保存実行間隔(min)
 SCHEDULE_TWEET = 5 # ツイート保存実行間隔(second)
 
+# Twitter認証
+TWITTER = tu.TwitterUtil(app_config)
+
 # グローバル変数
 g_keywords = [] # キーワードリスト
-g_since_id = 0
 
 # defaultトレンド
 # default値有の場合、twitter apiによるトレンド取得を行わず、defalut値にて
@@ -52,7 +54,7 @@ def save_twitter_trend():
     if not g_default_trend:
         # トレンド自動取得モード
         # トレンド取得
-        trends = fetch_twitter_trend()
+        trends = TWITTER.fetch_twitter_trend()
         # トレンド取得結果整形
         rec_twitter_sysid, recs_twitter_trends = shape_twitter_trend(trends)
     else:
@@ -94,7 +96,8 @@ def save_twitter_tweet(keywords):
 
     """
     # tweet取得
-    tweets_keyword_list = [(fetch_tweet_with_keyword(keyword), keyword) for keyword in keywords]
+    since_id = db_utils.TwitterApiTbl.get_max_id()  
+    tweets_keyword_list = [(TWITTER.fetch_tweet_with_keyword(keyword,since_id), keyword) for keyword in keywords]
 
     # tweet取得結果整形
     recs_twitter_api = []
@@ -108,131 +111,6 @@ def save_twitter_tweet(keywords):
 
     # DB保存(検索結果)
     db_utils.saveEntities(db_utils.TwitterApiTbl.populate_entity(recs_twitter_api))
-
-
-"""
-    Auth to twitter API
-"""
-
-def twitter_auth():
-    """twitter apiの認証を行う
-    
-    Parameters
-    ----------
-
-    Returns
-    ----------
-    twitter :
-        認証済みのtwitter apiオブジェクト
-    """
-    # OAuth
-    # TODO require to rewrite
-    if not app_config.PRODUCTION:
-        '''
-        開発
-        '''
-        KEY_PATH = os.path.dirname(os.path.abspath(__file__))+'/key.json'
-        with open(KEY_PATH) as f:
-            df = json.load(f)
-            TWITTER_API_KEY = df['twitrekey']['TWITTER_API_KEY']
-            TWITTER_API_SECRET_KEY = df['twitrekey']['TWITTER_API_SECRET_KEY']
-            TWITTER_ACCESS_TOKEN = df['twitrekey']['TWITTER_ACCESS_TOKEN']
-            TWITTER_ACCESS_TOKEN_SECRET = df['twitrekey']['TWITTER_ACCESS_TOKEN_SECRET']
-    else:
-        '''
-            本番
-        '''
-        TWITTER_API_KEY = os.environ["TWITTER_API_KEY"]
-        TWITTER_API_SECRET_KEY = os.environ["TWITTER_API_SECRET_KEY"]
-        TWITTER_ACCESS_TOKEN = os.environ["TWITTER_ACCESS_TOKEN"]
-        TWITTER_ACCESS_TOKEN_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
-        
-    twitter = OAuth1Session(TWITTER_API_KEY, TWITTER_API_SECRET_KEY, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
-    return twitter
-
-
-"""
-    fetch from twitter API
-"""
-@p_debug_01.stop_watch
-def fetch_twitter_trend():
-    """twitter api(trends/place)を用いてトレンドワードを取得する
-    
-    Parameters
-    ----------
-
-    Returns
-    -------
-    res :
-        twitter api(trends/place)からのレスポンスオブジェクト
-    """
-    # OAuth
-    twitter = twitter_auth()
-
-    # get-request to twitter api
-    url = 'https://api.twitter.com/1.1/trends/place.json'
-    params = {             
-        'id' : 1118550    # WOEID (Yokohama)
-    }
-    res = twitter.get(url,params = params)
-    if res.status_code == 200:
-        print("Suceed-fetch_twitter_trend: %d" % res.status_code)
-    else:
-        print("Failed-fetch_twitter_trend: %d" % res.status_code)
-    
-    return res
-
-@p_debug_01.stop_watch
-def fetch_tweet_with_keyword(keyword):
-    """twitter api(search/tweets)を用いてツイートをキーワード検索する
-    
-    Parameters
-    ----------
-    keyword:
-        検索キーワード
-
-    Returns
-    -------
-    res :
-        twitter api(search/tweets)からのレスポンスオブジェクト
-    """
-    # OAuth
-    twitter = twitter_auth()
-
-    # get-request to twitter api
-    url = 'https://api.twitter.com/1.1/search/tweets.json'
-
-    # 取得するツイートのsince_idを取得
-    g_since_id = db_utils.TwitterApiTbl.get_max_id()  
-
-    # 取得するツイートの最古時刻を計算
-    now = datetime.datetime.utcnow()
-    sinceTime = now - datetime.timedelta(seconds=60)    
-
-    # queryチューニング前
-    # query = keyword + ' exclude:retweets' + ' lang:ja' + ' since:' + sinceTime.strftime("%Y-%m-%d_%H:%M:%S_JST")
-    # params = {
-    #     'count'       : 100,              # 取得するtweet数
-    #     'q'           : query,             # 検索クエリ
-    #     'since_id'    : g_since_id        # since_idから取得 
-    # }
-    # queryチューニング後
-    query = keyword + ' exclude:retweets' + ' exclude:replies' + ' lang:ja' + ' since:' + sinceTime.strftime("%Y-%m-%d_%H:%M:%S_UTC")
-    params = {
-        'count'       : 100,              # 取得するtweet数
-        'q'           : query,             # 検索クエリ
-        'since_id'    : g_since_id,        # since_idから取得 
-        'result_type' : 'recent'
-    }
-    res = twitter.get(url,params = params)
-
-    if res.status_code == 200:
-        print("Succeed-fetch_tweet_with_keyword: %d" % res.status_code)
-    else:
-        print("Failed-fetch_tweet+_with_keyword: %d" % res.status_code)
-
-    return res
-
 
 """
     shape fetched twitter API result
@@ -471,7 +349,6 @@ def job_save_tweet():
     print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
     save_twitter_tweet(g_keywords)
 
-
 def schedule_execute():
     if not g_default_trend:
         schedule.every(SCHEDULE_TREND).minutes.do(job_save_trend)
@@ -486,15 +363,14 @@ def schedule_execute():
         schedule.run_pending()
         time.sleep(1)
 
-    
 """
     main
 """
 
 if __name__ == "__main__":
+    if not TWITTER:
+        TWITTER = tu.TwitterUtil(app_config)
     g_keywords = save_twitter_trend()
     save_twitter_tweet(g_keywords)
-    
-
     schedule_execute()
     
