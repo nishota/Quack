@@ -8,6 +8,8 @@ import db_utils
 import twitter_util as tu
 from payload_pack_01 import p_debug_01
 import config
+import copy
+import textwrap
 
 
 # 環境情報
@@ -20,12 +22,14 @@ app_config = config.DevelopmentConfig
 KEYWORDS_MAX = 1 # キーワード数
 SCHEDULE_TREND = 7 # トレンド保存実行間隔(min)
 SCHEDULE_TWEET = 5 # ツイート保存実行間隔(second)
+SCHEDULE_PROMOTION = 1 # プロモーションツイート用トレンド変更監視間隔(min)
 
 # Twitter認証
 TWITTER = tu.TwitterUtil(app_config)
 
 # グローバル変数
 g_keywords = [] # キーワードリスト
+g_before_keywords = [] # 前回(1回前)キーワードリスト
 
 # defaultトレンド
 # default値有の場合、twitter apiによるトレンド取得を行わず、defalut値にて
@@ -286,6 +290,26 @@ def shape_tweet_with_keyword(tweets,keyword):
 
 
 """
+    promotion This App
+"""
+def tweet_on_twitter():
+    global g_before_keywords
+    global g_keywords
+    if (not g_before_keywords) or (g_keywords[0] != g_before_keywords[0]):
+        promotion = textwrap.dedent('''
+            こんにちは。Quack運営チームです！
+            Quackで人気トレンドに関するつぶやきを確認しましょう。
+            現在の人気トレンドは「''') \
+        + g_keywords[0]\
+        + textwrap.dedent('''\
+            」です。
+            　　リンクはこちら→ https://quack-teal.com''')
+        
+        TWITTER.send_twitter_tweet(promotion)
+    g_before_keywords = copy.deepcopy(g_keywords)
+
+
+"""
 
     others
 
@@ -331,7 +355,6 @@ def job_save_trend():
     """
     print("job_save_trend is working...")
     print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
-    global g_keywords
     g_keywords = save_twitter_trend()
 
 
@@ -349,10 +372,27 @@ def job_save_tweet():
     print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
     save_twitter_tweet(g_keywords)
 
+def job_tweet_on_twitter():
+    """プロモーションツイートジョブ
+    
+    Parameters
+    ----------
+
+    Returns
+    -------
+
+    """
+    print("job_tweet_on_twitter is working...")
+    print(datetime.datetime.utcnow().strftime("%Y-%m-%d_%H:%M:%S_JST"))
+    tweet_on_twitter()
+
+
 def schedule_execute():
     if not g_default_trend:
         schedule.every(SCHEDULE_TREND).minutes.do(job_save_trend)
     schedule.every(SCHEDULE_TWEET).seconds.do(job_save_tweet)
+    if not g_default_trend:
+        schedule.every(SCHEDULE_PROMOTION).minutes.do(job_tweet_on_twitter)
     # schedule.every().hour.do(job)
     # schedule.every().day.at("10:30").do(job)
     # schedule.every(5).to(10).minutes.do(job)
@@ -370,7 +410,8 @@ def schedule_execute():
 if __name__ == "__main__":
     if not TWITTER:
         TWITTER = tu.TwitterUtil(app_config)
+
     g_keywords = save_twitter_trend()
     save_twitter_tweet(g_keywords)
+    tweet_on_twitter()
     schedule_execute()
-    
