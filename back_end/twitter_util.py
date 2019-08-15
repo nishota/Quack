@@ -120,7 +120,7 @@ class TwitterUtil:
         """
         res = self.auth.get(url,params = params)
         if res.status_code == 200:
-            print("Suceed-fetch_twitter_trend: %d" % res.status_code)
+            print("Suceed: %d" % res.status_code)
         else:
-            print("Failed-fetch_twitter_trend: %d" % res.status_code)
+            print("Failed: %d" % res.status_code)
         return res
