@@ -10,6 +10,7 @@ import { ScreenType } from '../model/screen-type.enum';
 export class ToolbarComponent {
   @Input() screenType: ScreenType;
   @Input() trend: string;
+  @Input() link_trend: string;
   @Output() tbToggleSidebar = new EventEmitter();
 
   constructor(private tg: TweetGetterService) {
