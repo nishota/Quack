@@ -124,3 +124,49 @@ class TwitterUtil:
         else:
             print("Failed: %d" % res.status_code)
         return res
+
+    """
+    fetch from twitter API
+    """
+    def send_twitter_tweet(self,tweet):
+        """twitter api(statuses/update)を用いてトレンドワードを取得する
+        
+        Parameters
+        ----------
+        tweet : string
+            投稿するツイート内容
+        Returns
+        -------
+        res :
+            twitter api(trends/place)からのレスポンスオブジェクト
+        """
+
+        # get-request to twitter api
+        url = 'https://api.twitter.com/1.1/statuses/update.json'
+        params = {             
+            'status' : tweet,   # tweet
+        }
+        return self.post_res(url,params) 
+
+
+    def post_res(self, url, params):
+        """twitterのpostメソッドラッパー
+
+        Parameters
+        ----------
+        url : string
+            twitter APIのURL
+        param :
+            リクエストパラメタ
+
+        Returns
+        -------
+        res :
+            レスポンスオブジェクト
+        """
+        res = self.auth.post(url,params = params)
+        if res.status_code == 200:
+            print("Suceed: %d" % res.status_code)
+        else:
+            print("Failed: %d" % res.status_code)
+        return res
