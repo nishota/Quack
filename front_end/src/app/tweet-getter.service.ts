@@ -20,7 +20,7 @@ export class TweetGetterService {
   /**
    * 縦に何枚表示するか
    */
-  indexHeight = 5;
+  indexHeight = Math.round(window.innerHeight / 100) - 1;
 
   count = 0;
   CARD_NUM = 60;

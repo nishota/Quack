@@ -112,9 +112,9 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       newNum++;
     }
     this.num = newNum;
-    this.tg.indexHeight = Math.round(window.innerHeight / 100);
+    this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
     this.displayWidth = String(window.innerWidth) + 'px';
-    this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
+    this.state.setCoordRightToLeft(width, this.count % this.tg.indexHeight);
     this.count++;
     const animeSetting = {
       targets: '#target' + String(data.id),
