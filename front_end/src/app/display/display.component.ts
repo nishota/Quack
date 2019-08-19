@@ -112,7 +112,6 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       newNum++;
     }
     this.num = newNum;
-    this.tg.indexHeight = Math.round(window.innerHeight / 100) - 1;
     this.displayWidth = String(window.innerWidth) + 'px';
     this.state.setCoordRightToLeft(width, this.count % this.tg.indexHeight);
     this.count++;

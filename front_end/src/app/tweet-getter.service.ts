@@ -20,7 +20,8 @@ export class TweetGetterService {
   /**
    * 縦に何枚表示するか
    */
-  indexHeight = Math.round(window.innerHeight / 100) - 1;
+  indexHeight: number;
+  cardMaxHeight = 112; // 3行のときのカードの高さ
 
   count = 0;
   CARD_NUM = 60;
@@ -49,8 +50,10 @@ export class TweetGetterService {
   }
 
   getTweetData(): void {
+    this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
     this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
       (res: TweetRes) => {
+        this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
         this.trendSource.next(res.trend);
         this.maxId = res.maxid;
         if (res.tweets && res.tweets.length > 0) {
