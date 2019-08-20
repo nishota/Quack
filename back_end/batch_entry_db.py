@@ -31,6 +31,10 @@ TWITTER = tu.TwitterUtil(app_config)
 g_keywords = [] # キーワードリスト
 g_before_keywords = [] # 前回(1回前)キーワードリスト
 
+#特殊文字変換辞書
+list_length = 4
+char_list_before = ['&gt;','&lt;','&amp;','&quot;']
+char_list_after = ['>','<','&','"']
 # defaultトレンド
 # default値有の場合、twitter apiによるトレンド取得を行わず、defalut値にて
 # ツイート検索を行います。
@@ -267,11 +271,12 @@ def shape_tweet_with_keyword(tweets,keyword):
         # rec_twitter_api['create_time'] = ''
 
         # 最大文字数60以上を切り捨て
-        text = json_tweet['text']
+        for i in range(list_length):
+            text = json_tweet['text'].replace(char_list_before[i],char_list_after[i])
         if len(text) <= 60:
-            rec_twitter_api['text'] = text.replace('&gt;', '>').replace('&lt;', '<')
+            rec_twitter_api['text'] = text
         else: 
-            rec_twitter_api['text'] = (text[:59] + '...').replace('&gt;', '>').replace('&lt;', '<')
+            rec_twitter_api['text'] = (text[:59] + '...')
 
         rec_twitter_api['trend'] = keyword # 検索キーワード
         rec_twitter_api['user_id'] = json_tweet['user']['id']
