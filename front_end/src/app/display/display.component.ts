@@ -86,7 +86,6 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.intervalTweet = interval(this.intervalTime).subscribe(
       () => {
         this.tg.getTweetData();
-        this.tg.isLoadingSource.next(false);
       }
     );
     this.tg.Loaded = true;

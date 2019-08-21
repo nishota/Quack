@@ -54,22 +54,27 @@ export class TweetGetterService {
     this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
       (res: TweetRes) => {
         this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
-        this.trendSource.next(res.trend);
-        this.maxId = res.maxid;
-        if (res.tweets && res.tweets.length > 0) {
-          res.tweets.forEach(
-            tweet => {
-              this.contentSource.next({
-                id: this.count % this.CARD_NUM,
-                tweet: new Tweet(
-                  tweet.id_str,
-                  tweet.screen_name,
-                  this.setDateString(tweet.created_at),
-                  tweet.text
-                )
+        if (res.trend !== '') {
+          this.trendSource.next(res.trend);
+          this.maxId = res.maxid;
+          if (res.tweets && res.tweets.length > 0) {
+            res.tweets.forEach(
+              tweet => {
+                this.contentSource.next({
+                  id: this.count % this.CARD_NUM,
+                  tweet: new Tweet(
+                    tweet.id_str,
+                    tweet.screen_name,
+                    this.setDateString(tweet.created_at),
+                    tweet.text
+                  )
+                });
+                this.count++;
               });
-              this.count++;
-            });
+          }
+          this.isLoadingSource.next(false);
+        } else {
+          this.isLoadingSource.next(true);
         }
       },
       () => this.isLoadingSource.next(true)
