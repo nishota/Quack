@@ -95,10 +95,12 @@ li.version{
     margin-left: auto;
     margin-right: auto;
     color:#18447e;
-    height:45px;
-    font-size: 30px;
+    height:auto;
+    font-size: 4.7vw;
     font-weight: bold;
     text-decoration:none;
+    position: relative;
+    top: 7px;
 }
 
 .sidebar a{
