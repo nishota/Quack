@@ -20,7 +20,8 @@ export class TweetGetterService {
   /**
    * 縦に何枚表示するか
    */
-  indexHeight = 5;
+  indexHeight: number;
+  cardMaxHeight = 112; // 3行のときのカードの高さ
 
   count = 0;
   CARD_NUM = 60;
@@ -49,24 +50,31 @@ export class TweetGetterService {
   }
 
   getTweetData(): void {
+    this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
     this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
       (res: TweetRes) => {
-        this.trendSource.next(res.trend);
-        this.maxId = res.maxid;
-        if (res.tweets && res.tweets.length > 0) {
-          res.tweets.forEach(
-            tweet => {
-              this.contentSource.next({
-                id: this.count % this.CARD_NUM,
-                tweet: new Tweet(
-                  tweet.id_str,
-                  tweet.screen_name,
-                  this.setDateString(tweet.created_at),
-                  tweet.text
-                )
+        this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
+        if (res.trend !== '') {
+          this.trendSource.next(res.trend);
+          this.maxId = res.maxid;
+          if (res.tweets && res.tweets.length > 0) {
+            res.tweets.forEach(
+              tweet => {
+                this.contentSource.next({
+                  id: this.count % this.CARD_NUM,
+                  tweet: new Tweet(
+                    tweet.id_str,
+                    tweet.screen_name,
+                    this.setDateString(tweet.created_at),
+                    tweet.text
+                  )
+                });
+                this.count++;
               });
-              this.count++;
-            });
+          }
+          this.isLoadingSource.next(false);
+        } else {
+          this.isLoadingSource.next(true);
         }
       },
       () => this.isLoadingSource.next(true)

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { ScreenType } from '../model/screen-type.enum';
 
 @Component({
@@ -10,6 +10,7 @@ import { ScreenType } from '../model/screen-type.enum';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   trend: string;
+  link_trend: string;
   isOpened = true;
   threshold = 767; // iPad: 768px
   screenType: ScreenType;
@@ -34,8 +35,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
       ));
     this.subscriptions.push(
       this.tg.trend$.subscribe(
-        value => this.trend = value
+        value => {
+          this.trend = value;
+          this.link_trend = 'http://twitter.com/search?q=%23' + this.trend.slice(1);
+        }
       ));
+
   }
 
   ngOnDestroy(): void {

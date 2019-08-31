@@ -65,7 +65,7 @@ ul{
     margin-right:0;
 }
 
- .bmc-button{
+.bmc-button{
     line-height: 36px;
     height: 50px;
     width: 190px;
@@ -84,14 +84,27 @@ li.version{
     font-size: 15px;
 }
 
-h3.trend{
-    color:#18447e;
-    margin-top: 10px;
-    margin-bottom:10px;
-    height:45px;
-    font-size: 30px;
-    font-weight: bold;
+.trend-container {
+    margin-top:10px;
+    margin-bottom: 10px;
+    width: 100%;
     background-color: rgba(255, 255, 255, 0.9);
+}
+
+.trend-container a{
+    margin-left: auto;
+    margin-right: auto;
+    color:#18447e;
+    height:auto;
+    font-size: 4.7vw;
+    font-weight: bold;
+    text-decoration:none;
+    position: relative;
+    top: 7px;
+}
+
+.sidebar a{
+    text-decoration:none;
 }
 
 .main_container{

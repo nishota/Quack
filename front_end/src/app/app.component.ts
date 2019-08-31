@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TweetGetterService } from './tweet-getter.service';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,15 @@ import { TweetGetterService } from './tweet-getter.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
+  constructor(private meta: Meta) {
   }
 
   ngOnInit(): void {
+    this.meta.addTag(
+      {
+        name: 'discription',
+        content: 'QuackでリアルタイムなTwitterトレンドを流れるカードでフォローしよう!'
+      }
+    );
   }
 }

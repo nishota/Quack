@@ -60,7 +60,7 @@ export class StateStraight extends CardState {
     /**
      * 右から左へ流す
      */
-    setCoordLikeNico(x: number, index: number) {
+    setCoordRightToLeft(x: number, index: number) {
         const px = x / 2;
         const minY = 10;
         const py = 100 * index + minY;

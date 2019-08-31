@@ -86,7 +86,6 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.intervalTweet = interval(this.intervalTime).subscribe(
       () => {
         this.tg.getTweetData();
-        this.tg.isLoadingSource.next(false);
       }
     );
     this.tg.Loaded = true;
@@ -112,9 +111,8 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       newNum++;
     }
     this.num = newNum;
-    this.tg.indexHeight = Math.round(window.innerHeight / 100);
     this.displayWidth = String(window.innerWidth) + 'px';
-    this.state.setCoordLikeNico(width, this.count % this.tg.indexHeight);
+    this.state.setCoordRightToLeft(width, this.count % this.tg.indexHeight);
     this.count++;
     const animeSetting = {
       targets: '#target' + String(data.id),
