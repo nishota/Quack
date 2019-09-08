@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { Tweet } from '../model/tweet.model';
-import { environment } from 'src/environments/environment';
+import { Component, OnInit, Input } from '@angular/core';
+import { TweetData } from '../model/tweet.model';
 
 @Component({
   selector: 'app-tweet-card',
@@ -8,7 +7,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./tweet-card.component.css']
 })
 export class TweetCardComponent implements OnInit {
-  @Input() data: { id: number, tweet: Tweet, display: string };
+  @Input() data: TweetData;
   id: string;
   class: string;
 

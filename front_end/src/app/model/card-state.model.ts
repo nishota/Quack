@@ -58,7 +58,9 @@ export class StateStraight extends CardState {
     }
 
     /**
-     * 右から左へ流す
+     * カードを右から左へ流す
+     * @param x 横幅
+     * @param index 画面内の縦方向のカード数
      */
     setCoordRightToLeft(x: number, index: number) {
         const px = x / 2;

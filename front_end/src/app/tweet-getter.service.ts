@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, fromEvent, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Tweet, TweetRes } from './model/tweet.model';
+import { Tweet, TweetRes, TweetData } from './model/tweet.model';
 
 import * as moment from 'moment';
 
@@ -21,27 +21,40 @@ export class TweetGetterService {
    * 縦に何枚表示するか
    */
   indexHeight: number;
-  cardMaxHeight = 112; // 3行のときのカードの高さ
+  /**
+   * カード内のテキストが3行のときの高さ
+   */
+  cardMaxHeight = 112;
 
   count = 0;
-  CARD_NUM = 60;
+
+  /**
+   * 全カード枚数
+   */
+  CARD_NUM = 30;
 
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
 
+  /**
+   * ロード中かどうか
+   */
   isLoading = true;
+  /**
+   * 初回ロードが終了したか
+   */
   Loaded = false;
   isLoadingSource = new Subject<boolean>();
   isLoading$ = this.isLoadingSource.asObservable();
 
-  contentSource = new Subject<{ id: number, tweet: Tweet }>();
+  contentSource = new Subject<TweetData>();
   content$ = this.contentSource.asObservable();
 
-  dismissSource = new Subject<{ id: number, tweet: Tweet }>();
+  dismissSource = new Subject<TweetData>();
   dismiss$ = this.dismissSource.asObservable();
 
-  windowForcus$ = fromEvent(window, 'focus');
-  windowBlur$ = fromEvent(window, 'blur');
+  // windowForcus$ = fromEvent(window, 'focus');
+  // windowBlur$ = fromEvent(window, 'blur');
   windowResize$ = fromEvent(window, 'resize');
 
   getTweetSubscription: Subscription;
@@ -49,6 +62,9 @@ export class TweetGetterService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * ツイート取得処理
+   */
   getTweetData(): void {
     this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
     this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
@@ -59,16 +75,16 @@ export class TweetGetterService {
           this.maxId = res.maxid;
           if (res.tweets && res.tweets.length > 0) {
             res.tweets.forEach(
-              tweet => {
-                this.contentSource.next({
-                  id: this.count % this.CARD_NUM,
-                  tweet: new Tweet(
-                    tweet.id_str,
-                    tweet.screen_name,
-                    this.setDateString(tweet.created_at),
-                    tweet.text
-                  )
-                });
+              (tweet) => {
+                this.contentSource.next(
+                  new TweetData(
+                    this.count % this.CARD_NUM,
+                    new Tweet(
+                      tweet.id_str,
+                      tweet.screen_name,
+                      this.setDateString(tweet.created_at),
+                      tweet.text)
+                  ));
                 this.count++;
               });
           }
@@ -91,11 +107,17 @@ export class TweetGetterService {
     const options = { params: new HttpParams().set('maxid', reqMaxId).set('count', String(indexHeight)) };
     return this.http.get<any[]>(environment.devUrl, options);
   }
-
+  /**
+   * アセットをフロント側を配置しているサーバから取りに行く。
+   */
   getInfoFromAsset(): Observable<any> {
     return this.http.get<any[]>(environment.infoUrl);
   }
 
+  /**
+   * 日時をブラウザが認識しているタイムゾーンの時間に変更する。
+   * @param createdAt 日時(サーバからの生データ)
+   */
   setDateString(createdAt: string): string {
     const date = moment(createdAt);
     const createdTime = new Date(date.utc().format());

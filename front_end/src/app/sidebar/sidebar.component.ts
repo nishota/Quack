@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
 import { Subscription, Subject } from 'rxjs';
 import { ScreenType } from '../model/screen-type.enum';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,7 @@ import { ScreenType } from '../model/screen-type.enum';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   trend: string;
-  link_trend: string;
+  linkTrend: string;
   isOpened = true;
   threshold = 767; // iPad: 768px
   screenType: ScreenType;
@@ -37,7 +38,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.tg.trend$.subscribe(
         value => {
           this.trend = value;
-          this.link_trend = 'http://twitter.com/search?q=%23' + this.trend.slice(1);
+          this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
         }
       ));
 
@@ -61,6 +62,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * ツールバーの高さ設定
+   */
   setToolBarHeight() {
     switch (this.screenType) {
       case ScreenType.SP: // SP

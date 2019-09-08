@@ -1,11 +1,13 @@
 import { environment } from '../../environments/environment';
+/**
+ * ツイートクラス
+ */
 export class Tweet {
     private tweetId: string;
     private user: string;
     private date: string;
     private text: string;
 
-    // コンストラクタでのみ値を設定する
     constructor(
         tweetId: string, user: string,
         date: string, text: string) {
@@ -34,8 +36,25 @@ export class Tweet {
     }
 }
 
+/**
+ * 取得データ型
+ */
 export interface TweetRes {
     trend: string;
     maxid: string;
     tweets: any[];
+}
+
+/**
+ * 表示用データクラス
+ */
+export class TweetData {
+    id: number;
+    tweet: Tweet;
+    display: 'none' | 'block';
+    constructor(id: number, tweet: Tweet) {
+        this.id = id;
+        this.tweet = tweet;
+        this.display = 'none';
+    }
 }

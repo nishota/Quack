@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TweetGetterService } from '../tweet-getter.service';
+import { Infomation } from '../model/infomation.model';
 
 @Component({
   selector: 'app-infomation',
@@ -9,6 +10,9 @@ import { TweetGetterService } from '../tweet-getter.service';
 export class InfomationComponent implements OnInit {
 
   infos: Infomation[] = [];
+  /**
+   * お知らせの数
+   */
   infoNum = 3;
 
   constructor(private tg: TweetGetterService) { }
@@ -28,9 +32,3 @@ export class InfomationComponent implements OnInit {
   }
 }
 
-export class Infomation {
-  date: string;
-  content: string;
-  url: string;
-  hasUrl: boolean;
-}

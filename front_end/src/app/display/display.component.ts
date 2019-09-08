@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { Tweet } from '../model/tweet.model';
+import { Tweet, TweetData } from '../model/tweet.model';
 import { TweetGetterService } from '../tweet-getter.service';
 import { Subscription, interval } from 'rxjs';
 import * as anime from 'animejs';
@@ -13,11 +13,10 @@ import { StateStraight } from '../model/card-state.model';
 export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   intervalTweet: Subscription;
-  intervalAnime: Subscription;
   intervalTime = 3000; // ms
 
   trend: string;
-  tweetDatas: { id: number, tweet: Tweet, display: 'none' }[] = [];
+  tweetDatas: TweetData[] = [];
   subscriptions: Subscription[] = [];
   initTweet = new Tweet('', '', '', '');
   isLoading = true;
@@ -30,7 +29,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private tg: TweetGetterService) {
     for (let i = 0; i < this.tg.CARD_NUM; i++) {
-      this.tweetDatas.push({ id: i, tweet: this.initTweet, display: 'none' });
+      this.tweetDatas.push(new TweetData( i, this.initTweet));
     }
   }
 
@@ -51,22 +50,24 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       this.tg.dismiss$.subscribe(
         tweetData => this.tweetDatas[tweetData.id].tweet = this.initTweet
       ));
-
-    this.subscriptions.push(
-      this.tg.windowForcus$.subscribe(
-        () => location.reload()
-      ));
-    this.subscriptions.push(
-      this.tg.windowBlur$.subscribe(
-        () => {
-          if (!this.isLoading) {
-            this.tg.getTweetSubscription.unsubscribe();
-          }
-          this.intervalTweet.unsubscribe();
-          this.tweetDatas.forEach(td => td.display = 'none');
-          this.tg.isLoadingSource.next(true);
-        }
-      ));
+    // // フォーカスが戻ったとき
+    // this.subscriptions.push(
+    //   this.tg.windowForcus$.subscribe(
+    //     () => location.reload()
+    //   ));
+    // // フォーカスが外れたとき
+    // this.subscriptions.push(
+    //   this.tg.windowBlur$.subscribe(
+    //     () => {
+    //       if (!this.isLoading) {
+    //         this.tg.getTweetSubscription.unsubscribe();
+    //       }
+    //       this.intervalTweet.unsubscribe();
+    //       this.tweetDatas.forEach(td => td.display = 'none');
+    //       this.tg.isLoadingSource.next(true);
+    //     }
+    //   ));
+    // ロード画面表示
     this.subscriptions.push(
       this.tg.isLoading$.subscribe(
         value => {
@@ -76,6 +77,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
           this.tg.isLoading = value;
         }
       ));
+    // トレンド取得
     this.subscriptions.push(
       this.tg.trend$.subscribe(
         value => this.trend = value
@@ -98,13 +100,16 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.intervalTweet.unsubscribe();
   }
 
-  startAnime(data: { id: number, tweet: Tweet, display: string }) {
+　/**
+  * それぞれのカードのアニメーションを設定する
+  * @param data カードのデータ
+  */
+  startAnime(data: TweetData) {
     if (!this.tg.isLoading) {
       data.display = 'block';
     } else {
       data.display = 'none';
     }
-
     const width = window.innerWidth * 2;
     let newNum = Math.round(Math.random() * this.tg.indexHeight);
     if (this.num === newNum) {
