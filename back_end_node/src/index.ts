@@ -14,6 +14,12 @@ import Express from 'express';
 import http from 'http';
 import socketio from 'socket.io';
 
+//TODO: Modelの共通化
+import { ConectionMode } from "./model/conection-mode.model";
+import { TweetRes, TweetData, Tweet } from './model/tweet.model';
+
+const debugFlag = true;
+
 const app: Express.Express = Express();
 const server: http.Server = http.createServer(app);
 const io: socketio.Server = socketio(server);
@@ -25,20 +31,57 @@ io.on('connection', (socket: socketio.Socket) => {
     const conect = query.conect;
     console.log(conect);
 
-    socket.on('disconnect', (data: any) => {
+    socket.on(ConectionMode.Disconect, (data: any) => {
+        // TODO
     });
 
-    socket.on('message', (data: { text: string, name: string }) => {
-        console.log(`${data.name} : ${data.text}`);
-        if (data.text.length > 0) {
-            io.emit('sync-data', { name: data.name, text: data.text, date: new Date() });
-            io.emit('sync-canvas', { text: data.text });
-        }
-    });
+    // !!!TEST用!!!
+    // TODO: Debugモードとに切り替え
+    if(!debugFlag){
+        socket.on(ConectionMode.ServerGetData, (data: TweetRes) => {
+            console.log("受け取りました");
+            io.emit(ConectionMode.ClientGetData, { data: data });
+        });
+    }else{
+        // TODO: デバッグでもイベントを発生させて動かしたい。
+        console.log('debug-mode');
+        let count = 0;
+        setInterval(
+            ()=>{
+            io.emit(ConectionMode.ClientGetData,{
+                trend: 'hogehoge',
+                maxid: '1',
+                tweets: [
+                    {
+                        tweetId: '1',
+                        user: 'hugahuga',
+                        date: 'TODO: 未実装',
+                        text: 'testestest'
+                    },
+                    {
+                        tweetId: '2',
+                        user: 'gehogeho',
+                        date: 'TODO: 未実装',
+                        text: 'テストテスト'
+                    },
+                    {
+                        tweetId: '3',
+                        user: 'gehogeho',
+                        date: 'TODO: 未実装',
+                        text: '123456789'
+                    },
+                ],
+            });
+            console.log('テストデータ送信: '+count.toString());
+            count++;
+        },
+            5000
+        );
+    }
 });
 
 server.listen(
-    5000,
+    5001,
     () => {
-        console.log('Example app listening on port 5000!');
+        console.log('Example app listening on port 5001!');
     });

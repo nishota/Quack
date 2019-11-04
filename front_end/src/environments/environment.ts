@@ -7,7 +7,8 @@ export const environment = {
   devUrl: 'https://payload-01.herokuapp.com/json/twitredb/keyword',
   twitterUrl: 'https://twitter.com/',
   twitterTrendUrl: 'http://twitter.com/search?q=%23',
-  infoUrl: 'http://localhost:4200/assets/infomation.json'
+  infoUrl: 'http://localhost:4200/assets/infomation.json',
+  socketUrl: 'http://localhost:5001'
 };
 
 /*

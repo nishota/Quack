@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TweetGetterService } from './tweet-getter.service';
 import { Meta } from '@angular/platform-browser';
 
 @Component({

@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { TweetGetterService } from '../tweet-getter.service';
 import { ScreenType } from '../model/screen-type.enum';
 
 @Component({
@@ -13,7 +12,7 @@ export class ToolbarComponent {
   @Input() linkTrend: string;
   @Output() tbToggleSidebar = new EventEmitter();
 
-  constructor(private tg: TweetGetterService) {
+  constructor() {
   }
 
   toggleSidebar() {

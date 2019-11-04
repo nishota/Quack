@@ -12,29 +12,10 @@ import { WindowStateService } from './window-state.service';
 })
 export class TweetGetterService {
 
-  /**
-   * ツイートIDの最大値
-   */
-  maxId = '';
-  maxIdNum: number;
-  /**
-   * 縦に何枚表示するか
-   */
-  indexHeight: number;
-  /**
-   * カード内のテキストが3行のときの高さ
-   */
-  cardMaxHeight = 112;
-
   count = 0;
 
   contentSource = new Subject<TweetData>();
   content$ = this.contentSource.asObservable();
-
-  /**
-   * 全カード枚数
-   */
-  CARD_NUM = 30;
 
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
@@ -48,19 +29,19 @@ export class TweetGetterService {
    * ツイート取得処理
    */
   getTweetData(): void {
-    this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
-    this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
+    this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
+    this.getTweetSubscription = this.getTweetFromServer(this.state.maxId, this.state.indexHeight).subscribe(
       (res: TweetRes) => {
-        this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
+        this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
         if (res.trend !== '') {
           this.trendSource.next(res.trend);
-          this.maxId = res.maxid;
+          this.state.maxId = res.maxid;
           if (res.tweets && res.tweets.length > 0) {
             res.tweets.forEach(
               (tweet) => {
                 this.contentSource.next(
                   new TweetData(
-                    this.count % this.CARD_NUM,
+                    this.count % this.state.CARD_NUM,
                     new Tweet(
                       tweet.id_str,
                       tweet.screen_name,

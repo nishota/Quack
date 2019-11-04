@@ -1,5 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
-import { TweetGetterService } from '../tweet-getter.service';
+import { Component, OnInit } from '@angular/core';
 import { WindowStateService } from '../window-state.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { WindowStateService } from '../window-state.service';
 })
 export class LoadingComponent implements OnInit {
   loaded: boolean;
-  constructor(private tg: TweetGetterService, private ws: WindowStateService) {
+  constructor(private ws: WindowStateService) {
   }
 
   ngOnInit(): void {

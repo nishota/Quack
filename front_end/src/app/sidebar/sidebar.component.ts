@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TweetGetterService } from '../tweet-getter.service';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ScreenType } from '../model/screen-type.enum';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from '../window-state.service';
+import { WebSocketService } from '../web-socket.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,7 +22,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  constructor(private tg: TweetGetterService, private ws: WindowStateService) {
+  constructor(private tg: WebSocketService, private ws: WindowStateService) {
   }
 
   ngOnInit(): void {
@@ -42,7 +42,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
         }
       ));
-
   }
 
   ngOnDestroy(): void {

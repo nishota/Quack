@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TweetGetterService } from '../tweet-getter.service';
 import { Infomation } from '../model/infomation.model';
+import { WebSocketService } from '../web-socket.service';
 
 @Component({
   selector: 'app-infomation',
@@ -15,7 +15,7 @@ export class InfomationComponent implements OnInit {
    */
   infoNum = 3;
 
-  constructor(private tg: TweetGetterService) { }
+  constructor(private tg: WebSocketService) { }
 
   ngOnInit() {
     this.tg.getInfoFromAsset().subscribe(

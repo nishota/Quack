@@ -7,11 +7,11 @@ import { TweetCardComponent } from './tweet-card/tweet-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule, MatCardModule, MatSidenavModule, MatButtonModule, MatIconModule, MatListModule} from '@angular/material';
 import { LoadingComponent } from './loading/loading.component';
-import { ImgCardComponent } from './img-card/img-card.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SpButtonComponent } from './sp-button/sp-button.component';
 import { InfomationComponent } from './infomation/infomation.component';
+import { WebSocketService } from './web-socket.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,6 @@ import { InfomationComponent } from './infomation/infomation.component';
     TweetCardComponent,
     SpButtonComponent,
     LoadingComponent,
-    ImgCardComponent,
     InfomationComponent
   ],
   imports: [
@@ -37,7 +36,7 @@ import { InfomationComponent } from './infomation/infomation.component';
     MatIconModule,
     MatListModule
   ],
-  providers: [],
+  providers: [WebSocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

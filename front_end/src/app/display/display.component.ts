@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Tweet, TweetData } from '../model/tweet.model';
-import { TweetGetterService } from '../tweet-getter.service';
 import { Subscription, interval } from 'rxjs';
 import * as anime from 'animejs';
 import { StateStraight } from '../model/card-state.model';
 import { WindowStateService } from '../window-state.service';
+import { WebSocketService } from '../web-socket.service';
 
 @Component({
   selector: 'app-display',
@@ -28,8 +28,8 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   arr = [];
 
-  constructor(private tg: TweetGetterService, private ws: WindowStateService) {
-    for (let i = 0; i < this.tg.CARD_NUM; i++) {
+  constructor(private tg: WebSocketService, private ws: WindowStateService) {
+    for (let i = 0; i < this.ws.CARD_NUM; i++) {
       this.tweetDatas.push(new TweetData( i, this.initTweet));
     }
   }
@@ -86,11 +86,12 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.intervalTweet = interval(this.intervalTime).subscribe(
-      () => {
-        this.tg.getTweetData();
-      }
-    );
+    // this.intervalTweet = interval(this.intervalTime).subscribe(
+    //   () => {
+    //     this.tg.getTweetData();
+    //   }
+    // );
+    this.tg.getTweetData();
     this.ws.Loaded = true;
   }
 
@@ -98,7 +99,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.forEach(
       subscription => subscription.unsubscribe()
     );
-    this.intervalTweet.unsubscribe();
+    // this.intervalTweet.unsubscribe();
   }
 
 　/**
@@ -112,13 +113,13 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       data.display = 'none';
     }
     const width = window.innerWidth * 2;
-    let newNum = Math.round(Math.random() * this.tg.indexHeight);
+    let newNum = Math.round(Math.random() * this.ws.indexHeight);
     if (this.num === newNum) {
       newNum++;
     }
     this.num = newNum;
     this.displayWidth = String(window.innerWidth) + 'px';
-    this.state.setCoordRightToLeft(width, this.count % this.tg.indexHeight);
+    this.state.setCoordRightToLeft(width, this.count % this.ws.indexHeight);
     this.count++;
     const animeSetting = {
       targets: '#target' + String(data.id),
