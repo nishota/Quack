@@ -31,7 +31,7 @@ export class Tweet {
         return this.text;
     }
     get Url(): string {
-        return 'TODO' + this.User;
+        return 'https://twitter.com/' + this.User;
     }
 }
 

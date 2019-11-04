@@ -7,10 +7,11 @@ import { Observable, Subscription, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from './window-state.service';
 import { TweetRes, TweetData, Tweet } from './model/tweet.model';
-import { ConectionMode } from './model/conection-mode.model';
+import { ConnectionMode } from './model/connection-mode.model';
 import { HttpClient } from '@angular/common/http';
 
 import * as io from 'socket.io-client';
+import * as moment from 'moment';
 
 @Injectable()
 export class WebSocketService {
@@ -30,22 +31,25 @@ export class WebSocketService {
     this.connect('conect=QuackQuack');
   }
 
-  connect(queryString: string) {
-    console.log(this.url);
+  private connect(queryString: string) {
     this.socket = io(this.url, { query: queryString });
   }
 
-  emit(emitName: string, data?: any) {
+  private emit(emitName: string, data?: any) {
     this.socket.emit(emitName, data);
   }
 
-  on(onName: string): Observable<any> {
+  private on(onName: string): Observable<any> {
     const observable = new Observable(observer => {
       this.socket.on(onName, (data) => {
         observer.next(data);
       });
     });
     return observable;
+  }
+
+  disconnect() {
+    this.emit(ConnectionMode.Disconnect);
   }
 
   /**
@@ -55,7 +59,6 @@ export class WebSocketService {
     this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
     this.getTweetSubscription = this.getTweetFromSocketIO().subscribe(
       (res: TweetRes) => {
-        console.log('受け取りました');
         this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
         if (res.trend !== '') {
           this.trendSource.next(res.trend);
@@ -88,7 +91,7 @@ export class WebSocketService {
    * maxidなどは一旦廃止
    */
   getTweetFromSocketIO(): Observable<TweetRes> {
-    return this.on(ConectionMode.ClientGetData);
+    return this.on(ConnectionMode.ClientGetData);
   }
   /**
    * アセットをフロント側を配置しているサーバから取りに行く。
@@ -98,11 +101,40 @@ export class WebSocketService {
   }
 
   /**
-   * TODO: 日時をブラウザが認識しているタイムゾーンの時間に変更する。
+   * 日時をブラウザが認識しているタイムゾーンの時間に変更する。
    * @param createdAt 日時(サーバからの生データ)
    */
   setDateString(createdAt: string): string {
-    return 'hogehoge';
-  }
+    const date = moment(createdAt);
+    const createdTime = new Date(date.utc().format());
+    const year = createdTime.getFullYear();
+    const month = createdTime.getMonth() + 1;
+    const day = createdTime.getDate();
+    const hours = createdTime.getHours();
+    const min = createdTime.getMinutes();
+    const sec = createdTime.getSeconds();
 
+    let stMonth = String(month);
+    let stDay = String(day);
+    let stHours = String(hours);
+    let stMin = String(min);
+    let stSec = String(sec);
+
+    if (month < 10) {
+      stMonth = '0' + stMonth;
+    }
+    if (day < 10) {
+      stDay = '0' + stDay;
+    }
+    if (hours < 10) {
+      stHours = '0' + stHours;
+    }
+    if (min < 10) {
+      stMin = '0' + stMin;
+    }
+    if (sec < 10) {
+      stSec = '0' + stSec;
+    }
+    return year + '/' + stMonth + '/' + stDay + ' ' + stHours + ':' + stMin + ':' + stSec;
+  }
 }

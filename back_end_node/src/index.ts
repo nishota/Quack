@@ -15,10 +15,12 @@ import http from 'http';
 import socketio from 'socket.io';
 
 //TODO: Modelの共通化
-import { ConectionMode } from "./model/conection-mode.model";
+import { ConnectionMode } from "./model/connection-mode.model";
 import { TweetRes, TweetData, Tweet } from './model/tweet.model';
 
 const debugFlag = true;
+let connectCount = 0;
+let isLoaded = false;
 
 const app: Express.Express = Express();
 const server: http.Server = http.createServer(app);
@@ -28,55 +30,64 @@ app.use(Express.static('public'));
 
 io.on('connection', (socket: socketio.Socket) => {
     const query = socket.handshake.query;
-    const conect = query.conect;
-    console.log(conect);
+    const connect = query.connect;
+    if(connect === 'QuackQuack'){
+        connectCount++;
+    }
 
-    socket.on(ConectionMode.Disconect, (data: any) => {
-        // TODO
+    socket.on(ConnectionMode.Disconnect, (data: any) => {
+        // TODO 接続を切断するときの処理
+        console.log('disconnect');
+        connectCount--;
+        console.log(connectCount);
     });
 
     // !!!TEST用!!!
     // TODO: Debugモードとに切り替え
     if(!debugFlag){
-        socket.on(ConectionMode.ServerGetData, (data: TweetRes) => {
-            console.log("受け取りました");
-            io.emit(ConectionMode.ClientGetData, { data: data });
+        socket.on(ConnectionMode.ServerGetData, (data: TweetRes) => {
+            io.emit(ConnectionMode.ClientGetData, { data: data });
         });
     }else{
         // TODO: デバッグでもイベントを発生させて動かしたい。
         console.log('debug-mode');
         let count = 0;
-        setInterval(
-            ()=>{
-            io.emit(ConectionMode.ClientGetData,{
-                trend: 'hogehoge',
-                maxid: '1',
-                tweets: [
-                    {
-                        tweetId: '1',
-                        user: 'hugahuga',
-                        date: 'TODO: 未実装',
-                        text: 'testestest'
-                    },
-                    {
-                        tweetId: '2',
-                        user: 'gehogeho',
-                        date: 'TODO: 未実装',
-                        text: 'テストテスト'
-                    },
-                    {
-                        tweetId: '3',
-                        user: 'gehogeho',
-                        date: 'TODO: 未実装',
-                        text: '123456789'
-                    },
-                ],
-            });
-            console.log('テストデータ送信: '+count.toString());
-            count++;
-        },
-            5000
-        );
+        //if(connectCount == 1){
+        if(!isLoaded){
+            setInterval(
+                ()=>{
+                io.emit(ConnectionMode.ClientGetData,{
+                    trend: 'hogehoge',
+                    maxid: '1',
+                    tweets: [
+                        {
+                            id_str: '1',
+                            screen_name: 'hugahuga',
+                            created_at: '2019-11-04T23:14:43+0000',
+                            text: 'testestest'
+                        },
+                        {
+                            id_str: '2',
+                            screen_name: 'gehogeho',
+                            created_at: '2019-11-04T23:14:43+0000',
+                            text: 'テストテスト'
+                        },
+                        {
+                            id_str: '3',
+                            screen_name: 'gehogeho',
+                            created_at: '2019-11-04T23:14:43+0000',
+                            text: '123456789'
+                        },
+                    ],
+                });
+                console.log('テストデータ送信: '+count.toString());
+                count++;
+                isLoaded = true;
+            },
+                5000
+            );
+        }
+        
     }
 });
 

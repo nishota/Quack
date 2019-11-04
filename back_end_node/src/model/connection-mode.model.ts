@@ -1,7 +1,7 @@
 // TODO pythonとの連携のため、JSON化を考える
-export class ConectionMode {
-    static Conect = 'quack-conect';
-    static Disconect = 'quack-disconect';
+export class ConnectionMode {
+    static Connect = 'quack-connect';
+    static Disconnect = 'quack-disconnect';
     static ClientGetData = 'quack-getTweetData';
     static ServerGetData = 'quackNode-getTweetData';
 }
