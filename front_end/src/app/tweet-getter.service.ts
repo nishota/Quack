@@ -39,8 +39,6 @@ export class TweetGetterService {
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
 
-  
-
   getTweetSubscription: Subscription;
 
   constructor(private http: HttpClient, private state: WindowStateService) {

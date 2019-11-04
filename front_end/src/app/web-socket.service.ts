@@ -33,4 +33,39 @@ export class WebSocketService {
     return observable;
   }
 
+  /**
+   * TODO: ツイート取得処理
+   */
+  getTweetData(): void {
+  //   this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
+  //   this.getTweetSubscription = this.getTweetFromServer(this.maxId, this.indexHeight).subscribe(
+  //     (res: TweetRes) => {
+  //       this.indexHeight = Math.round(window.innerHeight / this.cardMaxHeight);
+  //       if (res.trend !== '') {
+  //         this.trendSource.next(res.trend);
+  //         this.maxId = res.maxid;
+  //         if (res.tweets && res.tweets.length > 0) {
+  //           res.tweets.forEach(
+  //             (tweet) => {
+  //               this.contentSource.next(
+  //                 new TweetData(
+  //                   this.count % this.CARD_NUM,
+  //                   new Tweet(
+  //                     tweet.id_str,
+  //                     tweet.screen_name,
+  //                     this.setDateString(tweet.created_at),
+  //                     tweet.text)
+  //                 ));
+  //               this.count++;
+  //             });
+  //         }
+  //         this.state.isLoadingSource.next(false);
+  //       } else {
+  //         this.state.isLoadingSource.next(true);
+  //       }
+  //     },
+  //     () => this.state.isLoadingSource.next(true)
+  //   );
+  }
+
 }

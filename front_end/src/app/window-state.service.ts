@@ -20,8 +20,6 @@ export class WindowStateService {
   isLoadingSource = new Subject<boolean>();
   isLoading$ = this.isLoadingSource.asObservable();
 
-  
-
   dismissSource = new Subject<TweetData>();
   dismiss$ = this.dismissSource.asObservable();
 
