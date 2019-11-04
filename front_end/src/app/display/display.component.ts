@@ -4,6 +4,7 @@ import { TweetGetterService } from '../tweet-getter.service';
 import { Subscription, interval } from 'rxjs';
 import * as anime from 'animejs';
 import { StateStraight } from '../model/card-state.model';
+import { WindowStateService } from '../window-state.service';
 
 @Component({
   selector: 'app-display',
@@ -27,7 +28,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   arr = [];
 
-  constructor(private tg: TweetGetterService) {
+  constructor(private tg: TweetGetterService, private ws: WindowStateService) {
     for (let i = 0; i < this.tg.CARD_NUM; i++) {
       this.tweetDatas.push(new TweetData( i, this.initTweet));
     }
@@ -38,7 +39,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.push(
       this.tg.content$.subscribe(
         tweetData => {
-          if (!this.tg.isLoading) {
+          if (!this.ws.isLoading) {
             this.tweetDatas[tweetData.id].tweet = tweetData.tweet;
             this.startAnime(this.tweetDatas[tweetData.id]);
           }
@@ -47,7 +48,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // tweetを削除
     this.subscriptions.push(
-      this.tg.dismiss$.subscribe(
+      this.ws.dismiss$.subscribe(
         tweetData => this.tweetDatas[tweetData.id].tweet = this.initTweet
       ));
     // // フォーカスが戻ったとき
@@ -69,12 +70,12 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     //   ));
     // ロード画面表示
     this.subscriptions.push(
-      this.tg.isLoading$.subscribe(
+      this.ws.isLoading$.subscribe(
         value => {
           if (this.isLoading !== value) {
             this.isLoading = value;
           }
-          this.tg.isLoading = value;
+          this.ws.isLoading = value;
         }
       ));
     // トレンド取得
@@ -90,7 +91,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
         this.tg.getTweetData();
       }
     );
-    this.tg.Loaded = true;
+    this.ws.Loaded = true;
   }
 
   ngOnDestroy(): void {
@@ -105,7 +106,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   * @param data カードのデータ
   */
   startAnime(data: TweetData) {
-    if (!this.tg.isLoading) {
+    if (!this.ws.isLoading) {
       data.display = 'block';
     } else {
       data.display = 'none';
@@ -128,7 +129,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       delay: newNum * 800,
       complete: () => {
         data.display = 'none';
-        this.tg.dismissSource.next(data);
+        this.ws.dismissSource.next(data);
       }
     };
     anime(animeSetting);

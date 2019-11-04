@@ -3,6 +3,7 @@ import { TweetGetterService } from '../tweet-getter.service';
 import { Subscription, Subject } from 'rxjs';
 import { ScreenType } from '../model/screen-type.enum';
 import { environment } from 'src/environments/environment';
+import { WindowStateService } from '../window-state.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,14 +22,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  constructor(private tg: TweetGetterService) {
+  constructor(private tg: TweetGetterService, private ws: WindowStateService) {
   }
 
   ngOnInit(): void {
     this.setScreenType();
     this.setToolBarHeight();
     this.subscriptions.push(
-      this.tg.windowResize$.subscribe(
+      this.ws.windowResize$.subscribe(
         () => {
           this.setScreenType();
           this.setToolBarHeight();

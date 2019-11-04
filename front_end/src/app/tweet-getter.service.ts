@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Tweet, TweetRes, TweetData } from './model/tweet.model';
 
 import * as moment from 'moment';
-
+import { WindowStateService } from './window-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,9 @@ export class TweetGetterService {
 
   count = 0;
 
+  contentSource = new Subject<TweetData>();
+  content$ = this.contentSource.asObservable();
+
   /**
    * 全カード枚数
    */
@@ -36,30 +39,11 @@ export class TweetGetterService {
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();
 
-  /**
-   * ロード中かどうか
-   */
-  isLoading = true;
-  /**
-   * 初回ロードが終了したか
-   */
-  Loaded = false;
-  isLoadingSource = new Subject<boolean>();
-  isLoading$ = this.isLoadingSource.asObservable();
-
-  contentSource = new Subject<TweetData>();
-  content$ = this.contentSource.asObservable();
-
-  dismissSource = new Subject<TweetData>();
-  dismiss$ = this.dismissSource.asObservable();
-
-  // windowForcus$ = fromEvent(window, 'focus');
-  // windowBlur$ = fromEvent(window, 'blur');
-  windowResize$ = fromEvent(window, 'resize');
+  
 
   getTweetSubscription: Subscription;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private state: WindowStateService) {
   }
 
   /**
@@ -88,12 +72,12 @@ export class TweetGetterService {
                 this.count++;
               });
           }
-          this.isLoadingSource.next(false);
+          this.state.isLoadingSource.next(false);
         } else {
-          this.isLoadingSource.next(true);
+          this.state.isLoadingSource.next(true);
         }
       },
-      () => this.isLoadingSource.next(true)
+      () => this.state.isLoadingSource.next(true)
     );
   }
 
