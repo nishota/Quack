@@ -22,6 +22,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   count = 0;
   displayWidth: string;
   num = -1;
+  message: string;
 
   arr = [];
 
@@ -36,7 +37,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.push(
       this.tg.content$.subscribe(
         tweetData => {
-          if (!this.ws.isLoading) {
+          if (!this.isLoading) {
             this.tweetDatas[tweetData.id].tweet = tweetData.tweet;
             this.startAnime(this.tweetDatas[tweetData.id]);
           }
@@ -52,10 +53,10 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.push(
       this.ws.isLoading$.subscribe(
         value => {
-          if (this.isLoading !== value) {
-            this.isLoading = value;
+          this.message = value.message;
+          if (this.isLoading !== value.flag) {
+            this.isLoading = value.flag;
           }
-          this.ws.isLoading = value;
         }
       ));
     // トレンド取得
@@ -80,7 +81,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param data カードのデータ
    */
   startAnime(data: TweetData) {
-    if (!this.ws.isLoading) {
+    if (!this.isLoading) {
       data.display = 'block';
     } else {
       data.display = 'none';

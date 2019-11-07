@@ -24,13 +24,9 @@ export class WindowStateService {
    */
   CARD_NUM = 30;
   /**
-   * ロード中かどうか
+   * ロード状態
    */
-  isLoading = true;
-  /**
-   * 初回ロードが終了したか
-   */
-  isLoadingSource = new Subject<boolean>();
+  isLoadingSource = new Subject<{ flag: boolean, message: string }>();
   isLoading$ = this.isLoadingSource.asObservable();
 
   dismissSource = new Subject<TweetData>();

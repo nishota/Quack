@@ -3,7 +3,8 @@
 // npm install @types/socket.io-client --save-dev
 
 import { Injectable } from '@angular/core';
-import { Observable, Subscription, Subject } from 'rxjs';
+import { Observable, Subscription, Subject, throwError, timer } from 'rxjs';
+import { retry, retryWhen, mergeMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from './window-state.service';
 import { TweetRes, TweetData, Tweet } from './model/tweet.model';
@@ -31,6 +32,7 @@ export class WebSocketService {
     this.connect('conect=QuackQuack');
   }
 
+  // TODO: rxjsで全て記述したい
   private connect(queryString: string) {
     this.socket = io(this.url, { query: queryString });
   }
@@ -43,6 +45,14 @@ export class WebSocketService {
     const observable = new Observable(observer => {
       this.socket.on(onName, (data) => {
         observer.next(data);
+      });
+      this.socket.on('connect_error', (err) => {
+        const errMsg = 'Connection Error...';
+        observer.error(errMsg);
+      });
+      this.socket.on('connect_timeout', (err) => {
+        const errMsg = 'Connection Timeout...';
+        observer.error(errMsg);
       });
     });
     return observable;
@@ -60,29 +70,28 @@ export class WebSocketService {
     this.getTweetSubscription = this.getTweetFromSocketIO().subscribe(
       (res: TweetRes) => {
         this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
-        if (res.trend !== '') {
-          this.trendSource.next(res.trend);
-          if (res.tweets && res.tweets.length > 0) {
-            res.tweets.forEach(
-              (tweet) => {
-                this.contentSource.next(
-                  new TweetData(
-                    this.count % this.state.CARD_NUM,
-                    new Tweet(
-                      tweet.id_str,
-                      tweet.screen_name,
-                      this.setDateString(tweet.created_at),
-                      tweet.text)
-                  ));
-                this.count++;
-              });
-          }
-          this.state.isLoadingSource.next(false);
-        } else {
-          this.state.isLoadingSource.next(true);
+        this.trendSource.next(res.trend);
+        if (res.tweets && res.tweets.length > 0) {
+          res.tweets.forEach(
+            (tweet) => {
+              this.contentSource.next(
+                new TweetData(
+                  this.count % this.state.CARD_NUM,
+                  new Tweet(
+                    tweet.id_str,
+                    tweet.screen_name,
+                    this.setDateString(tweet.created_at),
+                    tweet.text)
+                ));
+              this.count++;
+            });
+          this.state.isLoadingSource.next({ flag: false, message: '' });
         }
       },
-      () => this.state.isLoadingSource.next(true)
+      (err) => {
+        this.state.isLoadingSource.next({ flag: true, message: 'Please access later...' });
+        this.socket.close();
+      }
     );
   }
 
@@ -91,7 +100,21 @@ export class WebSocketService {
    * maxidなどは一旦廃止
    */
   getTweetFromSocketIO(): Observable<TweetRes> {
-    return this.on(ConnectionMode.ClientGetData);
+    const sec = 1000;
+    const retryCount = 5;
+    return this.on(ConnectionMode.ClientGetData).pipe(
+      retryWhen((errors) => {
+        return errors.pipe(
+          mergeMap((e, index) => {
+            this.state.isLoadingSource.next({ flag: true, message: e });
+            if (index > retryCount) {
+              return throwError(e);
+            }
+            return timer((index + 1) * sec);
+          })
+        );
+      })
+    );
   }
   /**
    * アセットをフロント側を配置しているサーバから取りに行く。

@@ -1,5 +1,5 @@
 <div id="display" >
-  <app-loading *ngIf="isLoading"></app-loading>
+  <app-loading *ngIf="isLoading" [message]="message"></app-loading>
   <div *ngIf="!isLoading">
     <ng-container  *ngFor="let tweetData of tweetDatas">
       <app-tweet-card [data]="tweetData"></app-tweet-card>
