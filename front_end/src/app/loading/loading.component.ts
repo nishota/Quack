@@ -7,14 +7,8 @@ import { WindowStateService } from '../window-state.service';
   styleUrls: ['./loading.component.css']
 })
 export class LoadingComponent implements OnInit {
-  loaded: boolean;
-  constructor(private ws: WindowStateService) {
+  constructor() {
   }
-
   ngOnInit(): void {
-    this.loaded = this.ws.Loaded;
-    this.ws.isLoading$.subscribe(
-      () => this.loaded = true
-    );
   }
 }

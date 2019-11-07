@@ -30,14 +30,11 @@ export class WindowStateService {
   /**
    * 初回ロードが終了したか
    */
-  Loaded = false;
   isLoadingSource = new Subject<boolean>();
   isLoading$ = this.isLoadingSource.asObservable();
 
   dismissSource = new Subject<TweetData>();
   dismiss$ = this.dismissSource.asObservable();
 
-  // windowForcus$ = fromEvent(window, 'focus');
-  // windowBlur$ = fromEvent(window, 'blur');
   windowResize$ = fromEvent(window, 'resize');
 }
