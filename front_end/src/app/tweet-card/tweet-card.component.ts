@@ -11,11 +11,14 @@ export class TweetCardComponent implements OnInit {
   id: string;
   class: string;
 
+  height: string; // TODO もう少しいい方法で決めたい
+
   constructor() {
   }
 
   ngOnInit() {
     this.id = 'target' + String(this.data.id);
     this.class = 'center target' + String(this.data.id);
+    this.height = String(Math.random() * (window.innerHeight) + 30) + 'px';
   }
 }

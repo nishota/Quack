@@ -93,14 +93,12 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.num = newNum;
     this.displayWidth = String(window.innerWidth) + 'px';
-    this.state.setCoordRightToLeft(width, this.count % this.ws.indexHeight);
     this.count++;
     const animeSetting = {
       targets: '#target' + String(data.id),
-      translateX: [this.state.coordBefore.x, this.state.coord.x],
-      translateY: [this.state.coordBefore.y, this.state.coord.y],
+      translateX: -(window.innerWidth + 332),
       easing: 'linear',
-      duration: 30 * window.innerWidth,
+      duration: 10 * window.innerWidth,
       delay: newNum * 800,
       complete: () => {
         data.display = 'none';
