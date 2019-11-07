@@ -1,24 +1,26 @@
-<div [id]="id" class="center"
-[ngStyle]="{'display': data.display}">
-  <mat-card class="tweet-card">
-    <mat-card-content>
-      <div class="container">
-        <div class="text">
-          <p>
-            {{data.tweet.Text}}
-          </p>
+<div class="base">
+  <div [id]="id" class="hidden"
+  [ngStyle]="{'display': data.display}">
+    <mat-card class="tweet-card">
+      <mat-card-content>
+        <div class="container">
+          <div class="text">
+            <p>
+              {{data.tweet.Text}}
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="inner-footer">
-        <ul>
-          <li class="user-name">
-            <a [href]="data.tweet.Url" target="_blank">
-              @{{data.tweet.User}}
-            </a>
-          </li>
-          <li class="date">date: {{data.tweet.Date}}</li>
-        </ul>
-      </div>
-    </mat-card-content>
-  </mat-card>
+        <div class="inner-footer">
+          <ul>
+            <li class="user-name">
+              <a [href]="data.tweet.Url" target="_blank">
+                @{{data.tweet.User}}
+              </a>
+            </li>
+            <li class="date">date: {{data.tweet.Date}}</li>
+          </ul>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

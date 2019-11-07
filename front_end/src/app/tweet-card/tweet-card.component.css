@@ -19,3 +19,40 @@ a:visited {
     width:100%;
     float: left;
 }
+
+.tweet-card {
+    max-width: 300px;
+    min-width: 300px;
+    background-color: white;
+    margin: 0;
+  }
+
+.inner-footer ul{
+    padding: 0;
+    margin: 0;
+}
+
+.inner-footer ul li{
+    font-size: 10px;
+    margin-right: 3em;
+    display: inline;
+}
+
+li .user-name{
+    margin-right: 10px;
+    text-align: left;
+}
+
+li .date{
+    text-align: right;
+}
+
+/*カード初期位置を画面外に設定*/
+.base{
+    position:absolute;
+    left:332px;/*カードのPadding分ずらす*/
+}
+.hidden{
+    position:absolute;
+    right:-332px;
+}
