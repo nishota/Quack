@@ -22,7 +22,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   count = 0;
   displayWidth: string;
   num = -1;
-  message: string;
+  message = 'Loading Now!';
 
   arr = [];
 
