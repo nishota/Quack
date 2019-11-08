@@ -50,9 +50,17 @@ li .date{
 /*カード初期位置を画面外に設定*/
 .base{
     position:absolute;
-    right:-5px;/*カードのPadding分ずらす*/
+    right:-5px;
 }
 .hidden{
     position:absolute;
     left:5px;
+}
+
+.show{
+    display: block;
+}
+
+.collapsed{
+    display: none;
 }

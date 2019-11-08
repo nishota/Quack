@@ -1,6 +1,7 @@
 <div class="base">
   <div [id]="id" class="hidden"
-  [ngStyle]="{'display': data.display,'top':height}">
+  [ngClass]="{'show': data.isShown, 'collapsed': !data.isShown}"
+  [ngStyle]="{'top':formTop}">
     <mat-card class="tweet-card">
       <mat-card-content>
         <div class="container">

@@ -48,10 +48,10 @@
 }
 
 @keyframes move {
-  0% {
-	right:0;
-    opacity:0;
-  }
+	0% {
+		right:0;
+		opacity:0;
+	}
 	35% {
 		right: 41%; 
 		-moz-transform:rotate(0deg);

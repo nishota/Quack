@@ -11,7 +11,7 @@ export class TweetCardComponent implements OnInit {
   id: string;
   class: string;
 
-  height: string; // TODO もう少しいい方法で決めたい
+  formTop: string; // TODO もう少しいい方法で決めたい
 
   constructor() {
   }
@@ -19,6 +19,6 @@ export class TweetCardComponent implements OnInit {
   ngOnInit() {
     this.id = 'target' + String(this.data.id);
     this.class = 'center target' + String(this.data.id);
-    this.height = String(Math.random() * (window.innerHeight) + 30) + 'px';
+    this.formTop = String(Math.random() * (window.innerHeight) + 30) + 'px';
   }
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Tweet, TweetData } from '../model/tweet.model';
-import { Subscription, interval } from 'rxjs';
-import * as anime from 'animejs';
+import { Subscription } from 'rxjs';
 import { StateStraight } from '../model/card-state.model';
 import { WindowStateService } from '../window-state.service';
 import { WebSocketService } from '../web-socket.service';
+import anime from 'animejs/lib/anime.es.js';
 
 @Component({
   selector: 'app-display',
@@ -19,9 +19,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   initTweet = new Tweet('', '', '', '');
   isLoading = true;
   state = new StateStraight();
-  count = 0;
   displayWidth: string;
-  num = -1;
   message = 'Loading Now!';
 
   arr = [];
@@ -36,7 +34,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     // tweetを格納
     this.subscriptions.push(
       this.tg.content$.subscribe(
-        tweetData => {
+        (tweetData: TweetData) => {
           if (!this.isLoading) {
             this.tweetDatas[tweetData.id].tweet = tweetData.tweet;
             this.startAnime(this.tweetDatas[tweetData.id]);
@@ -47,7 +45,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     // tweetを削除
     this.subscriptions.push(
       this.ws.dismiss$.subscribe(
-        tweetData => this.tweetDatas[tweetData.id].tweet = this.initTweet
+        (tweetData: TweetData) => this.tweetDatas[tweetData.id].tweet = this.initTweet
       ));
     // ロード画面表示
     this.subscriptions.push(
@@ -82,29 +80,20 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   startAnime(data: TweetData) {
     if (!this.isLoading) {
-      data.display = 'block';
-    } else {
-      data.display = 'none';
+      data.isShown = true;
     }
-    const width = window.innerWidth * 2;
-    let newNum = Math.round(Math.random() * this.ws.indexHeight);
-    if (this.num === newNum) {
-      newNum++;
-    }
-    this.num = newNum;
-    this.displayWidth = String(window.innerWidth) + 'px';
-    this.count++;
-    const animeSetting = {
-      targets: '#target' + String(data.id),
-      translateX: -(window.innerWidth + 332),
+    const newNum = Math.round(Math.random() * this.ws.indexHeight);
+    const targetId = '#target' + String(data.id);
+    anime({
+      targets: targetId,
+      translateX: [0, -(window.innerWidth + 332)],
       easing: 'linear',
-      duration: 10 * window.innerWidth,
-      delay: newNum * 800,
+      duration: 15 * window.innerWidth,
+      delay: newNum * 1000,
       complete: () => {
-        data.display = 'none';
+        data.isShown = false;
         this.ws.dismissSource.next(data);
       }
-    };
-    anime(animeSetting);
+    });
   }
 }

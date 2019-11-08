@@ -51,10 +51,10 @@ export interface TweetRes {
 export class TweetData {
     id: number;
     tweet: Tweet;
-    display: 'none' | 'block';
+    isShown: boolean;
     constructor(id: number, tweet: Tweet) {
         this.id = id;
         this.tweet = tweet;
-        this.display = 'none';
+        this.isShown = false;
     }
 }
