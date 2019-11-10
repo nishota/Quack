@@ -25,6 +25,8 @@ a:visited {
     min-width: 300px;
     background-color: white;
     margin: 0;
+    padding: 20px !important;
+    border-radius: 26.5px !important;
   }
 
 .inner-footer ul{
