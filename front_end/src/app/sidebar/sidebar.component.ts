@@ -13,7 +13,7 @@ import { WebSocketService } from '../web-socket.service';
 export class SidebarComponent implements OnInit, OnDestroy {
   trend: string;
   linkTrend: string;
-  isOpened = true;
+  isOpened = false;
   threshold = 767; // iPad: 768px
   screenType: ScreenType;
   screenWidth: number;
