@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   screenWidth: number;
   sideNavWidth: string;
   topPosition: string;
+  sidebarCSS: string;
 
   subscriptions: Subscription[] = [];
 
@@ -53,6 +54,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isOpened = !this.isOpened;
   }
 
+　/*
+   * 画面の横幅からPCかスマホか判別
+   */
   setScreenType() {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > this.threshold) {
@@ -62,19 +66,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * ツールバーの高さ設定
+  /*
+   * 「ツールバーの高さ」「サイドバーの横幅・CSS」設定
    */
   setToolBarHeight() {
     switch (this.screenType) {
       case ScreenType.SP: // SP
         this.sideNavWidth = window.innerWidth + 'px';
         this.topPosition = '56px';
-        break;
+        this.sidebarCSS = 'sidebar_SP';
+      break;
       case ScreenType.PC: // PC
       default:
         this.sideNavWidth = '300px';
         this.topPosition = '64px';
+        this.sidebarCSS = 'sidebar_PC';
         break;
     }
   }
