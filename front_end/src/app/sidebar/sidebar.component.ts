@@ -53,6 +53,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isOpened = !this.isOpened;
   }
 
+　/*
+   * 画面の横幅からPCかスマホか判別
+   */
   setScreenType() {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > this.threshold) {
@@ -62,8 +65,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * ツールバーの高さ設定
+  /*
+   * ツールバーの高さ・サイドバーの横幅設定
    */
   setToolBarHeight() {
     switch (this.screenType) {
