@@ -34,7 +34,11 @@ export class WebSocketService {
 
   // TODO: rxjsで全て記述したい
   private connect(queryString: string) {
-    this.socket = io(this.url, { query: queryString });
+    this.socket = io(this.url,
+      {
+        query: queryString,
+        path: environment.pathString
+      });
   }
 
   private emit(emitName: string, data?: any) {
