@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { ScreenType } from '../model/screen-type.enum';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from '../window-state.service';
-import { WebSocketService } from '../web-socket.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,8 +21,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   sidebarCSS: string;
 
   subscriptions: Subscription[] = [];
-
-  constructor(private tg: WebSocketService, private ws: WindowStateService) {
+  constructor(private ws: WindowStateService) {
   }
 
   ngOnInit(): void {
@@ -37,7 +35,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       ));
     this.subscriptions.push(
-      this.tg.trend$.subscribe(
+      this.ws.trend$.subscribe(
         value => {
           this.trend = value;
           this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
@@ -75,7 +73,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.sideNavWidth = window.innerWidth + 'px';
         this.topPosition = '56px';
         this.sidebarCSS = 'sidebar_SP';
-      break;
+        break;
       case ScreenType.PC: // PC
       default:
         this.sideNavWidth = '300px';

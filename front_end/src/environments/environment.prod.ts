@@ -6,7 +6,4 @@ export const environment = {
   infoUrl: 'https://quack-teal.com/assets/infomation.json',
   socketUrl: '',
   pathString: '/backend/quack/socket.io',
-  errorMessage: {
-    connectionFailed: 'Please access later...'
-  }
 };

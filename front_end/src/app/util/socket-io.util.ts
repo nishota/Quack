@@ -1,4 +1,4 @@
-import { ConnectionMode } from '../../environments/connection-mode';
+import { ConnectionMode } from '../../environments/const.environment';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as io from 'socket.io-client';

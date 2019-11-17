@@ -60,9 +60,12 @@ export class TweetData {
     id: number;
     tweet: Tweet;
     isShown: boolean;
-    constructor(id: number, tweet: Tweet) {
+    constructor(id: number, tweet: Tweet, isShown: boolean) {
         this.id = id;
         this.tweet = tweet;
-        this.isShown = false;
+        this.isShown = isShown;
+    }
+    static Clone(tweetData: TweetData): TweetData {
+        return new TweetData(tweetData.id, tweetData.tweet, tweetData.isShown);
     }
 }

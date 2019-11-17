@@ -13,9 +13,6 @@ export class TweetCardComponent implements OnInit {
 
   formTop: string; // TODO もう少しいい方法で決めたい
 
-  constructor() {
-  }
-
   ngOnInit() {
     this.id = 'target' + String(this.data.id);
     this.class = 'center target' + String(this.data.id);

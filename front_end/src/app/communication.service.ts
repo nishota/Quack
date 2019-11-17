@@ -8,20 +8,14 @@ import { retry, retryWhen, mergeMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from './window-state.service';
 import { TweetRes, TweetData, Tweet } from './model/tweet.model';
-import { ConnectionMode } from '../environments/connection-mode';
+import { ConnectionMode, Count, Message} from '../environments/const.environment';
 import { HttpClient } from '@angular/common/http';
 import { DateTime } from './util/datetime.util';
 
 import { Socket } from './util/socket-io.util';
 
 @Injectable()
-export class WebSocketService {
-  contentSource = new Subject<TweetData>();
-  content$ = this.contentSource.asObservable();
-
-  trendSource = new Subject<string>();
-  trend$ = this.trendSource.asObservable();
-
+export class CommunicationService {
   count = 0;
   getTweetSubscription: Subscription;
 
@@ -37,33 +31,32 @@ export class WebSocketService {
       const worker = new Worker('./web-worker/tweet.worker', { type: 'module' });
       worker.onmessage = ({ data }) => {
         const tweetData = new TweetData(
-          this.count % this.state.CARD_NUM,
-          Tweet.Clone(data)
+          this.count % Count.Card,
+          Tweet.Clone(data),
+          false
         );
         this.count++;
-        this.contentSource.next(tweetData);
+        this.state.contentSource.next(tweetData);
       };
       worker.onerror = ({ error }) => {
         console.error(error.message);
       };
 
-      this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
       this.getTweetSubscription = this.getTweetFromSocketIO().subscribe(
         (res: TweetRes) => {
-          this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
-          this.trendSource.next(res.trend);
+          this.state.trendSource.next(res.trend);
           if (res.tweets && res.tweets.length > 0) {
             res.tweets.forEach((tweet) => {
               worker.postMessage(tweet);
             });
-            this.state.isLoadingSource.next({ flag: false, message: '' });
+            this.state.isLoadingSource.next({ flag: false, message: Message.empty });
           }
         },
         (err) => {
           this.state.isLoadingSource.next(
             {
               flag: true,
-              message: environment.errorMessage.connectionFailed
+              message: Message.connectionFailed
             });
           Socket.Connection.close();
         });
@@ -73,33 +66,32 @@ export class WebSocketService {
       // この環境では Web Worker はサポートされていません。
       // プログラムが引き続き正しく実行されるように、フォールバックを追加する必要があります。
       console.warn('web-worker undifined');
-      this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
       this.getTweetSubscription = this.getTweetFromSocketIO().subscribe(
         (res: TweetRes) => {
-          this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
-          this.trendSource.next(res.trend);
+          this.state.trendSource.next(res.trend);
           if (res.tweets && res.tweets.length > 0) {
             res.tweets.forEach(
               (tweet) => {
-                this.contentSource.next(
+                this.state.contentSource.next(
                   new TweetData(
-                    this.count % this.state.CARD_NUM,
+                    this.count % Count.Card,
                     new Tweet(
                       tweet.id_str,
                       tweet.screen_name,
                       DateTime.setDateString(tweet.created_at),
-                      tweet.text)
+                      tweet.text),
+                    false
                   ));
                 this.count++;
               });
-            this.state.isLoadingSource.next({ flag: false, message: '' });
+            this.state.isLoadingSource.next({ flag: false, message: Message.empty });
           }
         },
         (err) => {
           this.state.isLoadingSource.next(
             {
               flag: true,
-              message: environment.errorMessage.connectionFailed
+              message: Message.connectionFailed
             });
           Socket.Connection.close();
         });

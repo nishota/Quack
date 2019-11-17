@@ -18,7 +18,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SpButtonComponent } from './sp-button/sp-button.component';
 import { InfomationComponent } from './infomation/infomation.component';
-import { WebSocketService } from './web-socket.service';
+import { CommunicationService } from './communication.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { WebSocketService } from './web-socket.service';
     MatIconModule,
     MatListModule
   ],
-  providers: [WebSocketService],
+  providers: [CommunicationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

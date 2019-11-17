@@ -10,9 +10,6 @@ export const environment = {
   infoUrl: 'http://localhost:4200/assets/infomation.json',
   socketUrl: 'http://localhost:5001',
   pathString: '',
-  errorMessage: {
-    connectionFailed: 'Please access later...'
-  }
 };
 
 /*

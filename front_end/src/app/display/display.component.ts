@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { Tweet, TweetData } from '../model/tweet.model';
+import { TweetData, Tweet } from '../model/tweet.model';
 import { Subscription } from 'rxjs';
-import { StateStraight } from '../model/card-state.model';
 import { WindowStateService } from '../window-state.service';
-import { WebSocketService } from '../web-socket.service';
+import { CommunicationService } from '../communication.service';
 import { Anime } from '../util/anime.util';
+import { Count, Message } from 'src/environments/const.environment';
 
 @Component({
   selector: 'app-display',
@@ -18,42 +18,34 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = [];
   initTweet = new Tweet('', '', '', '');
   isLoading = true;
-  state = new StateStraight();
   displayWidth: string;
-  message = 'Loading Now!';
+  message = Message.Loading;
 
   arr = [];
 
-  constructor(private tg: WebSocketService, private ws: WindowStateService) {
-    for (let i = 0; i < this.ws.CARD_NUM; i++) {
-      this.tweetDatas.push(new TweetData(i, this.initTweet));
+  constructor(private tg: CommunicationService, private ws: WindowStateService) {
+    for (let i = 0; i < Count.Card; i++) {
+      this.tweetDatas.push(new TweetData(i, this.initTweet, false));
     }
   }
 
   ngOnInit() {
     // tweetを格納
     this.subscriptions.push(
-      this.tg.content$.subscribe(
+      this.ws.content$.subscribe(
         (tweetData: TweetData) => {
           if (!this.isLoading) {
             this.tweetDatas[tweetData.id].tweet = tweetData.tweet;
             Anime.startAnime(
               this.tweetDatas[tweetData.id],
               this.isLoading,
-              this.ws.indexHeight,
               (data: TweetData) => {
                 data.isShown = false;
-                this.ws.dismissSource.next(data);
               });
           }
         }
       ));
 
-    // tweetを削除
-    this.subscriptions.push(
-      this.ws.dismiss$.subscribe(
-        (tweetData: TweetData) => this.tweetDatas[tweetData.id].tweet = this.initTweet
-      ));
     // ロード画面表示
     this.subscriptions.push(
       this.ws.isLoading$.subscribe(
@@ -66,7 +58,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
       ));
     // トレンド取得
     this.subscriptions.push(
-      this.tg.trend$.subscribe(
+      this.ws.trend$.subscribe(
         value => this.trend = value
       ));
   }

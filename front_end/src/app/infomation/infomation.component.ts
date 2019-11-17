@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Infomation } from '../model/infomation.model';
-import { WebSocketService } from '../web-socket.service';
+import { CommunicationService } from '../communication.service';
+import { Count } from 'src/environments/const.environment';
 
 @Component({
   selector: 'app-infomation',
@@ -9,20 +10,16 @@ import { WebSocketService } from '../web-socket.service';
 })
 export class InfomationComponent implements OnInit {
 
-  infos: Infomation[] = [];
-  /**
-   * お知らせの数
-   */
-  infoNum = 3;
+  private infos: Infomation[] = [];
 
-  constructor(private tg: WebSocketService) { }
+  constructor(private tg: CommunicationService) { }
 
   ngOnInit() {
     this.tg.getInfoFromAsset().subscribe(
       (res: Infomation[]) => {
         let count = 0;
         res.forEach(content => {
-          if (count < this.infoNum) {
+          if (count < Count.Info) {
             this.infos.push(content);
           }
           count++;
