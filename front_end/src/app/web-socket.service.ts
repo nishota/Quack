@@ -97,7 +97,11 @@ export class WebSocketService {
           }
         },
         (err) => {
-          this.state.isLoadingSource.next({ flag: true, message: 'Please access later...' });
+          this.state.isLoadingSource.next(
+            {
+              flag: true,
+              message: environment.errorMessage.connectionFailed
+            });
           this.socket.close();
         });
     } else {
@@ -129,7 +133,11 @@ export class WebSocketService {
           }
         },
         (err) => {
-          this.state.isLoadingSource.next({ flag: true, message: 'Please access later...' });
+          this.state.isLoadingSource.next(
+            {
+              flag: true,
+              message: environment.errorMessage.connectionFailed
+            });
           this.socket.close();
         });
     }

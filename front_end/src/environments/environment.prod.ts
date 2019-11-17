@@ -4,5 +4,9 @@ export const environment = {
   twitterUrl: 'https://twitter.com/',
   twitterTrendUrl: 'http://twitter.com/search?q=%23',
   infoUrl: 'https://quack-teal.com/assets/infomation.json',
-  pathString: '/backend/quack/socket.io'
+  socketUrl: '',
+  pathString: '/backend/quack/socket.io',
+  errorMessage: {
+    connectionFailed: 'Please access later...'
+  }
 };

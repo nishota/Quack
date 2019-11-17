@@ -9,7 +9,10 @@ export const environment = {
   twitterTrendUrl: 'http://twitter.com/search?q=%23',
   infoUrl: 'http://localhost:4200/assets/infomation.json',
   socketUrl: 'http://localhost:5001',
-  pathString: ''
+  pathString: '',
+  errorMessage: {
+    connectionFailed: 'Please access later...'
+  }
 };
 
 /*
