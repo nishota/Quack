@@ -5,7 +5,7 @@ import * as io from 'socket.io-client';
 
 export class Socket {
     private static url = environment.socketUrl;
-    public static Connection;
+    public static Connection: SocketIOClient.Socket;
 
     // TODO: rxjsで全て記述したい
   static connect(queryString: string) {

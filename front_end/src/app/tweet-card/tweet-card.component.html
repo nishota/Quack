@@ -1,24 +1,24 @@
 <div class="base">
   <div [id]="id" class="hidden"
-  [ngClass]="{'show': data.isShown, 'collapsed': !data.isShown}"
+  [ngClass]="{'show': IsShown, 'collapsed': !IsShown}"
   [ngStyle]="{'top':formTop}">
     <mat-card class="tweet-card">
       <mat-card-content>
         <div class="container">
           <div class="text">
             <p>
-              {{data.tweet.Text}}
+              {{Text}}
             </p>
           </div>
         </div>
         <div class="inner-footer">
           <ul>
             <li class="user-name">
-              <a [href]="data.tweet.Url" target="_blank">
-                @{{data.tweet.User}}
+              <a [href]="Url" target="_blank">
+                @{{User}}
               </a>
             </li>
-            <li class="date">date: {{data.tweet.Date}}</li>
+            <li class="date">date: {{Date}}</li>
           </ul>
         </div>
       </mat-card-content>

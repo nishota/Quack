@@ -1,13 +1,13 @@
 <app-toolbar [screenType]="screenType" [trend]="trend" [linkTrend]="linkTrend" (tbToggleSidebar)="toggleSidebar()">
 </app-toolbar>
 <mat-sidenav-container class="all-container" [ngStyle]="{'top': topPosition}">
-    <mat-sidenav #sidenav position="start" class="{{sidebarCSS}}" mode="side" opened="{{isOpened}}"
+    <mat-sidenav #sidenav position="start" [class]="sidebarCSS" mode="side" opened="{{isOpened}}"
         [ngStyle]="{'width': sideNavWidth}">
         <div>
             <ul>
                 <li *ngIf="screenType === 1">
                     <div class="trend-container" style="height: 40px;">
-                        <a href="{{linkTrend}}" target="_blank">
+                        <a [href]="linkTrend" target="_blank">
                             {{trend}}
                         </a>
                     </div>

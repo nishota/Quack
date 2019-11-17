@@ -8,7 +8,7 @@ export const ConnectionMode = {
 
 export const Count = {
     Info: 3, // お知らせの数
-    Card: 50 // カード枚数
+    Card: 30 // カード枚数
 };
 
 export const Message = {
