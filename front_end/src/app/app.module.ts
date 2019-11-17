@@ -5,7 +5,14 @@ import { DisplayComponent } from './display/display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TweetCardComponent } from './tweet-card/tweet-card.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatToolbarModule, MatCardModule, MatSidenavModule, MatButtonModule, MatIconModule, MatListModule} from '@angular/material';
+import {
+  MatToolbarModule,
+  MatCardModule,
+  MatSidenavModule,
+  MatButtonModule,
+  MatIconModule,
+  MatListModule
+} from '@angular/material';
 import { LoadingComponent } from './loading/loading.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';

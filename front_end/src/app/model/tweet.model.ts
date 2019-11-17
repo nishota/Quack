@@ -17,6 +17,14 @@ export class Tweet {
         this.text = text;
     }
 
+    static Clone(tweet: Tweet): Tweet {
+        return new Tweet(
+            tweet.TweetId,
+            tweet.user,
+            tweet.date,
+            tweet.text);
+    }
+
     get TweetId(): string {
         return this.tweetId;
     }

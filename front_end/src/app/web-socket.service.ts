@@ -10,9 +10,9 @@ import { WindowStateService } from './window-state.service';
 import { TweetRes, TweetData, Tweet } from './model/tweet.model';
 import { ConnectionMode } from './model/connection-mode.model';
 import { HttpClient } from '@angular/common/http';
+import { DateTime } from './util/datetime.util';
 
 import * as io from 'socket.io-client';
-import * as moment from 'moment';
 
 @Injectable()
 export class WebSocketService {
@@ -66,33 +66,69 @@ export class WebSocketService {
    * ツイート取得処理
    */
   getTweetData(): void {
-    this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
-    this.getTweetSubscription = this.getTweetFromSocketIO().subscribe(
-      (res: TweetRes) => {
-        this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
-        this.trendSource.next(res.trend);
-        if (res.tweets && res.tweets.length > 0) {
-          res.tweets.forEach(
-            (tweet) => {
-              this.contentSource.next(
-                new TweetData(
-                  this.count % this.state.CARD_NUM,
-                  new Tweet(
-                    tweet.id_str,
-                    tweet.screen_name,
-                    this.setDateString(tweet.created_at),
-                    tweet.text)
-                ));
-              this.count++;
+    if (typeof Worker !== 'undefined') {
+      const worker = new Worker('./web-worker/tweet.worker', { type: 'module' });
+      worker.onmessage = ({ data }) => {
+        const tweetData = new TweetData(
+          this.count % this.state.CARD_NUM,
+          Tweet.Clone(data)
+        );
+        this.count++;
+        this.contentSource.next(tweetData);
+      };
+      worker.onerror = ({ error }) => {
+        console.error(error.message);
+      };
+
+      this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
+      this.getTweetSubscription = this.getTweetFromSocketIO().subscribe(
+        (res: TweetRes) => {
+          this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
+          this.trendSource.next(res.trend);
+          if (res.tweets && res.tweets.length > 0) {
+            res.tweets.forEach((tweet) => {
+              worker.postMessage(tweet);
             });
-          this.state.isLoadingSource.next({ flag: false, message: '' });
-        }
-      },
-      (err) => {
-        this.state.isLoadingSource.next({ flag: true, message: 'Please access later...' });
-        this.socket.close();
-      }
-    );
+            this.state.isLoadingSource.next({ flag: false, message: '' });
+          }
+        },
+        (err) => {
+          this.state.isLoadingSource.next({ flag: true, message: 'Please access later...' });
+          this.socket.close();
+        });
+    } else {
+      // TODO Web Workerが未サポートの場合
+      // TODO とりあえず従来のコードをコピーしている
+      // この環境では Web Worker はサポートされていません。
+      // プログラムが引き続き正しく実行されるように、フォールバックを追加する必要があります。
+      console.warn('web-worker undifined');
+      this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
+      this.getTweetSubscription = this.getTweetFromSocketIO().subscribe(
+        (res: TweetRes) => {
+          this.state.indexHeight = Math.round(window.innerHeight / this.state.cardMaxHeight);
+          this.trendSource.next(res.trend);
+          if (res.tweets && res.tweets.length > 0) {
+            res.tweets.forEach(
+              (tweet) => {
+                this.contentSource.next(
+                  new TweetData(
+                    this.count % this.state.CARD_NUM,
+                    new Tweet(
+                      tweet.id_str,
+                      tweet.screen_name,
+                      DateTime.setDateString(tweet.created_at),
+                      tweet.text)
+                  ));
+                this.count++;
+              });
+            this.state.isLoadingSource.next({ flag: false, message: '' });
+          }
+        },
+        (err) => {
+          this.state.isLoadingSource.next({ flag: true, message: 'Please access later...' });
+          this.socket.close();
+        });
+    }
   }
 
   /**
@@ -121,43 +157,5 @@ export class WebSocketService {
    */
   getInfoFromAsset(): Observable<any> {
     return this.http.get<any[]>(environment.infoUrl);
-  }
-
-  /**
-   * 日時をブラウザが認識しているタイムゾーンの時間に変更する。
-   * @param createdAt 日時(サーバからの生データ)
-   */
-  setDateString(createdAt: string): string {
-    const date = moment(createdAt);
-    const createdTime = new Date(date.utc().format());
-    const year = createdTime.getFullYear();
-    const month = createdTime.getMonth() + 1;
-    const day = createdTime.getDate();
-    const hours = createdTime.getHours();
-    const min = createdTime.getMinutes();
-    const sec = createdTime.getSeconds();
-
-    let stMonth = String(month);
-    let stDay = String(day);
-    let stHours = String(hours);
-    let stMin = String(min);
-    let stSec = String(sec);
-
-    if (month < 10) {
-      stMonth = '0' + stMonth;
-    }
-    if (day < 10) {
-      stDay = '0' + stDay;
-    }
-    if (hours < 10) {
-      stHours = '0' + stHours;
-    }
-    if (min < 10) {
-      stMin = '0' + stMin;
-    }
-    if (sec < 10) {
-      stSec = '0' + stSec;
-    }
-    return year + '/' + stMonth + '/' + stDay + ' ' + stHours + ':' + stMin + ':' + stSec;
   }
 }

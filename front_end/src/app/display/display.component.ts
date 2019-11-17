@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { StateStraight } from '../model/card-state.model';
 import { WindowStateService } from '../window-state.service';
 import { WebSocketService } from '../web-socket.service';
-import anime from 'animejs/lib/anime.es.js';
+import { Anime } from '../util/anime.util';
 
 @Component({
   selector: 'app-display',
@@ -37,7 +37,14 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
         (tweetData: TweetData) => {
           if (!this.isLoading) {
             this.tweetDatas[tweetData.id].tweet = tweetData.tweet;
-            this.startAnime(this.tweetDatas[tweetData.id]);
+            Anime.startAnime(
+              this.tweetDatas[tweetData.id],
+              this.isLoading,
+              this.ws.indexHeight,
+              (data: TweetData) => {
+                data.isShown = false;
+                this.ws.dismissSource.next(data);
+              });
           }
         }
       ));
@@ -72,28 +79,5 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.forEach(
       subscription => subscription.unsubscribe()
     );
-  }
-
-  /**
-   * それぞれのカードのアニメーションを設定する
-   * @param data カードのデータ
-   */
-  startAnime(data: TweetData) {
-    if (!this.isLoading) {
-      data.isShown = true;
-    }
-    const newNum = Math.round(Math.random() * this.ws.indexHeight);
-    const targetId = '#target' + String(data.id);
-    anime({
-      targets: targetId,
-      translateX: [0, -(window.innerWidth + 332)],
-      easing: 'linear',
-      duration: 15 * window.innerWidth,
-      delay: newNum * 1000,
-      complete: () => {
-        data.isShown = false;
-        this.ws.dismissSource.next(data);
-      }
-    });
   }
 }
