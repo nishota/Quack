@@ -8,17 +8,14 @@ import { retry, retryWhen, mergeMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from './window-state.service';
 import { TweetRes, TweetData, Tweet } from './model/tweet.model';
-import { ConnectionMode } from './model/connection-mode.model';
+import { ConnectionMode } from '../environments/connection-mode';
 import { HttpClient } from '@angular/common/http';
 import { DateTime } from './util/datetime.util';
 
-import * as io from 'socket.io-client';
+import { Socket } from './util/socket-io.util';
 
 @Injectable()
 export class WebSocketService {
-  private url = environment.socketUrl;
-  private socket;
-
   contentSource = new Subject<TweetData>();
   content$ = this.contentSource.asObservable();
 
@@ -29,41 +26,7 @@ export class WebSocketService {
   getTweetSubscription: Subscription;
 
   constructor(private http: HttpClient, private state: WindowStateService) {
-    this.connect('conect=QuackQuack');
-  }
-
-  // TODO: rxjsで全て記述したい
-  private connect(queryString: string) {
-    this.socket = io(this.url,
-      {
-        query: queryString,
-        path: environment.pathString
-      });
-  }
-
-  private emit(emitName: string, data?: any) {
-    this.socket.emit(emitName, data);
-  }
-
-  private on(onName: string): Observable<any> {
-    const observable = new Observable(observer => {
-      this.socket.on(onName, (data) => {
-        observer.next(data);
-      });
-      this.socket.on('connect_error', (err) => {
-        const errMsg = 'Connection Error...';
-        observer.error(errMsg);
-      });
-      this.socket.on('connect_timeout', (err) => {
-        const errMsg = 'Connection Timeout...';
-        observer.error(errMsg);
-      });
-    });
-    return observable;
-  }
-
-  disconnect() {
-    this.emit(ConnectionMode.Disconnect);
+    Socket.connect('conect=QuackQuack');
   }
 
   /**
@@ -102,7 +65,7 @@ export class WebSocketService {
               flag: true,
               message: environment.errorMessage.connectionFailed
             });
-          this.socket.close();
+          Socket.Connection.close();
         });
     } else {
       // TODO Web Workerが未サポートの場合
@@ -138,7 +101,7 @@ export class WebSocketService {
               flag: true,
               message: environment.errorMessage.connectionFailed
             });
-          this.socket.close();
+          Socket.Connection.close();
         });
     }
   }
@@ -150,7 +113,7 @@ export class WebSocketService {
   getTweetFromSocketIO(): Observable<TweetRes> {
     const sec = 1000;
     const retryCount = 5;
-    return this.on(ConnectionMode.ClientGetData).pipe(
+    return Socket.on(ConnectionMode.ClientGetData).pipe(
       retryWhen((errors) => {
         return errors.pipe(
           mergeMap((e, index) => {
