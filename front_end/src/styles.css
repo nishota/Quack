@@ -12,3 +12,9 @@ html,body{
     overflow: hidden;
 } 
 
+/*
+ * sidebarを出したときの背景色を透明に変更
+ */
+ .mat-drawer-backdrop.mat-drawer-shown{
+    background-color: transparent !important;
+}
