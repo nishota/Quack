@@ -15,6 +15,12 @@ html,body{
 /*
  * sidebarを出したときの背景色を透明に変更
  */
- .mat-drawer-backdrop.mat-drawer-shown{
+.mat-drawer-backdrop.mat-drawer-shown{
     background-color: transparent !important;
+}
+/*
+ * sidebarの中の背景色を透明に変更
+ */
+.mat-drawer-inner-container{
+    background-color: rgba(120, 120, 120, .6);
 }

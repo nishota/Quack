@@ -28,9 +28,9 @@
     text-align: center;
     max-width: 100%;
     height: auto;
-    background: repeat top/105% url("../../assets/81878430.jpeg");
+    /* background: repeat top/105% url("../../assets/81878430.jpeg"); */
     /* 灰色の透過度を0にすることで、無色透明にしてある */
-    /* background: rgba(128, 128, 128, 0); */
+    background: rgba(128, 128, 128, 0);
     border: 0px;
 }
 
