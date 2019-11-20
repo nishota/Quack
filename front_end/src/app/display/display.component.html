@@ -3,13 +3,14 @@
   <div *ngIf="!isLoading">
     <ng-container  *ngFor="let tweetData of tweetDatas">
       <app-tweet-card 
-      [Id]="tweetData.id"
-      [Text]="tweetData.Text"
-      [User]="tweetData.User"
-      [Url]="tweetData.Url"
-      [Date]="tweetData.Date"
-      [IsShown]="tweetData.isShown"
+        [Id]="tweetData.id"
+        [Text]="tweetData.Text"
+        [User]="tweetData.User"
+        [Url]="tweetData.Url"
+        [Date]="tweetData.Date"
+        [IsShown]="tweetData.isShown"
       ></app-tweet-card>
     </ng-container>
+    <app-teal></app-teal>
   </div>
 </div>
