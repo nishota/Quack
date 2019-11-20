@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Infomation } from '../model/infomation.model';
-import { CommunicationService } from '../communication.service';
 import { Count } from 'src/environments/const.environment';
+import { InfomationService } from '../infomation.service';
 
 @Component({
   selector: 'app-infomation',
@@ -12,10 +12,10 @@ export class InfomationComponent implements OnInit {
 
   private infos: Infomation[] = [];
 
-  constructor(private tg: CommunicationService) { }
+  constructor(private is: InfomationService) { }
 
   ngOnInit() {
-    this.tg.getInfoFromAsset().subscribe(
+    this.is.getInfomation().subscribe(
       (res: Infomation[]) => {
         let count = 0;
         res.forEach(content => {

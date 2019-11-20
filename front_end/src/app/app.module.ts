@@ -19,6 +19,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SpButtonComponent } from './sp-button/sp-button.component';
 import { InfomationComponent } from './infomation/infomation.component';
 import { CommunicationService } from './communication.service';
+import { InfomationService } from './infomation.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,10 @@ import { CommunicationService } from './communication.service';
     MatIconModule,
     MatListModule
   ],
-  providers: [CommunicationService],
+  providers: [
+    CommunicationService,
+    InfomationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

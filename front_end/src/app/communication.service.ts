@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 import { WindowStateService } from './window-state.service';
 import { TweetRes, TweetData2 } from './model/tweet.model';
 import { ConnectionMode, Count, Message} from '../environments/const.environment';
-import { HttpClient } from '@angular/common/http';
 import { DateTime } from './util/datetime.util';
 
 import { Socket } from './util/socket-io.util';
@@ -19,7 +18,7 @@ export class CommunicationService {
   count = 0;
   getTweetSubscription: Subscription;
 
-  constructor(private http: HttpClient, private state: WindowStateService) {
+  constructor(private state: WindowStateService) {
   }
 
   /**
@@ -103,11 +102,5 @@ export class CommunicationService {
         );
       })
     );
-  }
-  /**
-   * アセットをフロント側を配置しているサーバから取りに行く。
-   */
-  getInfoFromAsset(): Observable<any> {
-    return this.http.get<any[]>(environment.infoUrl);
   }
 }
