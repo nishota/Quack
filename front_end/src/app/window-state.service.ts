@@ -14,6 +14,12 @@ export class WindowStateService {
    * カード内のテキストが3行のときの高さ
    */
   cardMaxHeight = 112;
+  cardMaxWidth = 300;
+
+  innerWidth = window.innerWidth;
+  innerHeight = window.innerHeight;
+  windowIndex = Math.ceil(this.innerWidth / 300) + 1;
+  cardDuration = 0.015 * 300 * this.windowIndex;
   /**
    * ロード状態
    */
