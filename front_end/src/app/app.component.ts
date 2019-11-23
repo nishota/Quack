@@ -3,6 +3,7 @@ import { Meta } from '@angular/platform-browser';
 import { Description } from './model/description.model';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from './window-state.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +11,23 @@ import { WindowStateService } from './window-state.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  subscription: Subscription;
 
   constructor(private meta: Meta, private ws: WindowStateService) {
   }
 
   ngOnInit(): void {
+    // デバッグモードでは、リサイズしたら、リロードしない
+    if (environment.production) {
+      this.subscription = this.ws.windowResize$.subscribe(
+        () => window.location.reload()
+      );
+    }
     this.ws.meta$.subscribe(
       (res: Description) => {
         this.meta.addTag({
-            name: 'discription',
-            content: res.description
+          name: 'discription',
+          content: res.description
         });
         this.meta.addTag({
           property: 'twitter:card',
