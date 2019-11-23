@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { ScreenType } from '../model/screen-type.enum';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from '../window-state.service';
+import { QuackSystem } from '../model/quack-system.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,6 +20,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   sideNavWidth: string;
   topPosition: string;
   sidebarCSS: string;
+
+  version: string;
+  year: string;
+  teamName: string;
+  licenceUrl: string;
+
+  buyMeCoffee: string;
+  youTube: string;
+  twitter: string;
 
   subscriptions: Subscription[] = [];
   constructor(private ws: WindowStateService) {
@@ -41,6 +51,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
         }
       ));
+    this.ws.quack$.subscribe(
+      (res: QuackSystem) => {
+        this.version = res.version;
+        this.year = res.year;
+        this.teamName = res.copyright;
+        this.licenceUrl = res.licence;
+        this.buyMeCoffee = res.buyMeCoffee;
+        this.youTube = res.youTube;
+        this.twitter = res.twitter;
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -52,9 +73,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isOpened = !this.isOpened;
   }
 
-　/*
-   * 画面の横幅からPCかスマホか判別
-   */
+  /*
+    * 画面の横幅からPCかスマホか判別
+    */
   setScreenType() {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth > this.threshold) {

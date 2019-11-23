@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Infomation } from '../model/infomation.model';
 import { Count } from 'src/environments/const.environment';
-import { InfomationService } from '../infomation.service';
+import { WindowStateService } from '../window-state.service';
 
 @Component({
   selector: 'app-infomation',
@@ -10,12 +10,12 @@ import { InfomationService } from '../infomation.service';
 })
 export class InfomationComponent implements OnInit {
 
-  private infos: Infomation[] = [];
+  infos: Infomation[] = [];
 
-  constructor(private is: InfomationService) { }
+  constructor(private ws: WindowStateService) { }
 
   ngOnInit() {
-    this.is.getInfomation().subscribe(
+    this.ws.infomation$.subscribe(
       (res: Infomation[]) => {
         let count = 0;
         res.forEach(content => {

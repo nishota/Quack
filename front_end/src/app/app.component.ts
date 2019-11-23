@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Description } from './model/description.model';
-import { InfomationService } from './infomation.service';
 import { environment } from 'src/environments/environment';
+import { WindowStateService } from './window-state.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +11,11 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private meta: Meta, private is: InfomationService) {
+  constructor(private meta: Meta, private ws: WindowStateService) {
   }
 
   ngOnInit(): void {
-    this.is.getDescription().subscribe(
+    this.ws.meta$.subscribe(
       (res: Description) => {
         this.meta.addTag({
             name: 'discription',

@@ -7,9 +7,10 @@ export const environment = {
   devUrl: 'https://payload-01.herokuapp.com/json/twitredb/keyword',
   twitterUrl: 'https://twitter.com/',
   twitterTrendUrl: 'http://twitter.com/search?q=%23',
-  frontUrl: 'http://localhost:4200/asset/',
+  frontUrl: 'http://localhost:4200/',
   infoUrl: 'http://localhost:4200/assets/infomation.json',
   metadataUrl: 'http://localhost:4200/assets/metadata.json',
+  quackSystemUrl: 'http://localhost:4200/assets/quack-system.json',
   socketUrl: 'http://localhost:5001',
   pathString: '',
 };
