@@ -1,5 +1,4 @@
 import { TweetData2 } from '../model/tweet.model';
-import anime from 'animejs/lib/anime.es.js';
 
 export class Anime {
     /**
@@ -11,18 +10,13 @@ export class Anime {
     static startAnime(
         data: TweetData2,
         isLoading: boolean,
+        duration: number,
         callback: (data: TweetData2) => void) {
-            if (!isLoading) {
-                data.isShown = true;
-            }
-            const targetId = '#target' + String(data.id);
-            anime({
-                targets: targetId,
-                translateX: [0, -(window.innerWidth + 332)],
-                easing: 'linear',
-                duration: 15 * window.innerWidth,
-                delay: Math.random() * 1000,
-                complete: () => callback(data)
-            });
+        if (!isLoading) {
+            data.isShown = true;
+        }
+        setTimeout(() => {
+            callback(data);
+        }, 1000 * duration);
     }
 }

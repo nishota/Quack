@@ -1,7 +1,10 @@
 <div class="base">
-  <div [id]="id" class="hidden"
+  <div class="hidden"
   [ngClass]="{'show': IsShown, 'collapsed': !IsShown}"
-  [ngStyle]="{'top':formTop}">
+  [style.top]="formTop"
+  [style.animation-name]="animation"
+  [style.animation-duration]="duration"
+  [style.animation-delay]="delay">
     <mat-card class="tweet-card">
       <mat-card-content>
         <div class="container">

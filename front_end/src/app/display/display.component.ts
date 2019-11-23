@@ -44,17 +44,13 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.tweetDatas[id].Date = data.Date;
                 this.tweetDatas[id].User = data.User;
                 this.tweetDatas[id].Url = data.Url;
-                setTimeout(
-                  // TODO: 実行場所をtweet-card内にした方が良さそう?
-                  // TODO: Viewの更新後終了後にstartAnimeしたい
-                  () => {
-                    Anime.startAnime(
-                      this.tweetDatas[id],
-                      this.isLoading,
-                      (endData: TweetData2) => {
-                        endData.isShown = false;
-                      });
-                  }, 500);
+                Anime.startAnime(
+                  this.tweetDatas[id],
+                  this.isLoading,
+                  this.ws.cardDuration,
+                  (endData: TweetData2) => {
+                    endData.isShown = false;
+                  });
               });
           }
         }
