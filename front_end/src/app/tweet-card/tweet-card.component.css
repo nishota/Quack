@@ -79,7 +79,61 @@ li .date{
     }
 }
 
+@-moz-keyframes animation2 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-200%);
+    }
+}
+
+@-webkit-keyframes  animation2 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-200%);
+    }
+}
+
+@-o-keyframes  animation2 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-200%);
+    }
+}
+
 @keyframes animation3 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-300%);
+    }
+}
+
+@-moz-keyframes animation3 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-300%);
+    }
+}
+
+@-webkit-keyframes  animation3 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-300%);
+    }
+}
+
+@-o-keyframes  animation3 {
     0% {
         transform: translateX(0px);
     }
@@ -97,7 +151,61 @@ li .date{
     }
 }
 
+@-moz-keyframes animation4 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-400%);
+    }
+}
+
+@-webkit-keyframes  animation4 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-400%);
+    }
+}
+
+@-o-keyframes  animation4 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-400%);
+    }
+}
+
 @keyframes animation5 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-500%);
+    }
+}
+
+@-moz-keyframes animation5 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-500%);
+    }
+}
+
+@-webkit-keyframes  animation5 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-500%);
+    }
+}
+
+@-o-keyframes  animation5 {
     0% {
         transform: translateX(0px);
     }
@@ -115,7 +223,61 @@ li .date{
     }
 }
 
+@-moz-keyframes animation6 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-600%);
+    }
+}
+
+@-webkit-keyframes  animation6 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-600%);
+    }
+}
+
+@-o-keyframes  animation6 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-600%);
+    }
+}
+
 @keyframes animation7 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-700%);
+    }
+}
+
+@-moz-keyframes animation7 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-700%);
+    }
+}
+
+@-webkit-keyframes  animation7 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-700%);
+    }
+}
+
+@-o-keyframes  animation7 {
     0% {
         transform: translateX(0px);
     }
@@ -133,7 +295,61 @@ li .date{
     }
 }
 
+@-moz-keyframes animation8 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-800%);
+    }
+}
+
+@-webkit-keyframes  animation8 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-800%);
+    }
+}
+
+@-o-keyframes  animation8 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-800%);
+    }
+}
+
 @keyframes animation9 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-900%);
+    }
+}
+
+@-moz-keyframes animation9 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-900%);
+    }
+}
+
+@-webkit-keyframes  animation9 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-900%);
+    }
+}
+
+@-o-keyframes  animation9 {
     0% {
         transform: translateX(0px);
     }
@@ -151,20 +367,29 @@ li .date{
     }
 }
 
-@keyframes animation01 {
+@-moz-keyframes animation10 {
     0% {
         transform: translateX(0px);
     }
     100% {
-        transform: translateX(-500%);
+        transform: translateX(-1000%);
     }
 }
 
-@keyframes animation01 {
+@-webkit-keyframes  animation10 {
     0% {
         transform: translateX(0px);
     }
     100% {
-        transform: translateX(-500%);
+        transform: translateX(-1000%);
+    }
+}
+
+@-o-keyframes  animation10 {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-1000%);
     }
 }
