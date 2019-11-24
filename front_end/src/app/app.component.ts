@@ -29,34 +29,34 @@ export class AppComponent implements OnInit {
           name: 'discription',
           content: res.description
         });
-        this.meta.addTag({
-          property: 'twitter:card',
-          content: res.twitterCard
-        });
-        this.meta.addTag({
-          property: 'twitter:site',
-          content: res.twitterSite
-        });
-        this.meta.addTag({
-          property: 'og:url',
-          content: res.ogUrl
-        });
-        this.meta.addTag({
-          property: 'og:title',
-          content: res.ogTitle
-        });
-        this.meta.addTag({
-          property: 'og:description',
-          content: res.ogDescription
-        });
-        this.meta.addTag({
-          property: 'og:image',
-          content: environment.frontUrl + res.ogImage
-        });
-        this.meta.addTag({
-          property: 'og:type',
-          content: res.ogType
-        });
+        // this.meta.addTag({
+        //   property: 'twitter:card',
+        //   content: res.twitterCard
+        // });
+        // this.meta.addTag({
+        //   property: 'twitter:site',
+        //   content: res.twitterSite
+        // });
+        // this.meta.addTag({
+        //   property: 'og:url',
+        //   content: res.ogUrl
+        // });
+        // this.meta.addTag({
+        //   property: 'og:title',
+        //   content: res.ogTitle
+        // });
+        // this.meta.addTag({
+        //   property: 'og:description',
+        //   content: res.ogDescription
+        // });
+        // this.meta.addTag({
+        //   property: 'og:image',
+        //   content: environment.frontUrl + res.ogImage
+        // });
+        // this.meta.addTag({
+        //   property: 'og:type',
+        //   content: res.ogType
+        // });
       });
   }
 }
