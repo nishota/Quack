@@ -14,7 +14,6 @@ import {
   MatListModule
 } from '@angular/material';
 import { LoadingComponent } from './loading/loading.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SpButtonComponent } from './sp-button/sp-button.component';
 import { InfomationComponent } from './infomation/infomation.component';
@@ -27,7 +26,6 @@ import { SpTrendComponent } from './sp-trend/sp-trend.component';
   declarations: [
     AppComponent,
     TweetCardComponent,
-    SidebarComponent,
     ToolbarComponent,
     DisplayComponent,
     TweetCardComponent,
