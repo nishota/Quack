@@ -4,7 +4,10 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #f5f5f5
+    /* background-color: #f5f5f5 */
+    background: -moz-linear-gradient(65deg, rgb(255, 111, 97), #FFC778); 
+    background: -webkit-linear-gradient(65deg, rgb(255, 111, 97), #FFC778); 
+    background: linear-gradient(25deg, rgb(255, 111, 97), #FFC778); 
   }
 
 .center{
