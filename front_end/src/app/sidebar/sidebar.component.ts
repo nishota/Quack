@@ -4,6 +4,7 @@ import { ScreenType } from '../model/screen-type.enum';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from '../window-state.service';
 import { QuackSystem } from '../model/quack-system.model';
+import { Anime } from '../util/anime.util';
 
 @Component({
   selector: 'app-sidebar',
@@ -30,11 +31,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   youTube: string;
   twitter: string;
 
+  trendLeft: string;
+  IsShown: boolean;
+
   subscriptions: Subscription[] = [];
   constructor(private ws: WindowStateService) {
   }
 
   ngOnInit(): void {
+    this.IsShown = false;
+    this.trendLeft = String((this.ws.innerWidth - 250) / 2) + 'px';
     this.setScreenType();
     this.setToolBarHeight();
     this.subscriptions.push(
@@ -47,8 +53,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.ws.trend$.subscribe(
         value => {
-          this.trend = value;
-          this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
+          if (this.trend !== value) {
+            this.trend = value;
+            this.IsShown = true;
+            setTimeout(() => {
+              this.IsShown = false;
+            }, 2000);
+            this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
+          }
         }
       ));
     this.ws.quack$.subscribe(
