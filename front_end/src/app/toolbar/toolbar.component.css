@@ -1,6 +1,7 @@
 .toolbar {
     color: white;
-    background-color: #1e569e;
+    background-color:rgb(255, 111, 97);
+    border-bottom: 2px solid #dddddd;
 }
 
 .logo {
@@ -27,7 +28,7 @@
 a.trend {
     text-decoration:none;
     margin: auto 0 auto auto;
-    color: white;
+    color: #f8f5f2;
 }
 
 a.trend:hover {

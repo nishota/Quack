@@ -4,10 +4,11 @@
     bottom: 0;
     left: 0;
     right: 0;
-    /* background-color: #f5f5f5 */
-    background: -moz-linear-gradient(65deg, rgb(255, 111, 97), #FFC778); 
-    background: -webkit-linear-gradient(65deg, rgb(255, 111, 97), #FFC778); 
-    background: linear-gradient(25deg, rgb(255, 111, 97), #FFC778); 
+    /* ダークモード用 */
+    /* background-color: #131313; */
+    background: -moz-linear-gradient(bottom, #DDA288, #8593AE 30%, #5b647c); 
+    background: -webkit-linear-gradient(bottom, #DDA288, #8593AE 30%, #5b647c); 
+    background: linear-gradient(to top, #DDA288, #8593AE 30%, #5b647c); 
   }
 
 .center{

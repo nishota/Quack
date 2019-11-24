@@ -23,10 +23,15 @@ a:visited {
 .tweet-card {
     max-width: 300px;
     min-width: 300px;
-    background-color: white;
+    /* カードの色 */
+    background-color: #dddddd;
+    /* ダークモード用 */
+    /* background-color: #1c1c1c; */
     margin: 0;
     padding: 20px !important;
     border-radius: 26.5px !important;
+    /* ダークモード用文字色 */
+    /* color:#dddddd; */
   }
 
 .inner-footer ul{
@@ -59,8 +64,9 @@ li .date{
     left:5px;
 }
 
+/* tweetカードの透過 */
 .show{
-    opacity: .85;
+    opacity: 0.85;
     display: block;
     animation-timing-function: linear;
     animation-fill-mode: both;
