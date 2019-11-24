@@ -82,9 +82,6 @@ def background_fetch_tweet_and_emit():
         # クライアント送信
         socketio.emit('quack-getTweetData', send_data, broadcast=True)
 
-        for item in send_data['tweets']:
-            print(item['created_at'])
-
         socketio.sleep(SCHEDULE_TWEET)
 
 
@@ -96,7 +93,7 @@ def background_promotion_tweet():
         global trends
         global promotion_tweet
         promotion_tweet.promote(trends.active_trend)
-        print('promote')
+        
         socketio.sleep(SCHEDULE_PROMOTION)
 
 
