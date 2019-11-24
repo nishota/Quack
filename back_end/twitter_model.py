@@ -179,7 +179,7 @@ class Search_tweets_res:
         
         # id最大値の保存
         if not len(self.tweets) == 0:
-            self.max_id = self.tweets[len(self.tweets) - 1]['id_str']
+            self.max_id = self.tweets[0]['id_str']
 
         # 検索結果数最大値を超えている場合は切り捨て
         if len(self.tweets) > Search_tweets_res.MAX_RESULT_COUNT:

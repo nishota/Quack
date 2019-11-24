@@ -64,8 +64,6 @@ def background_fetch_trend():
         global trends
         trends.fetch_from_twitter()
 
-        print('trend')
-
         socketio.sleep(SCHEDULE_TREND)
 
 
@@ -82,6 +80,9 @@ def background_fetch_tweet_and_emit():
 
         # クライアント送信
         socketio.emit('quack-getTweetData', send_data, broadcast=True)
+
+        for item in send_data['tweets']:
+            print(item['id_str'])
 
         socketio.sleep(SCHEDULE_TWEET)
 
