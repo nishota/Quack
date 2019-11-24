@@ -1,3 +1,7 @@
+.message{
+	color: #dddddd;
+}
+
 #load {
   position:absolute;
   width:600px;
