@@ -23,7 +23,7 @@ async_mode = None
 WEBAPP_CONTEXT_ROOT = '/backend/quack'
 
 # Flaskオブジェクト、async_modeを指定して、SocketIOサーバオブジェクトを生成
-socketio = SocketIO(app, async_mode=async_mode, path=WEBAPP_CONTEXT_ROOT + '/socket.io' , cors_allowed_origins='*')
+socketio = SocketIO(app, async_mode=async_mode, path=WEBAPP_CONTEXT_ROOT + '/socket.io' , cors_allowed_origins=['http://localhost:4200','https://quack-teal.com'])
 
 # スレッドを格納するためのグローバル変数
 thread_trend = None
