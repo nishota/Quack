@@ -21,6 +21,7 @@ import { InfomationComponent } from './infomation/infomation.component';
 import { CommunicationService } from './communication.service';
 import { InfomationService } from './infomation.service';
 import { TealComponent } from './teal/teal.component';
+import { SpTrendComponent } from './sp-trend/sp-trend.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { TealComponent } from './teal/teal.component';
     SpButtonComponent,
     LoadingComponent,
     InfomationComponent,
-    TealComponent
+    TealComponent,
+    SpTrendComponent
   ],
   imports: [
     BrowserModule,

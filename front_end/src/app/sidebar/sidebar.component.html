@@ -5,13 +5,6 @@
         [ngStyle]="{'width': sideNavWidth}">
         <div>
             <ul>
-                <!-- <li *ngIf="screenType === 1">
-                    <div class="trend-container">
-                        <a [href]="linkTrend" target="_blank">
-                            {{trend}}
-                        </a>
-                    </div>
-                </li> -->
                 <li>
                     <app-infomation></app-infomation>
                 </li>
@@ -52,11 +45,8 @@
 </mat-sidenav-container>
 
 <ng-container *ngIf="screenType === 1">
-    <mat-card class="trend_card"
-    [ngClass]="{'show': IsShown, 'collapsed': !IsShown}"
-    [style.left]="trendLeft">
-        <mat-card-content>
-            現在のトレンド : {{trend}}
-        </mat-card-content>
-    </mat-card>
+    <app-sp-trend
+        [IsShown]="IsShown"
+        [trend]="trend"
+    ></app-sp-trend>
 </ng-container>

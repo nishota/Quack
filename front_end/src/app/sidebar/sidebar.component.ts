@@ -40,7 +40,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.IsShown = false;
-    this.trendLeft = String((this.ws.innerWidth - 250) / 2) + 'px';
     this.setScreenType();
     this.setToolBarHeight();
     this.subscriptions.push(
