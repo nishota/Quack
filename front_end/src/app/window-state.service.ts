@@ -32,9 +32,7 @@ export class WindowStateService {
   trend$ = this.trendSource.asObservable();
 
   meta$ = this.is.getDescription();
-
   infomation$ = this.is.getInfomation();
-
   quack$ = this.is.getQuackSystem();
 
   // TODO Resizeイベント

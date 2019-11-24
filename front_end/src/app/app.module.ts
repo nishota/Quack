@@ -19,7 +19,6 @@ import { SpButtonComponent } from './sp-button/sp-button.component';
 import { InfomationComponent } from './infomation/infomation.component';
 import { CommunicationService } from './communication.service';
 import { InfomationService } from './infomation.service';
-import { TealComponent } from './teal/teal.component';
 import { SpTrendComponent } from './sp-trend/sp-trend.component';
 
 @NgModule({
@@ -32,7 +31,6 @@ import { SpTrendComponent } from './sp-trend/sp-trend.component';
     SpButtonComponent,
     LoadingComponent,
     InfomationComponent,
-    TealComponent,
     SpTrendComponent
   ],
   imports: [
