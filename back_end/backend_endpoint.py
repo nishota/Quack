@@ -51,6 +51,7 @@ def connect():
     if thread_trend is None:
         thread_trend = socketio.start_background_task(target=background_fetch_trend)
     if thread_tweet is None:
+        socketio.sleep(5)
         thread_tweet = socketio.start_background_task(target=background_fetch_tweet_and_emit)
     if thread_promote is None:
         thread_promote = socketio.start_background_task(target=background_promotion_tweet)
@@ -63,8 +64,6 @@ def background_fetch_trend():
         # Trend検索
         global trends
         trends.fetch_from_twitter()
-
-        print('trend')
 
         socketio.sleep(SCHEDULE_TREND)
 
@@ -94,7 +93,7 @@ def background_promotion_tweet():
         global trends
         global promotion_tweet
         promotion_tweet.promote(trends.active_trend)
-        print('promote')
+        
         socketio.sleep(SCHEDULE_PROMOTION)
 
 
@@ -113,4 +112,4 @@ def background_promotion_tweet():
 #     emit('join', send_data, broadcast=True, include_self=True)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='127.0.0.1', port='5001')

@@ -105,13 +105,16 @@ class Search_tweets_res:
         TwitterAPI検索に利用した最新のキーワード
     """
 
-    #特殊文字変換辞書
+    # 特殊文字変換辞書
     char_conversion_dict = {
         '&gt;':'>',
         '&lt;':'<',
         '&amp;':'&',
         '&quot;':'"'
     }
+
+    # 検索結果最大数
+    MAX_RESULT_COUNT = 6
 
     def __init__(self):
         """コンストラクタ
@@ -152,11 +155,11 @@ class Search_tweets_res:
 
             # クライアントが解釈可能な形式に時刻を変換
             time_utc = time.strptime(json_tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-            tweet['created_at'] = time.strftime("%Y-%m-%d %H:%M:%S", time_utc)
+            tweet['created_at'] = time.strftime("%Y-%m-%dT%H:%M:%S+0000", time_utc)
 
-            # 特殊文字変換
+            # 特殊文字変換/ハッシュタグ削除
             for key,value in Search_tweets_res.char_conversion_dict.items():
-                text = json_tweet['text'].replace(key, value)
+                text = json_tweet['text'].replace(key, value).replace(keyword, '')
 
             # 最大文字数60以上を切り捨て
             if len(text) <= 60:
@@ -172,11 +175,15 @@ class Search_tweets_res:
             self.tweets.append(tweet)
         
         # ソート(idの降順)
-        self.tweets.sort(key=lambda x:x['id'])
+        self.tweets.sort(key=lambda x:x['id'], reverse=True)
         
         # id最大値の保存
         if not len(self.tweets) == 0:
-            self.max_id = self.tweets[len(self.tweets) - 1]['id_str']
+            self.max_id = self.tweets[0]['id_str']
+
+        # 検索結果数最大値を超えている場合は切り捨て
+        if len(self.tweets) > Search_tweets_res.MAX_RESULT_COUNT:
+            self.tweets = self.tweets[0:Search_tweets_res.MAX_RESULT_COUNT]
 
         return self.tweets
 
