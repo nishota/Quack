@@ -114,7 +114,7 @@ class Search_tweets_res:
     }
 
     # 検索結果最大数
-    MAX_RESULT_COUNT = 30
+    MAX_RESULT_COUNT = 6
 
     def __init__(self):
         """コンストラクタ
@@ -155,11 +155,11 @@ class Search_tweets_res:
 
             # クライアントが解釈可能な形式に時刻を変換
             time_utc = time.strptime(json_tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-            tweet['created_at'] = time.strftime("%Y-%m-%d %H:%M:%S", time_utc)
+            tweet['created_at'] = time.strftime("%Y-%m-%dT%H:%M:%S+0000", time_utc)
 
-            # 特殊文字変換
+            # 特殊文字変換/ハッシュタグ削除
             for key,value in Search_tweets_res.char_conversion_dict.items():
-                text = json_tweet['text'].replace(key, value)
+                text = json_tweet['text'].replace(key, value).replace(keyword, '')
 
             # 最大文字数60以上を切り捨て
             if len(text) <= 60:

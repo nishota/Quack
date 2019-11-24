@@ -51,6 +51,7 @@ def connect():
     if thread_trend is None:
         thread_trend = socketio.start_background_task(target=background_fetch_trend)
     if thread_tweet is None:
+        socketio.sleep(5)
         thread_tweet = socketio.start_background_task(target=background_fetch_tweet_and_emit)
     if thread_promote is None:
         thread_promote = socketio.start_background_task(target=background_promotion_tweet)
@@ -82,7 +83,7 @@ def background_fetch_tweet_and_emit():
         socketio.emit('quack-getTweetData', send_data, broadcast=True)
 
         for item in send_data['tweets']:
-            print(item['id_str'])
+            print(item['created_at'])
 
         socketio.sleep(SCHEDULE_TWEET)
 
