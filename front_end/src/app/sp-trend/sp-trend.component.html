@@ -1,0 +1,7 @@
+<mat-card class="trend_card"
+[ngClass]="{'show': IsShown, 'collapsed': !IsShown}"
+[style.left]="trendLeft">
+    <mat-card-content>
+        現在のトレンド : {{trend}}
+    </mat-card-content>
+</mat-card>
