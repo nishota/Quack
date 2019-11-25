@@ -237,7 +237,7 @@ class Statuses_update_res():
             + target_trend\
             + textwrap.dedent('''\
             」です。
-            リンクはこちら→ http://quack-teal.com''')
+            http://quack-teal.com''')
 
         # プロモーションtweetの発行
         self.raw_response = twitter.send_twitter_tweet(promotion)
