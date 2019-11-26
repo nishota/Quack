@@ -44,7 +44,7 @@ thread_promote = None
 
 # バックグラウンドタスク関連設定値
 SCHEDULE_TREND = 7*60 # トレンド検索実行間隔(second)
-SCHEDULE_TWEET = 5 # ツイート検索実行間隔(second)
+SCHEDULE_TWEET = 7 # ツイート検索実行間隔(second)
 SCHEDULE_PROMOTION = 1*60 # プロモーションツイート用トレンド変更監視間隔(second)
 
 # twitter_modelクラスの初期化
@@ -147,4 +147,4 @@ def error_handler(e):
 #     emit('join', send_data, broadcast=True, include_self=True)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='5001', debug=True)
+    app.run(host='127.0.0.1', port='5001')
