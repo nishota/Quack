@@ -9,17 +9,17 @@ let win;
 function createWindow () {
   // 新規ウインドウ生成
   win = new BrowserWindow({
-    width: 1080, 
-    height: 800,
+    width: 1920*0.5, 
+    height: 1080*0.5,
     useContentSize: true,
     transparent: true,
-    frame: false
-  })
+    frame: true
+  });
 
-  win.loadURL(`file://${__dirname}/dist/Quack/index.html`);
+  win.loadURL(`file://${__dirname}/Quack-Desctop/dist/Quack/index.html`);
 
   //// 起動時に開発者ツールを開く　（コメントアウトしてます）
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   // ウインドウが閉じたときのイベント
   win.on('closed', function () {

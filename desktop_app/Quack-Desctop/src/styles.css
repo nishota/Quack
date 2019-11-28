@@ -1,0 +1,26 @@
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: "M PLUS Rounded 1c"; }
+
+* {
+    margin: 0 auto;
+}
+html,body{
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+} 
+
+/*
+ * sidebarを出したときの背景色を透明に変更
+ */
+/* .mat-drawer-backdrop.mat-drawer-shown{
+    background-color: transparent !important;
+} */
+/*
+ * sidebarの中の背景色を透明に変更
+ */
+/* .mat-drawer-inner-container{
+    background-color: rgba(120, 120, 120, .6);
+} */

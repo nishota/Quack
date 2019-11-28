@@ -1,0 +1,36 @@
+.toolbar {
+    color: white;
+    background-color:rgb(255, 111, 97);
+    border-bottom: 2px solid #dddddd;
+}
+
+.logo {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 50px;
+}
+
+.icon {
+    margin-left: 0;
+    height: 25px;
+}
+
+.sp-logo {
+    margin-right: 5px;
+    height: 50px;
+}
+
+.sp-icon {
+    margin-left: 0;
+    height: 25px;
+}
+
+a.trend {
+    text-decoration:none;
+    margin: auto 0 auto auto;
+    color: #f8f5f2;
+}
+
+a.trend:hover {
+    text-decoration: underline;
+}

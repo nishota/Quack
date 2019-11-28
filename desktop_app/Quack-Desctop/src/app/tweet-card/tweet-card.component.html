@@ -1,0 +1,30 @@
+<div class="base">
+  <div class="hidden"
+  [ngClass]="{'show': IsShown, 'collapsed': !IsShown}"
+  [style.top]="formTop"
+  [style.animation-name]="animation"
+  [style.animation-duration]="duration"
+  [style.animation-delay]="delay">
+    <mat-card class="tweet-card">
+      <mat-card-content>
+        <div class="container">
+          <div class="text">
+            <p>
+              {{Text}}
+            </p>
+          </div>
+        </div>
+        <div class="inner-footer">
+          <ul>
+            <li class="user-name">
+              <a [href]="Url" target="_blank">
+                @{{User}}
+              </a>
+            </li>
+            <li class="date">date: {{Date}}</li>
+          </ul>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

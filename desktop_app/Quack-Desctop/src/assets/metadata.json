@@ -1,0 +1,11 @@
+{
+    "description":"QuackでリアルタイムなTwitterトレンドを流れるカードでフォローしよう!",
+    "keyword":"Quack",
+    "twitterCard":"summary_large_image",
+    "twitterSite":"@Quack_kamo",
+    "ogUrl":"https://quack-teal.com",
+    "ogTitle":"Quack",
+    "ogDescription":"QuackでリアルタイムなTwitterトレンドを流れるカードでフォローしよう!",
+    "ogImage":"kamo_colorful.png",
+    "ogType":"website"
+}
