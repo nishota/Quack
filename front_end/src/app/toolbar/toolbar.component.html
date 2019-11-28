@@ -4,15 +4,15 @@
         <button mat-button (click)="toggleSidebar()">
             <mat-icon aria-hidden="false">dehaze</mat-icon>
         </button>
-        <img class="logo" src="../../assets/Quack.png"/>
-        <img class="icon" alt="Logo" src="../../assets/kamo_colorful_logo.png">
+        <img class="logo" [src]="logoSrc"/>
+        <img class="icon" alt="Logo" [src]="imgSrc">
         <a class="trend" [href]="linkTrend"  target="_blank">
             {{trend}}
         </a>
     </ng-container>
     <ng-container *ngIf="screenType === 1">
-        <img class="sp-logo" src="../../assets/Quack.png"/>
-        <img class="sp-icon" alt="Logo" src="../../assets/kamo_colorful.png">
+        <img class="sp-logo" [src]="logoSrc"/>
+        <img class="sp-icon" alt="Logo" [src]="imgSrc">
         
     </ng-container>
 
