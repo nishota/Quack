@@ -4,12 +4,13 @@
     top: 100px;
     z-index: 1000;
     text-align: center;
+    background-color: #dddddd;
 }
 
 .show{
     display: block;
     animation-name: animation;
-    animation-duration: 2s;
+    animation-duration: 5s;
     animation-delay: 0;
     animation-timing-function: linear;
     animation-fill-mode: both;

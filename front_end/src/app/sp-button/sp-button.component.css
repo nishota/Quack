@@ -6,3 +6,12 @@
     bottom: 30px; 
     z-index: 10000;
 }
+
+.trend{
+    color: white;
+    background-color: rgb(255, 111, 97);
+    position:  absolute;
+    right:  30px;
+    bottom: 120px; 
+    z-index: 10000;
+}

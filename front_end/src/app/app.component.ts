@@ -97,10 +97,7 @@ export class AppComponent implements OnInit, OnDestroy {
         value => {
           if (this.trend !== value) {
             this.trend = value;
-            this.IsShown = true;
-            setTimeout(() => {
-              this.IsShown = false;
-            }, 2000);
+            this.showTrend();
             this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
           }
         }
@@ -126,6 +123,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   toggleSidebar() {
     this.isOpened = !this.isOpened;
+  }
+  showTrend() {
+    if (this.trend && !this.IsShown) {
+      this.IsShown = true;
+      setTimeout(() => {
+        this.IsShown = false;
+      }, 5000);
+    }
   }
 
   /*

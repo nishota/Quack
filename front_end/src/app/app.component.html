@@ -1,4 +1,4 @@
-<app-toolbar [screenType]="screenType" [trend]="trend" [linkTrend]="linkTrend" (tbToggleSidebar)="toggleSidebar()">
+<app-toolbar [screenType]="screenType" [trend]="trend" [linkTrend]="linkTrend" (ToggleSidebar)="toggleSidebar()" (ShowTrend)="showTrend()">
 </app-toolbar>
 <mat-sidenav-container class="all-container" [ngStyle]="{'top': topPosition}">
     <mat-sidenav #sidenav position="start" [class]="sidebarCSS" mode="over" [opened]="isOpened"

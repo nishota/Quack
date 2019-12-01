@@ -10,8 +10,8 @@ export const environment = {
   infoUrl: 'http://localhost:4200/assets/infomation.json',
   metadataUrl: 'http://localhost:4200/assets/metadata.json',
   quackSystemUrl: 'http://localhost:4200/assets/quack-system.json',
-  socketUrl: 'ec2-18-182-7-70.ap-northeast-1.compute.amazonaws.com',
-  pathString: '/backend/quack/socket.io',
+  socketUrl: 'http://localhost:5001',
+  pathString: '',
 };
 
 /*

@@ -6,9 +6,14 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./sp-button.component.css']
 })
 export class SpButtonComponent {
-  @Output() spToggleSidebar = new EventEmitter();
+  @Output() ToggleSidebar = new EventEmitter();
+  @Output() ShowTrend = new EventEmitter();
 
   toggleSidebar() {
-    this.spToggleSidebar.emit(null);
+    this.ToggleSidebar.emit(null);
+  }
+
+  showTrend() {
+    this.ShowTrend.emit(null);
   }
 }

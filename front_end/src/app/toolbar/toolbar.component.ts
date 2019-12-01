@@ -11,7 +11,8 @@ export class ToolbarComponent {
   @Input() screenType: ScreenType;
   @Input() trend: string;
   @Input() linkTrend: string;
-  @Output() tbToggleSidebar = new EventEmitter();
+  @Output() ToggleSidebar = new EventEmitter();
+  @Output() ShowTrend = new EventEmitter();
 
   logoSrc = environment.frontUrl + 'assets/Quack.png';
   imgSrc = environment.frontUrl + 'assets/kamo_colorful_logo.png';
@@ -20,6 +21,9 @@ export class ToolbarComponent {
   }
 
   toggleSidebar() {
-    this.tbToggleSidebar.emit(null);
+    this.ToggleSidebar.emit(null);
+  }
+  showTrend() {
+    this.ShowTrend.emit(null);
   }
 }
