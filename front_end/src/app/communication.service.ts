@@ -7,7 +7,7 @@ import { Observable, Subscription, throwError, timer } from 'rxjs';
 import { retryWhen, mergeMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { WindowStateService } from './window-state.service';
-import { TweetRes, TweetData2 } from './model/tweet.model';
+import { TweetRes, TweetData } from './model/tweet.model';
 import { ConnectionMode, Count, Message} from '../environments/const.environment';
 import { DateTime } from './util/datetime.util';
 
@@ -28,7 +28,7 @@ export class CommunicationService {
     if (typeof Worker !== 'undefined') {
       const worker = new Worker('./web-worker/tweet.worker', { type: 'module' });
       worker.onmessage = ({ data }) => {
-        this.state.contentSource.next(data as TweetData2[]);
+        this.state.contentSource.next(data as TweetData[]);
       };
       worker.onerror = () => {
         console.error('web worker error');
@@ -57,10 +57,10 @@ export class CommunicationService {
         (res: TweetRes) => {
           this.state.trendSource.next(res.trend);
           if (res.tweets && res.tweets.length > 0) {
-            const tweetDatas: TweetData2[] = [];
+            const tweetDatas: TweetData[] = [];
             res.tweets.forEach(
               (tweet) => {
-                const tweetData = new TweetData2(
+                const tweetData = new TweetData(
                   this.count % Count.Card,
                   tweet.text,
                   tweet.screen_name,

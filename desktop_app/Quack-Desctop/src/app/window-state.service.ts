@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, fromEvent } from 'rxjs';
-import { TweetData2 } from './model/tweet.model';
+import { TweetData } from './model/tweet.model';
 import { InfomationService } from './infomation.service';
 
 @Injectable({
@@ -26,7 +26,7 @@ export class WindowStateService {
   isLoadingSource = new Subject<{ flag: boolean, message: string }>();
   isLoading$ = this.isLoadingSource.asObservable();
 
-  contentSource = new Subject<TweetData2[]>();
+  contentSource = new Subject<TweetData[]>();
   content$ = this.contentSource.asObservable();
   trendSource = new Subject<string>();
   trend$ = this.trendSource.asObservable();

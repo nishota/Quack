@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { TweetData2 } from '../model/tweet.model';
+import { TweetData } from '../model/tweet.model';
 import { Subscription } from 'rxjs';
 import { WindowStateService } from '../window-state.service';
 import { CommunicationService } from '../communication.service';
@@ -14,7 +14,7 @@ import { Count, Message } from 'src/environments/const.environment';
 export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trend: string;
-  tweetDatas: TweetData2[] = [];
+  tweetDatas: TweetData[] = [];
 
   subscriptions: Subscription[] = [];
   isLoading = true;
@@ -27,7 +27,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     private ws: WindowStateService,
   ) {
     for (let i = 0; i < Count.Card; i++) {
-      this.tweetDatas.push(new TweetData2(i, '', '', '', '', false));
+      this.tweetDatas.push(new TweetData(i, '', '', '', '', false));
     }
   }
 
@@ -35,10 +35,10 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     // tweetを格納
     this.subscriptions.push(
       this.ws.content$.subscribe(
-        (tweetDatas: TweetData2[]) => {
+        (tweetDatas: TweetData[]) => {
           if (!this.isLoading) {
             tweetDatas.forEach(
-              (data: TweetData2) => {
+              (data: TweetData) => {
                 const id = data.id;
                 this.tweetDatas[id].Text = data.Text;
                 this.tweetDatas[id].Date = data.Date;
@@ -48,7 +48,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
                   this.tweetDatas[id],
                   this.isLoading,
                   this.ws.cardDuration,
-                  (endData: TweetData2) => {
+                  (endData: TweetData) => {
                     endData.isShown = false;
                   });
               });

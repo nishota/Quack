@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 
-import { TweetData2 } from '../model/tweet.model';
+import { TweetData } from '../model/tweet.model';
 import { DateTime } from '../util/datetime.util';
 import { Count } from 'src/environments/const.environment';
 import { environment } from 'src/environments/environment';
@@ -8,10 +8,10 @@ import { environment } from 'src/environments/environment';
 
 let count = 0;
 addEventListener('message', ({ data }) => {
-  const tweetDatas: TweetData2[] = [];
+  const tweetDatas: TweetData[] = [];
   data.forEach(
     (tweet) => {
-      const tweetData = new TweetData2(
+      const tweetData = new TweetData(
         count % Count.Card,
         tweet.text,
         tweet.screen_name,

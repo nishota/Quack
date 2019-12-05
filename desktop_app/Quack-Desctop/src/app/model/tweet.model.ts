@@ -1,6 +1,6 @@
 import { environment } from '../../environments/environment';
 
-export class Tweet2 {
+export class Tweet {
     User: string;
     Date: string;
     Text: string;
@@ -21,7 +21,7 @@ export interface TweetRes {
     tweets: any[];
 }
 
-export class TweetData2 {
+export class TweetData {
     id: number;
     Text: string;
     User: string;

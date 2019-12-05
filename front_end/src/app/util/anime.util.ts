@@ -1,4 +1,4 @@
-import { TweetData2 } from '../model/tweet.model';
+import { TweetData } from '../model/tweet.model';
 
 export class Anime {
     /**
@@ -8,10 +8,10 @@ export class Anime {
      * @param callback animetion終了時の処理
      */
     static startAnime(
-        data: TweetData2,
+        data: TweetData,
         isLoading: boolean,
         duration: number,
-        callback: (data: TweetData2) => void) {
+        callback: (data: TweetData) => void) {
         if (!isLoading) {
             data.isShown = true;
         }

@@ -1,18 +1,3 @@
-import { environment } from '../../environments/environment';
-
-export class Tweet2 {
-    User: string;
-    Date: string;
-    Text: string;
-    Url: string;
-    constructor(date: string, user: string, text: string) {
-        this.Date = date;
-        this.User = user;
-        this.Text = text;
-        this.Url = environment.twitterUrl + this.User;
-    }
-}
-
 /**
  * 取得データ型
  */
@@ -21,7 +6,7 @@ export interface TweetRes {
     tweets: any[];
 }
 
-export class TweetData2 {
+export class TweetData {
     id: number;
     Text: string;
     User: string;
