@@ -6,6 +6,7 @@ import { WindowStateService } from './window-state.service';
 import { Subscription } from 'rxjs';
 import { ScreenType } from './model/screen-type.enum';
 import { QuackSystem } from './model/quack-system.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  constructor(private meta: Meta, private ws: WindowStateService) {
+  constructor(private router: Router, private meta: Meta, private ws: WindowStateService) {
   }
 
   ngOnInit(): void {
@@ -46,6 +47,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.ws.windowResize$.subscribe(
         () => window.location.reload()
       ));
+    }
+    const ua = navigator.userAgent;
+    if (ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0) {
+      this.router.navigate(['/mobile']);
+    } else if (ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0) {
+      this.router.navigate(['/desktop']);
+    } else {
+      this.router.navigate(['/desktop']);
     }
     this.ws.meta$.subscribe(
       (res: Description) => {

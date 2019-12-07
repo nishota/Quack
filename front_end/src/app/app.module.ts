@@ -20,6 +20,7 @@ import { InfomationComponent } from './infomation/infomation.component';
 import { CommunicationService } from './communication.service';
 import { InfomationService } from './infomation.service';
 import { SpTrendComponent } from './sp-trend/sp-trend.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -27,13 +28,13 @@ import { SpTrendComponent } from './sp-trend/sp-trend.component';
     TweetCardComponent,
     ToolbarComponent,
     DisplayComponent,
-    TweetCardComponent,
     SpButtonComponent,
     LoadingComponent,
     InfomationComponent,
     SpTrendComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
