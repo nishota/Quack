@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, DoCheck } from '@angular/core';
 import { WindowStateService } from '../window-state.service';
 
 @Component({
@@ -6,15 +6,15 @@ import { WindowStateService } from '../window-state.service';
   templateUrl: './tweet-card.component.html',
   styleUrls: ['./tweet-card.component.css']
 })
-export class TweetCardComponent implements OnInit {
+export class TweetCardComponent implements OnInit, DoCheck {
   @Input() Text: string;
   @Input() Url: string;
   @Input() User: string;
   @Input() Date: string;
-  @Input() Id: string;
   @Input() IsShown: boolean;
+  @Input() Changed: boolean;
+  @Input() Delay: number;
 
-  id: string;
   class: string;
 
   formTop: string; // TODO もう少しいい方法で決めたい
@@ -25,10 +25,15 @@ export class TweetCardComponent implements OnInit {
   constructor(private ws: WindowStateService) { }
 
   ngOnInit() {
-    this.id = 'target' + String(this.Id);
-    this.formTop = String(Math.random() * (this.ws.innerHeight)) + 'px';
-    this.animation = 'animation' + String(this.ws.windowIndex);
-    this.duration = String(this.ws.cardDuration) + 's';
-    this.delay = String(5 * Math.random()) + 's';
+  }
+
+  ngDoCheck() {
+    if (this.Changed) {
+      this.duration = String(this.ws.cardDuration) + 's';
+      this.delay = String(this.Delay) + 's';
+      this.formTop = String(Math.random() * (this.ws.innerHeight)) + 'px';
+      this.animation = 'animation' + String(this.ws.windowIndex);
+      this.Changed = false;
+    }
   }
 }

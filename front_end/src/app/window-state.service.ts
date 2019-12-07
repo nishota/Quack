@@ -20,6 +20,7 @@ export class WindowStateService {
   innerHeight = window.innerHeight;
   windowIndex = Math.ceil(this.innerWidth / 300) + 1;
   cardDuration = 0.015 * 300 * this.windowIndex;
+  cardDelay = 0;
   /**
    * ロード状態
    */

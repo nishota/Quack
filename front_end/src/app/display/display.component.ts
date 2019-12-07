@@ -27,7 +27,7 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
     private ws: WindowStateService,
   ) {
     for (let i = 0; i < Count.Card; i++) {
-      this.tweetDatas.push(new TweetData(i, '', '', '', '', false));
+      this.tweetDatas.push(new TweetData(i, '', '', '', '', 0, false, false, 0));
     }
   }
 
@@ -44,10 +44,14 @@ export class DisplayComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.tweetDatas[id].Date = data.Date;
                 this.tweetDatas[id].User = data.User;
                 this.tweetDatas[id].Url = data.Url;
+                this.tweetDatas[id].Changed = true;
+                this.tweetDatas[id].Delay = 5 * Math.random();
+                // this.tweetDatas[id].FromTop =
                 Anime.startAnime(
                   this.tweetDatas[id],
                   this.isLoading,
                   this.ws.cardDuration,
+                  this.tweetDatas[id].Delay,
                   (endData: TweetData) => {
                     endData.isShown = false;
                   });

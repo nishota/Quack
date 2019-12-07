@@ -66,7 +66,10 @@ export class CommunicationService {
                   tweet.screen_name,
                   environment.twitterUrl + tweet.screen_name,
                   DateTime.setDateString(tweet.created_at),
-                  false);
+                  0,
+                  false,
+                  true,
+                  0);
                 tweetDatas.push(tweetData);
                 this.count++;
               });

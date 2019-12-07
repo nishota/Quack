@@ -11,12 +11,13 @@ export class Anime {
         data: TweetData,
         isLoading: boolean,
         duration: number,
+        delay: number,
         callback: (data: TweetData) => void) {
-        if (!isLoading) {
-            data.isShown = true;
+            if (!isLoading) {
+                data.isShown = true;
+            }
+            setTimeout(() => {
+                callback(data);
+            }, 1000 * (duration + delay));
         }
-        setTimeout(() => {
-            callback(data);
-        }, 1000 * duration);
-    }
 }
