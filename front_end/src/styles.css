@@ -22,5 +22,7 @@ html,body{
  * sidebarの中の背景色を透明に変更
  */
 .mat-drawer-inner-container{
-    background-color: rgba(120, 120, 120, .6);
+    /* background-color: rgba(120, 120, 120, .6); */
+    background-image: url(./assets/background.png);
+    background-repeat: repeat;
 }
