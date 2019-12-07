@@ -9,6 +9,9 @@ import { QuackSystem } from './model/quack-system.model';
 /**
  * アセットをフロント側を配置しているサーバから取りに行く。
  */
+@Injectable({
+  providedIn: 'root'
+})
 @Injectable()
 export class InfomationService {
   constructor(private http: HttpClient) { }

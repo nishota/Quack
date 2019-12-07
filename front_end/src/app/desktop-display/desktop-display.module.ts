@@ -3,13 +3,53 @@ import { CommonModule } from '@angular/common';
 
 import { DesktopDisplayRoutingModule } from './desktop-display-routing.module';
 import { DesktopDisplayComponent } from './desktop-display.component';
-
+import { TweetCardComponent } from '../tweet-card/tweet-card.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { DisplayComponent } from '../display/display.component';
+import { SpButtonComponent } from '../sp-button/sp-button.component';
+import { LoadingComponent } from '../loading/loading.component';
+import { InfomationComponent } from '../infomation/infomation.component';
+import { SpTrendComponent } from '../sp-trend/sp-trend.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  MatToolbarModule,
+  MatCardModule,
+  MatSidenavModule,
+  MatButtonModule,
+  MatIconModule,
+  MatListModule
+} from '@angular/material';
+import { CommunicationService } from '../communication.service';
+import { WindowStateService } from '../window-state.service';
+import { InfomationService } from '../infomation.service';
 
 @NgModule({
-  declarations: [DesktopDisplayComponent],
+  declarations: [
+    DesktopDisplayComponent,
+    TweetCardComponent,
+    ToolbarComponent,
+    DisplayComponent,
+    SpButtonComponent,
+    LoadingComponent,
+    InfomationComponent,
+    SpTrendComponent
+  ],
   imports: [
     CommonModule,
-    DesktopDisplayRoutingModule
+    DesktopDisplayRoutingModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule
+  ],
+  providers: [
+    CommunicationService,
+    WindowStateService,
+    InfomationService
   ]
 })
 export class DesktopDisplayModule { }

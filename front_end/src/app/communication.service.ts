@@ -10,9 +10,11 @@ import { WindowStateService } from './window-state.service';
 import { TweetRes, TweetData } from './model/tweet.model';
 import { ConnectionMode, Count, Message} from '../environments/const.environment';
 import { DateTime } from './util/datetime.util';
-
 import { Socket } from './util/socket-io.util';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Injectable()
 export class CommunicationService {
   count = 0;
