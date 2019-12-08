@@ -6,7 +6,7 @@ import { WindowStateService } from '../window-state.service';
   templateUrl: './tweet-card.component.html',
   styleUrls: ['./tweet-card.component.css']
 })
-export class TweetCardComponent implements OnInit, DoCheck {
+export class TweetCardComponent implements DoCheck {
   @Input() Text: string;
   @Input() Url: string;
   @Input() User: string;
@@ -23,9 +23,6 @@ export class TweetCardComponent implements OnInit, DoCheck {
   delay: string;
 
   constructor(private ws: WindowStateService) { }
-
-  ngOnInit() {
-  }
 
   ngDoCheck() {
     if (this.Changed) {

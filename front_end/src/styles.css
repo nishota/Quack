@@ -26,3 +26,8 @@ html,body{
     background-image: url(./assets/batumaru.png);
     background-repeat: repeat;
 }
+
+/* アプリ全体でfocus時に枠が出ないように設定 */
+:focus{
+    outline: transparent;
+}

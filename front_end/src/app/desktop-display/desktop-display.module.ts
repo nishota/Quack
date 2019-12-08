@@ -10,9 +10,6 @@ import { SpButtonComponent } from '../sp-button/sp-button.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { InfomationComponent } from '../infomation/infomation.component';
 import { SpTrendComponent } from '../sp-trend/sp-trend.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 import {
   MatToolbarModule,
   MatCardModule,
@@ -24,6 +21,7 @@ import {
 import { CommunicationService } from '../communication.service';
 import { WindowStateService } from '../window-state.service';
 import { InfomationService } from '../infomation.service';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +32,8 @@ import { InfomationService } from '../infomation.service';
     SpButtonComponent,
     LoadingComponent,
     InfomationComponent,
-    SpTrendComponent
+    SpTrendComponent,
+    SidebarComponent
   ],
   imports: [
     CommonModule,

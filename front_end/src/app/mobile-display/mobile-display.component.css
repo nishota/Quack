@@ -16,16 +16,6 @@
     text-align: center;
 }
 
-.sidebar_PC {
-    color: white;
-    text-align: center;
-    max-width: 100%;
-    height: auto;
-    /* 灰色の透過度を0にすることで、無色透明にしてある */
-    background: rgba(128, 128, 128, 0);
-    border: 0px;
-}
-
 .sidebar_SP {
     color: white;
     text-align: center;
@@ -36,75 +26,7 @@
     border: 0px;
 }
 
-ul{
-    list-style: none;
-    padding-left:0;
-}
-
-.btn-twitter {
-    color: white;
-    display: inline-block;
-    height: 50px;
-    width: 190px;
-    margin-bottom: 20PX;
-    text-align: center;
-    font-family: Helvetica Neue;
-    font-weight: bold;
-    font-size: 25px;
-    background: #1da1f3;
-  }
-
-.logo{
-    height: 40px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.icon{
-    height: 40px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.btn-youtube {
-    display: inline-block;
-    height: 50px;
-    width: 190px;
-    margin-bottom: 20px;
-    background: black no-repeat center/55% url("../../assets/yt_logo_rgb_dark.png");
-}
-
-.tw_logo{
-    height: 40px;
-    width: 40px;
-    margin-left:0;
-    margin-right:0;
-}
-
-.bmc-button{
-    line-height: 36px;
-    height: 50px;
-    width: 190px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color:#FFFFFF;
-    padding: 1px 9px;
-    font-size: 22px;
-    font-family:'Cookie', cursive;
-    background: #FF813F no-repeat 7px/15% url("../../assets/BMC-btn-logo.svg");
-    padding-left: 20px;
-}
-
-li.version{
-    color:black;
-    font-size: 15px;
-}
-
 .main_container{
     position: relative;
     overflow: hidden; 
-}
-
-:focus{
-    outline: transparent;
 }
