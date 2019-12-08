@@ -5,22 +5,19 @@
 }
 
 .logo {
-    margin-left: 5px;
     margin-right: 5px;
     height: 50px;
+    text-align: center;
 }
 
 .icon {
     margin-left: 0;
     height: 25px;
+    text-align: center;
 }
 
-.sp-logo {
-    margin-right: 5px;
-    height: 50px;
+.desktop{
+    margin-left: 50px;
 }
-
-.sp-icon {
-    margin-left: 0;
-    height: 25px;
-}
+/* .mobile{
+} */

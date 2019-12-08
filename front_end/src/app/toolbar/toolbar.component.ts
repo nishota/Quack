@@ -7,14 +7,27 @@ import { environment } from 'src/environments/environment';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit {
   @Input() screenType: ScreenType;
   @Output() ToggleSidebar = new EventEmitter();
 
+  isDesktop = true;
   logoSrc = environment.frontUrl + 'assets/Quack.png';
   imgSrc = environment.frontUrl + 'assets/kamo_colorful_logo.png';
 
   constructor() {
+  }
+  ngOnInit() {
+    switch (this.screenType) {
+      case ScreenType.PC:
+        this.isDesktop = true;
+        break;
+      case ScreenType.SP:
+        this.isDesktop = false;
+        break;
+      default:
+        break;
+    }
   }
 
   toggleSidebar() {

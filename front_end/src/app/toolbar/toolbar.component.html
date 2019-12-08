@@ -1,15 +1,6 @@
 <mat-toolbar>
   <mat-toolbar-row class="toolbar">
-    <ng-container *ngIf="screenType === 0">
-        <button mat-button (click)="toggleSidebar()">
-            <mat-icon aria-hidden="false">dehaze</mat-icon>
-        </button>
-        <img class="logo" [src]="logoSrc"/>
-        <img class="icon" alt="Logo" [src]="imgSrc">
-    </ng-container>
-    <ng-container *ngIf="screenType === 1">
-        <img class="sp-logo" [src]="logoSrc"/>
-        <img class="sp-icon" alt="Logo" [src]="imgSrc">       
-    </ng-container>
+      <img class="logo" [ngClass]="{'desktop': isDesktop}" [src]="logoSrc"/>
+      <img class="icon" [src]="imgSrc">
   </mat-toolbar-row>
 </mat-toolbar>

@@ -1,0 +1,8 @@
+.icon{
+    color: white;
+    background-color: rgb(255, 111, 97);
+    position:  absolute;
+    left: 5px;
+    top: 12px; 
+    z-index: 10000;
+}

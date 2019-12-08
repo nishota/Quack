@@ -21,6 +21,7 @@ import { WindowStateService } from '../window-state.service';
 import { InfomationService } from '../infomation.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PcTrendComponent } from './components/pc-trend/pc-trend.component';
+import { PcButtonComponent } from './components/pc-button/pc-button.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,8 @@ import { PcTrendComponent } from './components/pc-trend/pc-trend.component';
     InfomationComponent,
     SidebarComponent,
     PcTrendComponent,
+    PcButtonComponent,
+
   ],
   imports: [
     CommonModule,
