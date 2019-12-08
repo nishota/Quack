@@ -6,3 +6,12 @@
     z-index: 10000;
     opacity: .9;
 }
+
+.logo:after{
+    content:"";
+	display:inline-block;
+	width:1em;
+	height:1em;
+	background:url(../../../../assets/kamo25pix.png) no-repeat;
+	background-size:contain;
+}
