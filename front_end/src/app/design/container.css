@@ -1,9 +1,6 @@
 .all-container {
     position: absolute;
-    top: 64px;
-    bottom: 0;
-    left: 0;
-    right: 0;
+
     /* ダークモード用 */
     /* background-color: #131313; */
     background: -moz-linear-gradient(bottom, #DDA288, #8593AE 30%, #5b647c); 

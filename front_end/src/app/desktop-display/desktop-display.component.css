@@ -7,3 +7,10 @@
     background: rgba(128, 128, 128, 0);
     border: 0px;
 }
+
+.desktop{
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

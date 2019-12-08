@@ -21,7 +21,6 @@ export class InfomationService {
   getDescription(): Observable<Description> {
     return this.http.get<Description>(environment.metadataUrl);
   }
-
   getQuackSystem(): Observable<QuackSystem> {
     return this.http.get<QuackSystem>(environment.quackSystemUrl);
   }

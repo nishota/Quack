@@ -7,14 +7,13 @@ import { ScreenType } from '../model/screen-type.enum';
 @Component({
   selector: 'app-desktop-display',
   templateUrl: './desktop-display.component.html',
-  styleUrls: ['./desktop-display.component.css', '../design/container.css', ]
+  styleUrls: ['../design/container.css', './desktop-display.component.css', ]
 })
 export class DesktopDisplayComponent implements OnInit, OnDestroy {
   trend: string;
   linkTrend: string;
   isOpened = false;
   sideNavWidth = '300px';
-  topPosition = '64px';
   screenType = ScreenType.PC;
 
   IsShown: boolean;

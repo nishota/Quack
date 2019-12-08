@@ -9,9 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ToolbarComponent implements OnInit {
   @Input() screenType: ScreenType;
-  @Output() ToggleSidebar = new EventEmitter();
 
-  isDesktop = true;
+  isDesktop = true; // タブレット版を作る場合、要検討
   logoSrc = environment.frontUrl + 'assets/Quack.png';
   imgSrc = environment.frontUrl + 'assets/kamo_colorful_logo.png';
 
@@ -28,9 +27,5 @@ export class ToolbarComponent implements OnInit {
       default:
         break;
     }
-  }
-
-  toggleSidebar() {
-    this.ToggleSidebar.emit(null);
   }
 }

@@ -15,7 +15,6 @@ export class MobileDisplayComponent implements OnInit, OnDestroy {
   isOpened = false;
   screenWidth: number;
   sideNavWidth = window.innerWidth + 'px';
-  topPosition = '56px';
   screenType = ScreenType.SP;
 
   IsShown: boolean;

@@ -21,6 +21,7 @@ import { WindowStateService } from '../window-state.service';
 import { InfomationService } from '../infomation.service';
 import { SpButtonComponent } from './components/sp-button/sp-button.component';
 import { SpTrendComponent } from './components/sp-trend/sp-trend.component';
+import { SpLogoComponent } from './components/sp-logo/sp-logo.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SpTrendComponent } from './components/sp-trend/sp-trend.component';
     LoadingComponent,
     InfomationComponent,
     SpTrendComponent,
-    SidebarComponent
+    SidebarComponent,
+    SpLogoComponent,
   ],
   imports: [
     CommonModule,
