@@ -9,10 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ToolbarComponent {
   @Input() screenType: ScreenType;
-  @Input() trend: string;
-  @Input() linkTrend: string;
   @Output() ToggleSidebar = new EventEmitter();
-  @Output() ShowTrend = new EventEmitter();
 
   logoSrc = environment.frontUrl + 'assets/Quack.png';
   imgSrc = environment.frontUrl + 'assets/kamo_colorful_logo.png';
@@ -22,8 +19,5 @@ export class ToolbarComponent {
 
   toggleSidebar() {
     this.ToggleSidebar.emit(null);
-  }
-  showTrend() {
-    this.ShowTrend.emit(null);
   }
 }

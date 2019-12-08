@@ -1,7 +1,7 @@
-<app-toolbar [screenType]="screenType" [trend]="trend" [linkTrend]="linkTrend" (ToggleSidebar)="toggleSidebar()" (ShowTrend)="showTrend()">
+<app-toolbar [screenType]="screenType" (ToggleSidebar)="toggleSidebar()">
 </app-toolbar>
 <mat-sidenav-container class="all-container" [ngStyle]="{'top': topPosition}">
-    <mat-sidenav #sidenav position="start" [class]="sidebarCSS" mode="over" [opened]="isOpened"
+    <mat-sidenav class="sidebar" #sidenav position="start" mode="over" [opened]="isOpened"
         [ngStyle]="{'width': sideNavWidth}">
         <app-sidebar></app-sidebar>
     </mat-sidenav>
@@ -10,3 +10,4 @@
     </mat-sidenav-content>
 </mat-sidenav-container>
 
+<app-pc-trend [trend]="trend" [linkTrend]="linkTrend"></app-pc-trend>

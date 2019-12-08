@@ -24,13 +24,3 @@
     margin-left: 0;
     height: 25px;
 }
-
-a.trend {
-    text-decoration:none;
-    margin: auto 0 auto auto;
-    color: #f8f5f2;
-}
-
-a.trend:hover {
-    text-decoration: underline;
-}

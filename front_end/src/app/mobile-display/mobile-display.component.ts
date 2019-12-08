@@ -7,7 +7,7 @@ import { ScreenType } from '../model/screen-type.enum';
 @Component({
   selector: 'app-mobile-display',
   templateUrl: './mobile-display.component.html',
-  styleUrls: ['./mobile-display.component.css']
+  styleUrls: ['./mobile-display.component.css', '../design/container.css']
 })
 export class MobileDisplayComponent implements OnInit, OnDestroy {
   trend: string;
@@ -16,7 +16,6 @@ export class MobileDisplayComponent implements OnInit, OnDestroy {
   screenWidth: number;
   sideNavWidth = window.innerWidth + 'px';
   topPosition = '56px';
-  sidebarCSS = 'sidebar_SP';
   screenType = ScreenType.SP;
 
   IsShown: boolean;
@@ -27,12 +26,9 @@ export class MobileDisplayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // デバッグモードでは、リサイズしたら、リロードしない
-    if (environment.production) {
-      this.subscriptions.push(this.ws.windowResize$.subscribe(
-        () => window.location.reload()
-      ));
-    }
+    this.subscriptions.push(this.ws.windowResize$.subscribe(
+      () => window.location.reload()
+    ));
     this.IsShown = false;
     this.subscriptions.push(
       this.ws.trend$.subscribe(
@@ -40,7 +36,7 @@ export class MobileDisplayComponent implements OnInit, OnDestroy {
           if (this.trend !== value) {
             this.trend = value;
             this.showTrend();
-            this.linkTrend = environment.twitterTrendUrl + this.trend.slice(1);
+            this.linkTrend = environment.twitterTrendUrl + this.trend.slice(0);
           }
         }
       ));

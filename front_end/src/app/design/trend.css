@@ -1,0 +1,7 @@
+a.trend {
+    text-decoration:none;
+}
+
+a.trend:hover {
+    text-decoration: underline;
+}
