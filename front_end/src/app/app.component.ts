@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  threshold = 767;
+
   constructor(private router: Router, private meta: Meta, private ws: WindowStateService) {
   }
 
@@ -54,9 +56,21 @@ export class AppComponent implements OnInit {
     if (ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0) {
       this.router.navigate(['/mobile']);
     } else if (ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0) {
-      this.router.navigate(['/desktop']);
+      this.router.navigate([this.setScreenType()]);
     } else {
-      this.router.navigate(['/desktop']);
+      this.router.navigate([this.setScreenType()]);
+    }
+  }
+
+  /*
+  * 画面の横幅からPCかスマホか判別
+  */
+  setScreenType(): string {
+    const width = window.innerWidth;
+    if (width > this.threshold) {
+      return '/desktop';
+    } else {
+      return '/mobile';
     }
   }
 }
