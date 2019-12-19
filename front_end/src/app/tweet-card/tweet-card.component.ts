@@ -7,6 +7,7 @@ import { WindowStateService } from '../window-state.service';
   styleUrls: ['./tweet-card.component.css']
 })
 export class TweetCardComponent implements DoCheck {
+  static num = 0;
   @Input() Text: string;
   @Input() Url: string;
   @Input() User: string;
@@ -28,9 +29,31 @@ export class TweetCardComponent implements DoCheck {
     if (this.Changed) {
       this.duration = String(this.ws.cardDuration) + 's';
       this.delay = String(this.Delay) + 's';
-      this.formTop = String(Math.random() * (this.ws.innerHeight)) + 'px';
+      this.formTop = String(this.normRand((TweetCardComponent.num % Math.ceil(this.ws.innerHeight - 200)), 100) + 64) + 'px';
+      console.log('m=' + TweetCardComponent.num % Math.ceil(this.ws.innerHeight));
       this.animation = 'animation' + String(this.ws.windowIndex);
       this.Changed = false;
+      if (TweetCardComponent.num < 10000000000) {
+        TweetCardComponent.num += 200;
+      } else {
+        TweetCardComponent.num = 0;
+      }
+    }
+  }
+
+  /**
+   * ガウス確率分布を返す関数
+   * @param m 平均
+   * @param s 分散
+   */
+  normRand(m, s): number {
+    const a = 1 - Math.random();
+    const b = 1 - Math.random();
+    const c = Math.sqrt(-2 * Math.log(a));
+    if (0.5 - Math.random() > 0) {
+      return c * Math.sin(Math.PI * 2 * b) * s + m;
+    } else {
+      return c * Math.cos(Math.PI * 2 * b) * s + m;
     }
   }
 }
