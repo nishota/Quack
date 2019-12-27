@@ -6,7 +6,8 @@ import {
       MatSidenavModule,
       MatButtonModule,
       MatIconModule,
-      MatListModule
+      MatListModule,
+      MatBottomSheetModule
 } from '@angular/material';
 import { MobileDisplayRoutingModule } from './mobile-display-routing.module';
 import { MobileDisplayComponent } from './mobile-display.component';
@@ -22,6 +23,7 @@ import { InfomationService } from '../infomation.service';
 import { SpButtonComponent } from './components/sp-button/sp-button.component';
 import { SpTrendComponent } from './components/sp-trend/sp-trend.component';
 import { SpLogoComponent } from './components/sp-logo/sp-logo.component';
+import { SpTrendListComponent } from './components/sp-trend-list/sp-trend-list.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { SpLogoComponent } from './components/sp-logo/sp-logo.component';
     SpTrendComponent,
     SidebarComponent,
     SpLogoComponent,
+    SpTrendListComponent,
   ],
   imports: [
     CommonModule,
@@ -44,7 +47,8 @@ import { SpLogoComponent } from './components/sp-logo/sp-logo.component';
     MatSidenavModule,
     MatButtonModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatBottomSheetModule
   ],
   providers: [
     CommunicationService,
