@@ -29,3 +29,12 @@ html,body{
 :focus{
     outline: transparent;
 }
+
+.mat-tab-header{
+    background-color: #dddddd;
+    margin: 0;
+}
+
+.mat-ink-bar{
+    background-color: rgb(255, 111, 97) !important;
+}
