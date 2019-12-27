@@ -32,22 +32,15 @@ io.on('connection', (socket: socketio.Socket) => {
     const query = socket.handshake.query;
     const connect = query.connect;
     if(connect === 'QuackQuack'){
-        connectCount++;
+        
     }
 
     socket.on(ConnectionMode.Disconnect, (data: any) => {
-        // TODO 接続を切断するときの処理
-        console.log('disconnect');
-        connectCount--;
-        console.log(connectCount);
     });
 
     // !!!TEST用!!!
     // TODO: Debugモードとに切り替え
     if(!debugFlag){
-        socket.on(ConnectionMode.ServerGetData, (data: TweetRes) => {
-            io.emit(ConnectionMode.ClientGetData, { data: data });
-        });
     }else{
         // TODO: デバッグでもイベントを発生させて動かしたい。
         console.log('debug-mode');
