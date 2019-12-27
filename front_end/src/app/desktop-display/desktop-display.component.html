@@ -5,7 +5,33 @@
         <app-sidebar></app-sidebar>
     </mat-sidenav>
     <mat-sidenav-content class="main_container">
-        <app-display></app-display>
+        <mat-tab-group mat-align-tabs="end" animationDuration="2000ms">
+            <mat-tab label="1.hogehoge">
+                <div [ngStyle]="{'width': innerWidth, 'height':innerHeight}">
+                    <app-display></app-display>
+                </div>
+            </mat-tab>
+            <mat-tab label="2.hugehuge">
+                <div [ngStyle]="{'width': innerWidth, 'height':innerHeight}">
+                    <app-display></app-display>
+                </div>
+            </mat-tab>
+            <mat-tab label="3.hogahoga">
+                <div [ngStyle]="{'width': innerWidth, 'height':innerHeight}">
+                    hugahuga
+                </div>
+            </mat-tab>
+            <mat-tab label="4.hugahuga">
+                <div [ngStyle]="{'width': innerWidth, 'height':innerHeight}">
+                    hugahuga
+                </div>
+            </mat-tab>
+            <mat-tab label="5.あああああああああああ">
+                <div [ngStyle]="{'width': innerWidth, 'height':innerHeight}">
+                    hugahuga
+                </div>
+            </mat-tab>
+        </mat-tab-group>
     </mat-sidenav-content>
 </mat-sidenav-container>
 

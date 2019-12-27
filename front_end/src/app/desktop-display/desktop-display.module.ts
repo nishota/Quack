@@ -14,7 +14,8 @@ import {
   MatSidenavModule,
   MatButtonModule,
   MatIconModule,
-  MatListModule
+  MatListModule,
+  MatTabsModule
 } from '@angular/material';
 import { CommunicationService } from '../communication.service';
 import { WindowStateService } from '../window-state.service';
@@ -34,7 +35,6 @@ import { PcButtonComponent } from './components/pc-button/pc-button.component';
     SidebarComponent,
     PcTrendComponent,
     PcButtonComponent,
-
   ],
   imports: [
     CommonModule,
@@ -44,7 +44,8 @@ import { PcButtonComponent } from './components/pc-button/pc-button.component';
     MatSidenavModule,
     MatButtonModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatTabsModule
   ],
   providers: [
     CommunicationService,

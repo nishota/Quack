@@ -7,7 +7,7 @@ import { ScreenType } from '../model/screen-type.enum';
 @Component({
   selector: 'app-desktop-display',
   templateUrl: './desktop-display.component.html',
-  styleUrls: ['../design/container.css', './desktop-display.component.css', ]
+  styleUrls: ['../design/container.css', './desktop-display.component.css']
 })
 export class DesktopDisplayComponent implements OnInit, OnDestroy {
   trend: string;
@@ -17,6 +17,9 @@ export class DesktopDisplayComponent implements OnInit, OnDestroy {
   screenType = ScreenType.PC;
 
   IsShown: boolean;
+
+  innerWidth: string;
+  innerHeight: string;
 
   subscriptions: Subscription[] = [];
 
@@ -30,6 +33,8 @@ export class DesktopDisplayComponent implements OnInit, OnDestroy {
         () => window.location.reload()
       ));
     }
+    this.innerHeight = String(window.innerHeight) + 'px';
+    this.innerWidth = String(window.innerWidth) + 'px';
     this.IsShown = false;
     this.subscriptions.push(
       this.ws.trend$.subscribe(
