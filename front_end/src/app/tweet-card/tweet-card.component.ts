@@ -30,7 +30,6 @@ export class TweetCardComponent implements DoCheck {
       this.duration = String(this.ws.cardDuration) + 's';
       this.delay = String(this.Delay) + 's';
       this.formTop = String(this.normRand((TweetCardComponent.num % Math.ceil(this.ws.innerHeight - 200)), 100) + 64) + 'px';
-      console.log('m=' + TweetCardComponent.num % Math.ceil(this.ws.innerHeight));
       this.animation = 'animation' + String(this.ws.windowIndex);
       this.Changed = false;
       if (TweetCardComponent.num < 10000000000) {
@@ -46,7 +45,7 @@ export class TweetCardComponent implements DoCheck {
    * @param m 平均
    * @param s 分散
    */
-  normRand(m, s): number {
+  normRand(m: number, s: number): number {
     const a = 1 - Math.random();
     const b = 1 - Math.random();
     const c = Math.sqrt(-2 * Math.log(a));
